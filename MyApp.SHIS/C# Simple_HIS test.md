@@ -4,9 +4,9 @@
 
 ## 数据库设计
 
-![表数据](D:\Desktop\课程设计作业\C# Simple_HIS test.assets\表数据.png)
+![表数据](D:\C Sharp\demo\SHIS\MyApp.SHIS\C# Simple_HIS test.assets\表数据.png)
 
-![表结构](D:\Desktop\课程设计作业\C# Simple_HIS test.assets\表结构.png)
+![表结构](D:\C Sharp\demo\SHIS\MyApp.SHIS\C# Simple_HIS test.assets\表结构.png)
 
 暂定以**使用流程**写表
 
@@ -22,17 +22,45 @@
 
 ###### 普通用户表  -- >  Norm_User
 
-| 序号 | 字段名   | 字段描述     | 数据类型 | 长度 | 是否能为空 | 注释                   | 默认值 |
-| ---- | -------- | ------------ | -------- | ---- | ---------- | ---------------------- | ------ |
-| 01   | NormID   | 普通用户编码 | int      | 20   | False      | 普通用户的唯一标识，PK |        |
-| 02   | UserName | 用户名       | varchar  | 20   | False      | FK                     |        |
+| 序号 | 字段名          | 字段描述       | 数据类型 | 长度 | 是否能为空 | 注释                                                         | 默认值 |
+| ---- | --------------- | -------------- | -------- | ---- | ---------- | ------------------------------------------------------------ | ------ |
+| 01   | NormID          | 普通用户编码   | int      | 20   | False      | 普通用户的唯一标识，PK                                       |        |
+| 02   | UserName        | 用户名         | varchar  | 20   | False      | FK;                                                          |        |
+| 03   | IDCardTypeID    | 证件类型编码   | int      | 6    |            | 查看[证件编码](https://www.cnblogs.com/liuhongfeng/p/4981472.html) | NULL   |
+| 04   | IDCardTypeName  | 证件类型名称   | nvarchar | 15   |            |                                                              | NULL   |
+| 05   | IDCard          | 证件号         | int      | 20   |            |                                                              | NULL   |
+| 06   | IDAuther        | 实名制认证状态 | int      | 1    |            | 未认证(0) / 已认证(1)                                        | 0      |
+| 07   | IDAutherMethod  | 实名制认证方式 | nvarchar | 10   |            | 1    HIS 认证<br />2    医院挂号网站认证<br />3    12320认证<br />4     ICBC认证<br />5     APP认证<br />6     卫计委保健局认证 | NULL   |
+| 08   | UserAuthName    | 用户姓名       | nvarchar | 50   | False      | Index                                                        |        |
+| 09   | SexID           | 性别编码       | int      | 1    |            | 0/ 1 / 2                                                     | 0      |
+| 10   | SexName         | 性别名称       | nvarchar | 10   |            | NULL(0)/男(1) /女(2)                                         | NULL   |
+| 11   | BirthDate       | 出生日期       | datetime |      |            | YYYY-MM-DD HH:MM:SS                                          | NULL   |
+| 12   | MobileNum       | 手机号码       | string   | 15   |            |                                                              | NULL   |
+| 13   | PersonEmail     | 用户Email      | nvarchar | 50   |            |                                                              | NULL   |
+| 14   | OccupationID    | 职业编码       | int      | 6    |            | 查看[职业编码国标]([职业编码国标 - 百度文库 (baidu.com)](https://wenku.baidu.com/view/411f46530975f46526d3e14f.html)) | NULL   |
+| 15   | OccupationName  | 职业名称       | nvarchar | 50   |            |                                                              | NULL   |
+| 16   | RegiLocID       | 户口所在地编码 | int      | 15   |            | 查看[户籍地编码](https://www.docin.com/p-1682420446.html)    | NULL   |
+| 17   | RegiLocName     | 户口所在地名称 | nvarchar | 50   |            |                                                              | NULL   |
+| 18   | MarriedID       | 婚姻状态编码   | int      | 2    |            | 查看[婚姻状态代码](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=00C2855745344E94D01AB6ACE6CC62CE) | NULL   |
+| 19   | CountryID       | 国籍编码       | int      | 5    |            | 查看[国家代码](https://blog.csdn.net/tcjy1000/article/details/48242359) | NULL   |
+| 20   | CountryName     | 国籍名称       | nvarchar | 20   |            |                                                              | NULL   |
+| 21   | NativePlaceID   | 籍贯地编码     | int      | 15   |            | 查看[户籍地编码](https://www.docin.com/p-1682420446.html)    | NULL   |
+| 22   | NativePlaceName | 籍贯地名称     | nvarchar | 50   |            |                                                              | NULL   |
+| 23   | NationalityID   | 民族编码       | int      | 2    |            | 查看[民族编码](https://www.supfree.net/search.asp?id=6226)   | NULL   |
+| 24   | NationalityName | 民族名称       | nvarchar | 10   |            |                                                              | NULL   |
+| 25   | RetireTypeID    | 职退状态编码   | int      |      |            | ***暂时没查到***                                             | NULL   |
+| 26   | RegiLocPostCode | 户口所在地邮编 | int      | 6    |            | [邮编查找](https://www.ip138.com/post/)                      | NULL   |
+| 27   | BloodType       | 血型           | nvarchar | 10   |            | NULL/ A / B / AB / O 型血                                    | NULL   |
+| 28   | MedCardID       | 就诊卡号       | int      | 20   |            |                                                              | NULL   |
 
 ###### 病人表  -- > Pati_User
 
-| 序号 | 字段名   | 字段描述 | 数据类型 | 长度 | 是否能为空 | 注释               | 默认值 |
-| ---- | -------- | -------- | -------- | ---- | ---------- | ------------------ | ------ |
-| 01   | PatiID   | 病人编码 | int      | 20   | False      | 病人的唯一标识，PK |        |
-| 02   | UserName | 用户名   | varchar  | 20   | False      | FK1                |        |
+| 序号 | 字段名        | 字段描述         | 数据类型 | 长度 | 是否能为空 | 注释                                | 默认值 |
+| ---- | ------------- | ---------------- | -------- | ---- | ---------- | ----------------------------------- | ------ |
+| 01   | PatiID        | 病人编码         | int      | 20   | False      | 病人的唯一标识，PK                  |        |
+| 02   | UserName      | 用户名           | varchar  | 20   | False      | FK1                                 |        |
+| 03   | PatiCateID    | 病人类型编码     | int      | 20   |            | Pati_Category  ***不知道意思***     |        |
+| 04   | SecretGradeID | 病历保密级别编码 | int      | 1    |            | 绝密(3)、机密(2)、秘密(1)、无(NULL) | NULL   |
 
 
 
@@ -69,40 +97,6 @@
 
 
 ##### 病人操作
-
-###### 病人基本信息表  -- > Pati_Info_Basic
-
-| 序号 | 字段名          | 字段描述         | 数据类型 | 长度 | 是否能为空 | 注释                                                         | 默认值 |
-| ---- | --------------- | ---------------- | -------- | ---- | ---------- | ------------------------------------------------------------ | ------ |
-| 01   | PatiID          | 病人编码         | int      | 20   | False      | 病人的唯一标识，PK， FK1                                     |        |
-| 02   | IDCard          | 身份证号         | int      | 20   |            |                                                              | NULL   |
-| 03   | PatiCateID      | 病人类型编码     | int      | 20   |            | Pati_Category  ***不知道意思***                              |        |
-| 04   | PatiName        | 病人姓名         | nvarchar | 50   | False      | Index                                                        |        |
-| 05   | SexID           | 性别编码         | int      | 1    |            | NULL / 1 / 2                                                 | NULL   |
-| 06   | SexName         | 性别名称         | nvarchar | 10   |            | 未知(NULL)/男(1) /女(2)                                      | NULL   |
-| 07   | BirthDate       | 出生日期         | datetime |      |            | YYYY-MM-DD HH:MM:SS                                          | NULL   |
-| 08   | OccupationID    | 职业编码         | int      | 6    |            | 查看[职业编码国标]([职业编码国标 - 百度文库 (baidu.com)](https://wenku.baidu.com/view/411f46530975f46526d3e14f.html)) | NULL   |
-| 09   | OccupationName  | 职业名称         | nvarchar | 50   |            |                                                              | NULL   |
-| 10   | RegiLocID       | 户口所在地编码   | int      | 15   |            | 查看[户籍地编码](https://www.docin.com/p-1682420446.html)    | NULL   |
-| 11   | RegiLocName     | 户口所在地名称   | nvarchar | 50   |            |                                                              | NULL   |
-| 12   | MarriedID       | 婚姻状态编码     | int      | 2    |            | 查看[婚姻状态代码](http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=00C2855745344E94D01AB6ACE6CC62CE) | NULL   |
-| 13   | CountryID       | 国籍编码         | int      | 5    |            | 查看[国家代码](https://blog.csdn.net/tcjy1000/article/details/48242359) | NULL   |
-| 14   | CountryName     | 国籍名称         | nvarchar | 20   |            |                                                              | NULL   |
-| 15   | NativePlaceID   | 籍贯地编码       | int      | 15   |            | 查看[户籍地编码](https://www.docin.com/p-1682420446.html)    | NULL   |
-| 16   | NativePlaceName | 籍贯地名称       | nvarchar | 50   |            |                                                              | NULL   |
-| 17   | NationalityID   | 民族编码         | int      | 2    |            | 查看[民族编码](https://www.supfree.net/search.asp?id=6226)   | NULL   |
-| 18   | NationalityName | 民族名称         | nvarchar | 10   |            |                                                              | NULL   |
-| 19   | RetireTypeID    | 职退状态编码     | int      |      |            | ***暂时没查到***                                             | NULL   |
-| 20   | SecretGradeID   | 病历保密级别编码 | int      | 1    |            | 绝密(3)、机密(2)、秘密(1)、无(NULL)                          | NULL   |
-| 21   | PatiEmail       | 病人Email        | nvarchar | 50   |            |                                                              | NULL   |
-| 22   | RegiLocPostCode | 户口所在地邮编   | int      | 6    |            | [邮编查找](https://www.ip138.com/post/)                      | NULL   |
-| 23   | IDCardTypeID    | 证件类型编码     | int      | 6    |            | 查看[证件编码](https://www.cnblogs.com/liuhongfeng/p/4981472.html) | NULL   |
-| 24   | IDCardTypeName  | 证件类型名称     | nvarchar | 15   |            |                                                              | NULL   |
-| 25   | BloodType       | 血型             | nvarchar | 10   |            | NULL/ A / B / AB / O 型血                                    | NULL   |
-| 26   | MobileNum       | 手机号码         | string   | 15   |            |                                                              | NULL   |
-| 27   | IDAuther        | 实名制认证状态   | int      | 1    |            | 未认证(0) / 已认证(1)                                        | 0      |
-| 28   | IDAutherMethod  | 实名制认证方式   | nvarchar | 10   |            | 1    HIS 认证<br />2    医院挂号网站认证<br />3    12320认证<br />4     ICBC认证<br />5     APP认证<br />6     卫计委保健局认证 | NULL   |
-| 29   | CardNo          | 就诊卡号         | int      | 20   | False      | FK                                                           |        |
 
 
 
@@ -211,7 +205,17 @@
 
 ## 使用流程
 
-### 1）普通用户使用流程
+### 一、普通用户使用流程
 
-#### 1. 注册账号
+#### 1. (无账号)账号注册
+
+在 **AccountRegister **中
+
+输入  **(用户名  ----  密码  ----  确认密码)**  进行账号注册。若帐号已在数据库中，则注册失败，需重新输入信息注册(可弹窗提示“是否**忘记密码**”)； 若帐号不在数据库中， 则提示注册成功。
+
+#### 2. 帐号登录
+
+在 **MainWindow** 中
+
+输入 (用户名  ----  密码) 进行帐号登录。若帐号不在数据库中，则提示"帐号不存在，是否前往**注册帐号**"；若帐号存在数据库中，密码错误，则提示"密码错误，是否**忘记密码**"；若帐号存在数据库中且与其密码对应，则提示"登陆成功，欢迎 \$UserName\$ "
 
