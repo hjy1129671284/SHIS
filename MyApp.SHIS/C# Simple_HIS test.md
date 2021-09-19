@@ -4,9 +4,9 @@
 
 ## 数据库设计
 
-![表数据](D:\C Sharp\demo\SHIS\MyApp.SHIS\C# Simple_HIS test.assets\表数据.png)
+![表数据](.\C# Simple_HIS test.assets\表数据.png)
 
-![表结构](D:\C Sharp\demo\SHIS\MyApp.SHIS\C# Simple_HIS test.assets\表结构.png)
+![表结构](.\C# Simple_HIS test.assets\表结构.png)
 
 暂定以**使用流程**写表
 
