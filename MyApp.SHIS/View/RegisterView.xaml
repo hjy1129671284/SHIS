@@ -1,6 +1,6 @@
 ﻿<Window
     Height="450"
-    Title="RegisterView"
+    Title="账号注册"
     Width="800"
     mc:Ignorable="d"
     x:Class="MyApp.SHIS.View.RegisterView"
@@ -8,8 +8,82 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyApp.SHIS.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid >
-        <Button x:Name="button" Content="返回登录页面" HorizontalAlignment="Left" Height="87" Margin="260,276,0,0" VerticalAlignment="Top" Width="245" Click="button_Click"/>
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid>
+        <Rectangle
+            Height="270"
+            VerticalAlignment="Top">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1" />
+                    <GradientStop Color="#FF79A1BD" />
+                    <GradientStop Color="#FF222281" Offset="0.993" />
+                    <GradientStop Color="#FF5877A4" Offset="0.457" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="270" Margin="171,64,0,0" RadiusY="10" RadiusX="10" Stroke="Black" VerticalAlignment="Top" Width="408">
+
+        </Rectangle>
+        <Canvas
+            Height="128"
+            HorizontalAlignment="Left"
+            Margin="171,142,0,0"
+            VerticalAlignment="Top"
+            Width="406">
+            <TextBox
+                Width="406"
+                materialDesign:HintAssist.HelperText="请输入您的用户名"
+                materialDesign:HintAssist.Hint="UserName"
+                x:Name="NameTextBox" Height="30">
+                <TextBox.Text>
+                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" />
+                </TextBox.Text>
+            </TextBox>
+            <PasswordBox
+                Canvas.Top="59"
+                Width="406"
+                materialDesign:HintAssist.HelperText="请输入您的密码"
+                materialDesign:HintAssist.Hint="PassWord"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                x:Name="PasswordBox1" />
+            <PasswordBox
+                Canvas.Top="103"
+                Width="406"
+                materialDesign:HintAssist.HelperText="请确认您的密码"
+                materialDesign:HintAssist.Hint="PassWord"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                x:Name="PasswordBox2" />
+
+        </Canvas>
+        <Button
+            Background="{x:Null}"
+            BorderBrush="{x:Null}"
+            Click="button_Click"
+            Content="返回登录页面"
+            Height="35"
+            HorizontalAlignment="Left"
+            Margin="309,374,0,0"
+            VerticalAlignment="Top"
+            Width="132"
+            x:Name="button" Foreground="#DD3A14E6" />
+        <TextBlock
+            Height="35"
+            HorizontalAlignment="Left"
+            Margin="339,86,0,0"
+            Text="医院"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            Width="48"
+            x:Name="textBlock" FontSize="20" />
+        <Button x:Name="button1" Content="注册" HorizontalAlignment="Left" Height="33" Margin="282,316,0,0" VerticalAlignment="Top" Width="186"/>
     </Grid>
 </Window>

@@ -20,11 +20,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
 
-        <Rectangle
-            Height="235"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Width="517">
+        <Rectangle Height="235" VerticalAlignment="Top">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1" />
@@ -62,18 +58,6 @@
             VerticalAlignment="Top"
             Width="216" />
 
-        <Button
-            HorizontalAlignment="Left"
-            Margin="178,277,0,0"
-            VerticalAlignment="Top"
-            Visibility="Hidden"
-            Width="75"
-            x:Name="button">
-            <TextBlock
-                Text="TextBlock"
-                TextWrapping="Wrap"
-                x:Name="textBlock" />
-        </Button>
         <TextBlock
             Cursor="Hand"
             Height="23"
@@ -84,7 +68,7 @@
             TextWrapping="Wrap"
             VerticalAlignment="Top"
             Width="65"
-            x:Name="textBox1" />
+            x:Name="TextBlock1" />
         <TextBlock
             Height="23"
             HorizontalAlignment="Left"
@@ -94,7 +78,7 @@
             TextWrapping="Wrap"
             VerticalAlignment="Top"
             Width="65" />
-        <TextBox
+        <TextBlock
             Height="23"
             HorizontalAlignment="Left"
             Margin="233,103,0,0"
@@ -102,7 +86,7 @@
             TextWrapping="Wrap"
             VerticalAlignment="Top"
             Width="32"
-            x:Name="textBox" />
+            x:Name="textBlock" />
 
         <Button
             Click="button1_Click"
