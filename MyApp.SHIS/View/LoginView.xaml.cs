@@ -1,19 +1,19 @@
 ﻿using System.Windows;
 using SqlSugar;
 using System;
-using System.Data;
-using System.Text;
+using System.Windows.Input;
 using Models;
 using DbType = SqlSugar.DbType;
+using MyApp.SHIS.Commom;
 
 namespace MyApp.SHIS.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class LoginView
     {
-        public MainWindow()
+        public LoginView()
         {
             InitializeComponent();
             
@@ -42,35 +42,44 @@ namespace MyApp.SHIS.View
             
             //查询表的所有
 
-            if (db.Queryable<user>().Any(it => it.UserName == NameTextBox.Text))
-            {
-                var result = db.Queryable<user>().Where(it => it.UserName == NameTextBox.Text).First();
+            string userName = NameTextBox.Text;
 
-                bool loginFlag = result.UserPwd == PasswordBox.Password;
+            if (db.Queryable<user>().Any(it => it.UserName == userName))
+            {
+                var result = db.Queryable<user>().Where(it => it.UserName == userName).ToList();
+
+                bool loginFlag = result[0].UserPwd == PasswordBox.Password;
             
                 if (loginFlag)
                 {
-                    MessageBox.Show("登录成功");
+                    MessageBox.Show($"登录成功，欢迎 {userName}");
+                    ViewManage.ChangeView(this, new DashBoardView(true, userName));
                 }
                 else
                 {
-                    MessageBox.Show("登录失败");
+                    MessageBox.Show("密码错误，登录失败");
                 }
             }
             else
             {
-                MessageBox.Show("帐号不存在");
+                MessageBox.Show("帐号不存在，登录失败");
             }
             
+        }
 
-            //插入
-            // db.Insertable(new Student() { SchoolId = 1, Name = "jack" }).ExecuteCommand();
+        private void TextBox1_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ViewManage.ChangeView(this, new RegisterView());
+        }
 
-            //更新
-            // db.Updateable(new Student() { Id = 1, SchoolId = 2, Name = "jack2" }).ExecuteCommand();
+        private void TextBox2_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ViewManage.ChangeView(this, new RetrPwdView());
+        }
 
-            //删除
-            // db.Deleteable<Student>().Where(it => it.Id == 1).ExecuteCommand();
+        private void BackToDashBoardButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewManage.ChangeView(this, new DashBoardView());
         }
     }
 }

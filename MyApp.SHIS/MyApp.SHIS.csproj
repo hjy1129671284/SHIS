@@ -93,15 +93,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commom\ViewManage.cs" />
     <Compile Include="Models\doct_user.cs" />
     <Compile Include="Models\norm_user.cs" />
     <Compile Include="Models\pati_user.cs" />
     <Compile Include="Models\rgst_user.cs" />
     <Compile Include="Models\toll_user.cs" />
     <Compile Include="Models\user.cs" />
-    <Compile Include="View\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="View\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\DashBoardView.xaml.cs">
+      <DependentUpon>DashBoardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RegisterView.xaml.cs">
+      <DependentUpon>RegisterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RetrPwdView.xaml.cs">
+      <DependentUpon>RetrPwdView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -130,15 +140,16 @@
     <Resource Include="View\小水人.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commom" />
     <Folder Include="Commom\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="View\MainWindow.xaml">
+    <Page Include="View\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\DashBoardView.xaml" />
+    <Page Include="View\RegisterView.xaml" />
+    <Page Include="View\RetrPwdView.xaml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets')" />

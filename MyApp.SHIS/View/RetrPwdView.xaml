@@ -1,0 +1,23 @@
+﻿<Window
+    Height="450"
+    Title="RetrPwd"
+    Width="800"
+    mc:Ignorable="d"
+    x:Class="MyApp.SHIS.View.RetrPwdView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyApp.SHIS.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Button
+            Click="button_Click"
+            Content="返回登录页面"
+            Height="87"
+            HorizontalAlignment="Left"
+            Margin="259,289,0,0"
+            VerticalAlignment="Top"
+            Width="245"
+            x:Name="button" />
+    </Grid>
+</Window>
