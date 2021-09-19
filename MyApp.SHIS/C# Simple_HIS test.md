@@ -31,7 +31,7 @@
 | 05   | IDCard          | 证件号         | int      | 20   |            |                                                              | NULL   |
 | 06   | IDAuther        | 实名制认证状态 | int      | 1    |            | 未认证(0) / 已认证(1)                                        | 0      |
 | 07   | IDAutherMethod  | 实名制认证方式 | nvarchar | 10   |            | 1    HIS 认证<br />2    医院挂号网站认证<br />3    12320认证<br />4     ICBC认证<br />5     APP认证<br />6     卫计委保健局认证 | NULL   |
-| 08   | UserAuthName    | 用户姓名       | nvarchar | 50   | False      | Index                                                        |        |
+| 08   | UserAuthName    | 用户姓名       | nvarchar | 50   |            |                                                              |        |
 | 09   | SexID           | 性别编码       | int      | 1    |            | 0/ 1 / 2                                                     | 0      |
 | 10   | SexName         | 性别名称       | nvarchar | 10   |            | NULL(0)/男(1) /女(2)                                         | NULL   |
 | 11   | BirthDate       | 出生日期       | datetime |      |            | YYYY-MM-DD HH:MM:SS                                          | NULL   |
@@ -51,7 +51,7 @@
 | 25   | RetireTypeID    | 职退状态编码   | int      |      |            | ***暂时没查到***                                             | NULL   |
 | 26   | RegiLocPostCode | 户口所在地邮编 | int      | 6    |            | [邮编查找](https://www.ip138.com/post/)                      | NULL   |
 | 27   | BloodType       | 血型           | nvarchar | 10   |            | NULL/ A / B / AB / O 型血                                    | NULL   |
-| 28   | MedCardID       | 就诊卡号       | int      | 20   |            |                                                              | NULL   |
+| 28   | MedCardNum      | 就诊卡号       | int      | 20   |            |                                                              | NULL   |
 
 ###### 病人表  -- > Pati_User
 
@@ -61,18 +61,20 @@
 | 02   | UserName      | 用户名           | varchar  | 20   | False      | FK1                                 |        |
 | 03   | PatiCateID    | 病人类型编码     | int      | 20   |            | Pati_Category  ***不知道意思***     |        |
 | 04   | SecretGradeID | 病历保密级别编码 | int      | 1    |            | 绝密(3)、机密(2)、秘密(1)、无(NULL) | NULL   |
+| 05   | MedCardNum    | 就诊卡号         | int      | 20   | False      |                                     | NULL   |
 
 
 
 ###### 医生用户表  -- >  Doct_User
 
-| 序号 | 字段名   | 字段描述     | 数据类型  | 长度 | 是否能为空 | 注释               | 默认值 |
-| ---- | -------- | ------------ | --------- | ---- | ---------- | ------------------ | ------ |
-| 01   | DoctID   | 医生编码     | int       | 20   | False      | 病人的唯一标识，PK |        |
-| 02   | DoctDept | 医生科室     | nnvarchar | 20   | False      |                    |        |
-| 03   | DoctPosn | 医生职位     | nnvarchar | 20   | False      |                    |        |
-| 04   | DoctWork | 医生工作状态 | int       | 1    | False      | 0 休息<br />1 工作 | 0      |
-| 05   | UserName | 用户名       | varchar   | 20   | False      | FK1                |        |
+| 序号 | 字段名   | 字段描述     | 数据类型 | 长度 | 是否能为空 | 注释               | 默认值 |
+| ---- | -------- | ------------ | -------- | ---- | ---------- | ------------------ | ------ |
+| 01   | DoctID   | 医生编码     | int      | 20   | False      | 医生的唯一标识，PK |        |
+| 02   | DoctName | 医生姓名     | nvarchar | 50   | False      |                    |        |
+| 02   | DoctDept | 医生科室     | nvarchar | 20   | False      |                    |        |
+| 03   | DoctPosn | 医生职位     | nvarchar | 20   | False      |                    |        |
+| 04   | DoctWork | 医生工作状态 | int      | 1    | False      | 0 休息<br />1 工作 | 0      |
+| 05   | UserName | 用户名       | varchar  | 20   | False      | FK1                |        |
 
 ###### 挂号员用户表  -- > Rgst_User
 
@@ -154,7 +156,7 @@
 | 01   | SerialNumber | 门诊流水号 | int      | 50   | False      | PK                     |        |
 | 02   | QueueNo      | 挂号序号   | int      | 5    |            |                        |        |
 | 03   | PatiID       | 患者编码   | int      | 20   | False      | FK1                    |        |
-| 04   | CardNo       | 就诊卡号   | int      | 20   | False      |                        |        |
+| 04   | MedCardNum   | 就诊卡号   | int      | 20   | False      |                        |        |
 | 05   | PatiName     | 患者姓名   | nvarchar | 50   | False      |                        |        |
 | 06   | YBType       | 医保类型   | nvarchar | 50   |            |                        |        |
 | 07   | RegDate      | 挂号日期   | datetime |      |            |                        |        |

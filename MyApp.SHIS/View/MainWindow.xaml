@@ -102,9 +102,10 @@
             x:Name="textBox" />
 
         <Button
-            Background="#FF3A40B7"
+            Click="button1_Click"
             Content="登录"
             HorizontalAlignment="Left"
+            IsCancel="True"
             Margin="214,240,0,0"
             VerticalAlignment="Top"
             Width="75"
@@ -131,6 +132,7 @@
                 materialDesign:HintAssist.Hint="Password"
                 materialDesign:TextFieldAssist.HasClearButton="True"
                 x:Name="PasswordBox" />
+
         </Canvas>
 
 

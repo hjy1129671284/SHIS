@@ -52,12 +52,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="MySqlSugar, Version=3.5.3.4, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\mySqlSugar.3.5.3.4\lib\net40\MySqlSugar.dll</HintPath>
+    <Reference Include="MySql.Data, Version=8.0.26.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d">
+      <HintPath>..\..\..\..\Mysql\MySQL Connector Net 8.0.26\Assemblies\v4.8\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ShowMeTheXAML, Version=2.0.0.62, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\ShowMeTheXAML.2.0.0\lib\net472\ShowMeTheXAML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SqlSugar, Version=5.0.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\SqlSugar.5.0.4\lib\SqlSugar.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SqlSugar.IOC, Version=1.6.0.0, Culture=neutral, PublicKeyToken=null">
@@ -86,7 +93,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commom\DBConn.cs" />
+    <Compile Include="Models\doct_user.cs" />
+    <Compile Include="Models\norm_user.cs" />
+    <Compile Include="Models\pati_user.cs" />
+    <Compile Include="Models\rgst_user.cs" />
+    <Compile Include="Models\toll_user.cs" />
+    <Compile Include="Models\user.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -115,11 +127,10 @@
     <Content Include="C# Simple_HIS test.assets\表数据.png" />
     <Content Include="C# Simple_HIS test.assets\表结构.png" />
     <Content Include="C# Simple_HIS test.md" />
-    <Content Include="lib\MySql.Data.dll" />
-    <Content Include="lib\MySqlSugar.dll" />
     <Resource Include="View\小水人.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Commom" />
     <Folder Include="Commom\" />
     <Folder Include="Models\" />
   </ItemGroup>
