@@ -2,12 +2,13 @@
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{DynamicResource MaterialDesignFont}"
     Height="350"
+    ResizeMode="NoResize"
     TextElement.FontSize="13"
     TextElement.FontWeight="Regular"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
-    Title="MainWindow"
+    Title="登录"
     Width="525"
     mc:Ignorable="d"
     x:Class="MyApp.SHIS.View.MainWindow"
@@ -19,7 +20,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Rectangle
-            Height="222"
+            Height="235"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Width="517">
@@ -43,8 +44,10 @@
             Width="75">
             <Image
                 RenderTransformOrigin="0.377,0.541"
-                Source="../Assets/小水人.jpg"
+                Source="小水人.jpg"
                 x:Name="image" />
+
+
         </Border>
 
         <Rectangle
