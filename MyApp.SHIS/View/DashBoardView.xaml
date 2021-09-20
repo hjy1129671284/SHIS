@@ -135,7 +135,7 @@
                 </Grid>
                 <ListView Foreground="#FF1368BD" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListViewItem Height="60">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown" Orientation="Horizontal">
                             <materialDesign:PackIcon
                                 Height="25"
                                 Kind="ViewDashboard"
@@ -215,13 +215,7 @@
             VerticalAlignment="Top"
             Width="1220">
             <Viewbox>
-                <Canvas Height="100" Width="185">
-                    <Ellipse
-                        Fill="#FFF4F4F5"
-                        Height="100"
-                        Stroke="Black"
-                        Width="100" Canvas.Left="35" />
-                </Canvas>
+                <ContentControl Name="ContentControl" />
             </Viewbox>
         </Grid>
 

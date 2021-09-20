@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using MyApp.SHIS.Commom;
+using SqlSugar.IOC;
+
 namespace MyApp.SHIS.View
 {
     public partial class DashBoardView
@@ -22,6 +14,13 @@ namespace MyApp.SHIS.View
         // 未登录窗口
         public DashBoardView()
         {
+            // SqlSugar.IOC 注入
+            SugarIocServices.AddSqlSugar(new IocConfig()
+            {
+                ConnectionString = "server=localhost;port=3306;uid=root;pwd=hjyhjyhjy;database=his",
+                DbType = IocDbType.MySql,
+                IsAutoCloseConnection = true//自动释放
+            }); 
             InitializeComponent();
             
         }
@@ -61,11 +60,15 @@ namespace MyApp.SHIS.View
 
         private void UserNameButton_OnClick(object sender, RoutedEventArgs e)
         {
-            LoginView lv = new LoginView();
-            lv.Top = this.Top;
-            lv.Left = this.Left;
-            lv.Show();
-            this.Close();
+            ViewManage.ChangeView(this, new LoginView());
+        }
+
+        private void UIElement_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContentControl.Content = new Frame()
+            {
+                Content = new IndexPage()
+            };
         }
     }
 }

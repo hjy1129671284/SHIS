@@ -1,0 +1,29 @@
+﻿<Page
+    Height="450"
+    Title="IndexPage"
+    Width="800"
+    mc:Ignorable="d"
+    x:Class="MyApp.SHIS.View.IndexPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyApp.SHIS.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <StackPanel>
+            <TextBlock FontSize="30" Text="Hello" />
+            <WrapPanel>
+                <TextBox
+                    HorizontalAlignment="Left"
+                    Name="TextBox"
+                    Width="600" />
+                <Button
+                    Click="ButtonBase_OnClick"
+                    Content="查询"
+                    Width="90" />
+            </WrapPanel>
+
+            <DataGrid Name="DataGrid" />
+        </StackPanel>
+    </Grid>
+</Page>

@@ -2,7 +2,6 @@
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{DynamicResource MaterialDesignFont}"
     Height="350"
-    ResizeMode="NoResize"
     TextElement.FontSize="13"
     TextElement.FontWeight="Regular"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -127,6 +126,7 @@
             Click="BackToDashBoardButton_Click"
             HorizontalAlignment="Right"
             Margin="-23,0,428,0"
+            ToolTip="返回仪表盘"
             VerticalAlignment="Top"
             Width="89"
             x:Name="BackToDashBoardButton">

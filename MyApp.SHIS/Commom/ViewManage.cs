@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace MyApp.SHIS.Commom
 {
@@ -9,7 +8,7 @@ namespace MyApp.SHIS.Commom
         {
             targetWindow.Top = sourceWindow.Top;
             targetWindow.Left = sourceWindow.Left;
-            targetWindow.ShowDialog();
+            targetWindow.Show();
             sourceWindow.Close();
 
         }

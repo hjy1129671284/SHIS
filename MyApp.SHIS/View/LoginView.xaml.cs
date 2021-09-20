@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using SqlSugar;
-using System;
+using System.Diagnostics;
 using System.Windows.Input;
 using Models;
 using DbType = SqlSugar.DbType;
@@ -21,17 +21,19 @@ namespace MyApp.SHIS.View
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            SqlSugarClient db = new SqlSugarClient(new ConnectionConfig()
+            
+            //SqlSugar 注入
+            SqlSugarScope scope = new SqlSugarScope(new ConnectionConfig()
             {
                 ConnectionString = "server=localhost;port=3306;uid=root;pwd=hjyhjyhjy;database=his",
                 DbType = DbType.MySql,
                 IsAutoCloseConnection = true
             });
-
+            
             //调试SQL事件，可以删掉
-            db.Aop.OnLogExecuting = (sql, pars) =>
+            scope.Aop.OnLogExecuting = (sql, pars) =>
             {
-                Console.WriteLine(sql); //输出sql,查看执行sql
+                Trace.WriteLine(sql); //输出sql,查看执行sql
             };
 
             // 创建实体
@@ -44,9 +46,9 @@ namespace MyApp.SHIS.View
 
             string userName = NameTextBox.Text;
 
-            if (db.Queryable<user>().Any(it => it.UserName == userName))
+            if (scope.Queryable<user>().Any(it => it.UserName == userName))
             {
-                var result = db.Queryable<user>().Where(it => it.UserName == userName).ToList();
+                var result = scope.Queryable<user>().Where(it => it.UserName == userName).ToList();
 
                 bool loginFlag = result[0].UserPwd == PasswordBox.Password;
             
