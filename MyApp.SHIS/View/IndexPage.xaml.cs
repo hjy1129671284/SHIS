@@ -39,10 +39,10 @@ namespace MyApp.SHIS.View
             //
             // DataGrid.ItemsSource = result.DefaultView;
 
-            IUserRepository _iuserRepository = new UserRepository();
 
-            IUserService _iuserService = new UserService(_iuserRepository);
-            var result = _iuserRepository.QueryAsync();
+
+            UserService _iuserService = new UserService(new UserRepository());
+            var result = _iuserService.QueryAsync();
             DataGrid.ItemsSource = result.Result;
         }
     }

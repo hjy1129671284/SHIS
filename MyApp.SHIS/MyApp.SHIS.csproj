@@ -198,6 +198,9 @@
     <Compile Include="Services\IServices\IUserService.cs" />
     <Compile Include="Services\Services\BaseService.cs" />
     <Compile Include="Services\Services\UserService.cs" />
+    <Compile Include="View\BlankPage.xaml.cs">
+      <DependentUpon>BlankPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\IndexPage.xaml.cs">
       <DependentUpon>IndexPage.xaml</DependentUpon>
     </Compile>
@@ -244,6 +247,7 @@
     <Folder Include="Commom\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\BlankPage.xaml" />
     <Page Include="View\IndexPage.xaml" />
     <Page Include="View\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>

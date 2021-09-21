@@ -63,11 +63,19 @@ namespace MyApp.SHIS.View
             ViewManage.ChangeView(this, new LoginView());
         }
 
-        private void UIElement_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void UIElement_OnMouseLeftButtonDown1(object sender, MouseButtonEventArgs e)
         {
             ContentControl.Content = new Frame()
             {
                 Content = new IndexPage()
+            };
+        }
+
+        private void UIElement_OnMouseLeftButtonDown2(object sender, MouseButtonEventArgs e)
+        {
+            ContentControl.Content = new Frame()
+            {
+                Content = new BlankPage()
             };
         }
     }
