@@ -6,7 +6,7 @@ using Models;
 using DbType = SqlSugar.DbType;
 using MyApp.SHIS.Commom;
 
-namespace MyApp.SHIS.View
+namespace MyApp.SHIS.View.Window
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

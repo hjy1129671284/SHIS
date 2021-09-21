@@ -11,7 +11,7 @@ using MyApp.SHIS.Services.Services;
 using SqlSugar;
 using SqlSugar.IOC;
 
-namespace MyApp.SHIS.View
+namespace MyApp.SHIS.View.Pages
 {
     public partial class IndexPage : Page
     {

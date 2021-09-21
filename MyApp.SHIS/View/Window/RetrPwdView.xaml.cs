@@ -4,7 +4,7 @@ using Models;
 using MyApp.SHIS.Commom;
 using SqlSugar;
 
-namespace MyApp.SHIS.View
+namespace MyApp.SHIS.View.Window
 {
     public partial class RetrPwdView
     {

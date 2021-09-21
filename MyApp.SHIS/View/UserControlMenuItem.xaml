@@ -1,0 +1,44 @@
+﻿<UserControl
+    mc:Ignorable="d"
+    x:Class="MyApp.SHIS.View.UserControlMenuItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyApp.SHIS"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <materialDesign:PackIcon
+            Foreground="White"
+            Height="15"
+            Kind="{Binding Path=Icon}"
+            Margin="10,16"
+            Width="15" />
+        <ListBoxItem
+            Content="{Binding Path=Header}"
+            FontSize="15"
+            Foreground="White"
+            Padding="37,14"
+            x:Name="ListViewItemMenu" />
+        <Expander
+            Background="{x:Null}"
+            Foreground="White"
+            Header="{Binding Path=Header}"
+            HorizontalAlignment="Right"
+            IsExpanded="False"
+            Width="210"
+            x:Name="ExpanderMenu">
+            <ListView
+                Foreground="White"
+                ItemsSource="{Binding Path=SubItems}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                x:Name="ListViewMenu">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Padding="20,5" Text="{Binding Path=Name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Expander>
+    </Grid>
+</UserControl>

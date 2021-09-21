@@ -3,7 +3,7 @@
     Title="BlankPage"
     Width="800"
     mc:Ignorable="d"
-    x:Class="MyApp.SHIS.View.BlankPage"
+    x:Class="MyApp.SHIS.View.Pages.BlankPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyApp.SHIS.View"

@@ -4,7 +4,7 @@ using MyApp.SHIS.Commom;
 using System.Diagnostics;
 using Models;
 
-namespace MyApp.SHIS.View
+namespace MyApp.SHIS.View.Window
 {
     public partial class RegisterView
     {
