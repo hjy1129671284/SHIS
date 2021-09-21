@@ -25,7 +25,7 @@ namespace MyApp.SHIS.Repository.Repository
             return await base.DeleteByIdAsync(id);
         }
 
-        public async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> func)
+        public override async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> func)
         {
             return await base.DeleteAsync(func);
         }

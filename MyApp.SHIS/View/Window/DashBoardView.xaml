@@ -18,25 +18,25 @@
         <Storyboard x:Key="MenuOpen1">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GridMenu" Storyboard.TargetProperty="(FrameworkElement.Width)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="60" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="250" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="MenuClose1">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GridMenu" Storyboard.TargetProperty="(FrameworkElement.Width)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="250" />
+                <EasingDoubleKeyFrame KeyTime="0" Value="200" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="MenuOpen2">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GridContent" Storyboard.TargetProperty="(FrameworkElement.Width)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1220" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1030" />
+                <EasingDoubleKeyFrame KeyTime="0" Value="1200" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1080" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="MenuClose2">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GridContent" Storyboard.TargetProperty="(FrameworkElement.Width)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1030" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1220" />
+                <EasingDoubleKeyFrame KeyTime="0" Value="1080" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1200" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
@@ -94,9 +94,9 @@
                         <StackPanel Width="150">
                             <Button
                                 Click="UserNameButton_OnClick"
-                                Content="账号"
+                                Content="账号登录"
                                 Name="UserNameButton" />
-                            <Button Content="设置" />
+                            <Button Click="ButtonBase_OnClick" Content="设置" />
                             <Button Content="帮助" />
                             <Separator />
                             <Button
@@ -110,11 +110,13 @@
         </materialDesign:ColorZone>
         <Grid
             Background="#FF1B3861"
+            Grid.Column="0"
+            Grid.Row="0"
             HorizontalAlignment="Left"
             Width="60"
             x:Name="GridMenu">
             <StackPanel>
-                <Grid Background="White" Height="150">
+                <Grid Background="White" Height="60">
                     <Button
                         Background="{x:Null}"
                         BorderBrush="{x:Null}"
@@ -147,37 +149,37 @@
                             Width="25" />
                     </Button>
                 </Grid>
-                <Grid
-                    Background="{StaticResource PrimaryHueMidBrush}"
-                    Grid.Row="1"
-                    HorizontalAlignment="Stretch">
+                <Grid Background="{StaticResource PrimaryHueMidBrush}" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Background="GhostWhite" Grid.Row="0">
-                        <Image Source="../Assets/Images/小水人.jpg" />
+                        <Image Source="../小水人.jpg" />
                     </Grid>
                     <ScrollViewer
                         Background="#FF1B3861"
                         Grid.Row="1"
                         HorizontalAlignment="Stretch"
                         HorizontalScrollBarVisibility="Disabled"
-                        VerticalScrollBarVisibility="Auto">
-                        <StackPanel Margin="10" x:Name="Menu" />
+                        VerticalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="0,0,-10,0" x:Name="Menu" />
                     </ScrollViewer>
                 </Grid>
             </StackPanel>
 
         </Grid>
         <Grid
+            Grid.ColumnSpan="2"
+            Grid.Row="0"
             Height="660"
             HorizontalAlignment="Right"
             Margin="0,60,0,0"
             Name="GridContent"
             VerticalAlignment="Top"
             Width="1220">
-            <Viewbox>
+            <Viewbox HorizontalAlignment="Right">
+                <Viewbox.Margin>20</Viewbox.Margin>
                 <ContentControl Name="ContentControl" />
             </Viewbox>
         </Grid>

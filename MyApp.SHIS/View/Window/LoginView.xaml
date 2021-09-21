@@ -35,43 +35,63 @@
             CornerRadius="10"
             Height="75"
             HorizontalAlignment="Left"
-            Margin="214,10,0,0"
+            Margin="208,10,0,0"
             VerticalAlignment="Top"
             Width="75">
             <Image
+                Margin="-1,-1,1,1"
                 RenderTransformOrigin="0.377,0.541"
-                Source="小水人.jpg"
-                x:Name="image" />
+                Source="../小水人.jpg" />
 
 
         </Border>
 
-        <Rectangle
-            Fill="#FFF4F4F5"
-            Height="160"
-            HorizontalAlignment="Left"
-            Margin="142,90,0,0"
-            RadiusX="10"
-            RadiusY="10"
-            Stroke="Black"
-            VerticalAlignment="Top"
-            Width="216" />
 
+        <Grid Height="200" Width="400" Margin="46,73,46,46">
+            <Rectangle
+                Fill="#FFF4F4F5"
+                Height="180"
+                HorizontalAlignment="Left"
+                Margin="20,11,0,9"
+                RadiusX="10"
+                RadiusY="10"
+                Stroke="Black"
+                Width="360" />
+            <StackPanel Margin="0,35,0,-5" Name="StackPanel">
+                <TextBox
+                    Width="250"
+                    materialDesign:HintAssist.HelperText="请输入您的用户名"
+                    materialDesign:HintAssist.Hint="UserName"
+                    x:Name="NameTextBox">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" />
+                    </TextBox.Text>
+                </TextBox>
+                <Rectangle Height="25" />
+                <PasswordBox
+                    Width="250"
+                    materialDesign:HintAssist.HelperText="请输入您的密码"
+                    materialDesign:HintAssist.Hint="PassWord"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    x:Name="PasswordBox" />
+                <Rectangle Height="20" />
+
+            </StackPanel>
+        </Grid>
         <TextBlock
             Cursor="Hand"
             Height="23"
             HorizontalAlignment="Left"
-            Margin="142,277,0,0"
+            Margin="100,280,0,0"
             MouseLeftButtonDown="TextBox1_OnMouseLeftButtonDown"
             Text="账号注册"
             TextWrapping="Wrap"
             VerticalAlignment="Top"
-            Width="65"
-            x:Name="TextBlock1" />
+            Width="65" />
         <TextBlock
             Height="23"
             HorizontalAlignment="Left"
-            Margin="293,277,0,0"
+            Margin="335,280,0,0"
             MouseLeftButtonDown="TextBox2_OnMouseLeftButtonDown"
             Text="忘记密码"
             TextWrapping="Wrap"
@@ -80,46 +100,12 @@
         <TextBlock
             Height="23"
             HorizontalAlignment="Left"
-            Margin="233,103,0,0"
+            Margin="231,90,0,0"
             Text="医院"
             TextWrapping="Wrap"
             VerticalAlignment="Top"
-            Width="32"
-            x:Name="textBlock" />
+            Width="32" />
 
-        <Button
-            Click="button1_Click"
-            Content="登录"
-            HorizontalAlignment="Left"
-            IsCancel="True"
-            Margin="214,240,0,0"
-            VerticalAlignment="Top"
-            Width="75"
-            x:Name="button1" />
-        <Canvas
-            Height="71"
-            HorizontalAlignment="Left"
-            Margin="142,140,0,0"
-            VerticalAlignment="Top"
-            Width="216">
-            <TextBox
-                Width="216"
-                materialDesign:HintAssist.HelperText="请输入您的用户名"
-                materialDesign:HintAssist.Hint="UserName"
-                x:Name="NameTextBox">
-                <TextBox.Text>
-                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" />
-                </TextBox.Text>
-            </TextBox>
-            <PasswordBox
-                Canvas.Top="46"
-                Width="216"
-                materialDesign:HintAssist.HelperText="请输入您的密码"
-                materialDesign:HintAssist.Hint="PassWord"
-                materialDesign:TextFieldAssist.HasClearButton="True"
-                x:Name="PasswordBox" />
-
-        </Canvas>
         <Button
             Background="{x:Null}"
             BorderBrush="{x:Null}"
@@ -128,15 +114,30 @@
             Margin="-23,0,428,0"
             ToolTip="返回仪表盘"
             VerticalAlignment="Top"
-            Width="89"
-            x:Name="BackToDashBoardButton">
+            Width="89">
             <materialDesign:PackIcon
                 Foreground="White"
                 Height="25"
                 Kind="ArrowLeft"
                 Width="25" />
         </Button>
-
-
+        <ListBox
+            Margin="81,202,80,74"
+            Name="ListBox"
+            Style="{StaticResource MaterialDesignChoiceChipAccentOutlineListBox}">
+            <ListBoxItem Content="普通用户" IsSelected="True" />
+            <ListBoxItem Content="病人" />
+            <ListBoxItem Content="医生" />
+            <ListBoxItem Content="挂号员" />
+            <ListBoxItem Content="收费员" />
+        </ListBox>
+        <Button
+            Click="button1_Click"
+            Content="登录"
+            HorizontalAlignment="Left"
+            IsCancel="True"
+            Margin="208,245,0,0"
+            VerticalAlignment="Top"
+            Width="75" />
     </Grid>
 </Window>

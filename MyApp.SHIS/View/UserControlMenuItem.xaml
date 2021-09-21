@@ -26,12 +26,14 @@
             Header="{Binding Path=Header}"
             HorizontalAlignment="Right"
             IsExpanded="False"
+            Margin="0,0,-13,0"
             Width="210"
             x:Name="ExpanderMenu">
             <ListView
                 Foreground="White"
                 ItemsSource="{Binding Path=SubItems}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                SelectionChanged="ListViewMenu_SelectionChanged"
                 x:Name="ListViewMenu">
                 <ListView.ItemTemplate>
                     <DataTemplate>

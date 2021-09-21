@@ -191,12 +191,16 @@
     <Compile Include="Models\toll_user.cs" />
     <Compile Include="Models\user.cs" />
     <Compile Include="Repository\IRepository\IBaseRepository.cs" />
+    <Compile Include="Repository\IRepository\INormUserRepository.cs" />
     <Compile Include="Repository\IRepository\IUserRepository.cs" />
     <Compile Include="Repository\Repository\BaseRepository.cs" />
+    <Compile Include="Repository\Repository\NormUserRepository.cs" />
     <Compile Include="Repository\Repository\UserRepository.cs" />
     <Compile Include="Services\IServices\IBaseService.cs" />
+    <Compile Include="Services\IServices\INromUserService.cs" />
     <Compile Include="Services\IServices\IUserService.cs" />
     <Compile Include="Services\Services\BaseService.cs" />
+    <Compile Include="Services\Services\NormUserService.cs" />
     <Compile Include="Services\Services\UserService.cs" />
     <Compile Include="ViewModel\ItemMenu.cs" />
     <Compile Include="ViewModel\SubItem.cs" />
@@ -205,6 +209,12 @@
     </Compile>
     <Compile Include="View\Pages\IndexPage.xaml.cs">
       <DependentUpon>IndexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\MyAccountPage.xaml.cs">
+      <DependentUpon>MyAccountPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControlMenuItem.xaml.cs" />
     <Compile Include="View\Window\DashBoardView.xaml.cs">
@@ -252,6 +262,8 @@
   <ItemGroup>
     <Page Include="View\Pages\BlankPage.xaml" />
     <Page Include="View\Pages\IndexPage.xaml" />
+    <Page Include="View\Pages\MyAccountPage.xaml" />
+    <Page Include="View\Pages\SettingPage.xaml" />
     <Page Include="View\UserControlMenuItem.xaml" />
     <Page Include="View\Window\DashBoardView.xaml" />
     <Page Include="View\Window\LoginView.xaml">

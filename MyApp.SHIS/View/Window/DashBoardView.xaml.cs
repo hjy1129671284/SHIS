@@ -6,13 +6,13 @@ using MaterialDesignThemes.Wpf;
 using MyApp.SHIS.Commom;
 using MyApp.SHIS.View.Pages;
 using MyApp.SHIS.ViewModel;
+using SqlSugar.Extensions;
 using SqlSugar.IOC;
 
 namespace MyApp.SHIS.View.Window
 {
     public partial class DashBoardView
     {
-        public bool LoginFlag { get; set; }
         public string UserName { get; set; }
         
         // 未登录窗口
@@ -27,57 +27,71 @@ namespace MyApp.SHIS.View.Window
             }); 
             InitializeComponent();
             
-            var menuRegister = new List<SubItem>();
-            menuRegister.Add(new SubItem("Customer"));
-            menuRegister.Add(new SubItem("Providers"));
-            menuRegister.Add(new SubItem("Employees"));
-            menuRegister.Add(new SubItem("Products"));
-            var item6 = new ItemMenu("Register", menuRegister, PackIconKind.Register);
+            GenerateMenu();
 
-            var menuSchedule = new List<SubItem>();
-            menuSchedule.Add(new SubItem("Services"));
-            menuSchedule.Add(new SubItem("Meetings"));
-            var item1 = new ItemMenu("Appointments", menuSchedule, PackIconKind.Schedule);
-
-            var menuReports = new List<SubItem>();
-            menuReports.Add(new SubItem("Customers"));
-            menuReports.Add(new SubItem("Providers"));
-            menuReports.Add(new SubItem("Products"));
-            menuReports.Add(new SubItem("Stock"));
-            menuReports.Add(new SubItem("Sales"));
-            var item2 = new ItemMenu("Reports", menuReports, PackIconKind.FileReport);
-
-            var menuExpenses = new List<SubItem>();
-            menuExpenses.Add(new SubItem("Fixed"));
-            menuExpenses.Add(new SubItem("Variable"));
-            var item3 = new ItemMenu("Expenses", menuExpenses, PackIconKind.ShoppingBasket);
-
-            var menuFinancial = new List<SubItem>();
-            menuFinancial.Add(new SubItem("Cash flow"));
-            var item4 = new ItemMenu("Financial", menuFinancial, PackIconKind.ScaleBalance);
-
-            var item0 = new ItemMenu("Dashboard", new UserControl(), PackIconKind.ViewDashboard);
-
-            Menu.Children.Add(new UserControlMenuItem(item0));
-            Menu.Children.Add(new UserControlMenuItem(item6));
-            Menu.Children.Add(new UserControlMenuItem(item1));
-            Menu.Children.Add(new UserControlMenuItem(item2));
-            Menu.Children.Add(new UserControlMenuItem(item3));
-            Menu.Children.Add(new UserControlMenuItem(item4));
-            
         }
         
         // 登录后窗口
-        public DashBoardView(bool loginFlag, string username)
+        public DashBoardView(string username, string userType)
         {
             InitializeComponent();
-
+            GenerateMenu();
             UserNameTextBlock.Text = username;
             UserNameButton.Content = "退出登录";
         }
-        
 
-        
+        public void GenerateMenu()
+        {
+            var item0 = new ItemMenu("主页", new IndexPage(), PackIconKind.ViewDashboard);
+            
+            var menuRegister = new List<SubItem>();
+            menuRegister.Add(new SubItem("我的账号", new MyAccountPage()));
+            menuRegister.Add(new SubItem("实名认证", new MyAccountPage()));
+            menuRegister.Add(new SubItem("我的病历", new MyAccountPage()));
+            menuRegister.Add(new SubItem("复诊信息", new MyAccountPage()));
+            var item1 = new ItemMenu("我的", menuRegister, PackIconKind.Register);
+
+            var menuSchedule = new List<SubItem>();
+            menuSchedule.Add(new SubItem("我要挂号"));
+            menuSchedule.Add(new SubItem("本次挂号信息"));
+            menuSchedule.Add(new SubItem("挂号记录"));
+            var item2 = new ItemMenu("挂号", menuSchedule, PackIconKind.Schedule);
+
+            var menuPays = new List<SubItem>();
+            menuPays.Add(new SubItem("挂号缴费"));
+            menuPays.Add(new SubItem("药品缴费"));
+            menuPays.Add(new SubItem("缴费单"));
+            var item3 = new ItemMenu("缴费", menuPays, PackIconKind.FileReport);
+            
+            var menurelatives = new List<SubItem>();
+            menurelatives.Add(new SubItem("我的亲属"));
+            menurelatives.Add(new SubItem("亲属绑定"));
+            var item4 = new ItemMenu("亲属", menurelatives, PackIconKind.FileReport);
+            
+            var item5 = new ItemMenu("用户反馈", new IndexPage(), PackIconKind.ShoppingBasket);
+
+            Menu.Children.Add(new UserControlMenuItem(item0, this));
+            Menu.Children.Add(new UserControlMenuItem(item1, this));
+            Menu.Children.Add(new UserControlMenuItem(item2, this));
+            Menu.Children.Add(new UserControlMenuItem(item3, this));
+            Menu.Children.Add(new UserControlMenuItem(item4, this));
+            Menu.Children.Add(new UserControlMenuItem(item5, this));
+        }
+
+        internal void SwitchPages(object sender)
+        {
+            var page = (Page)sender;
+
+            if (page != null)
+            {
+                ContentControl.Content = new Frame()
+                {
+                    Content = page
+                };
+            }
+
+        }
+
         private void ButtonPopUpLogout_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -105,20 +119,9 @@ namespace MyApp.SHIS.View.Window
             ViewManage.ChangeView(this, new LoginView());
         }
 
-        private void UIElement_OnMouseLeftButtonDown1(object sender, MouseButtonEventArgs e)
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            ContentControl.Content = new Frame()
-            {
-                Content = new IndexPage()
-            };
-        }
-
-        private void UIElement_OnMouseLeftButtonDown2(object sender, MouseButtonEventArgs e)
-        {
-            ContentControl.Content = new Frame()
-            {
-                Content = new BlankPage()
-            };
+            SwitchPages(new SettingPage());
         }
     }
 }

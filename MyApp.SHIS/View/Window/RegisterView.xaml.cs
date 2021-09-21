@@ -2,7 +2,10 @@
 using SqlSugar;
 using MyApp.SHIS.Commom;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Models;
+using MyApp.SHIS.Repository.Repository;
+using MyApp.SHIS.Services.Services;
 
 namespace MyApp.SHIS.View.Window
 {
@@ -23,26 +26,18 @@ namespace MyApp.SHIS.View.Window
             ViewManage.ChangeView(this, new DashBoardView());
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private async void button1_Click(object sender, RoutedEventArgs e)
         {
-            SqlSugarScope scope = new SqlSugarScope(new ConnectionConfig()
-            {
-                ConnectionString = "server=localhost;port=3306;uid=root;pwd=hjyhjyhjy;database=his",
-                DbType = DbType.MySql,
-                IsAutoCloseConnection = true
-            });
-
-            //调试SQL事件，可以删掉
-            scope.Aop.OnLogExecuting = (sql, pars) =>
-            {
-                Trace.WriteLine(sql); //输出sql,查看执行sql
-            };
+            UserService userService = new UserService(new UserRepository());
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
 
             string userName = NameTextBox.Text;
             string pwd1 = PasswordBox1.Password;
             string pwd2 = PasswordBox2.Password;
 
-            if (scope.Queryable<user>().Any(it => it.UserName == userName))
+            var result = userService.QueryAsync(it => it.UserName == userName).Result;
+
+            if (result != null && result.Count > 0)
             {
                 MessageBox.Show("帐号已存在，注册失败");
             }
@@ -51,7 +46,8 @@ namespace MyApp.SHIS.View.Window
                 if (pwd1 == pwd2)
                 {
                     // 插入数据
-                    scope.Insertable(new user() { UserName = userName, UserPwd = pwd1, UserType = "1"}).ExecuteCommand();
+                    await userService.CreateAsync(new user() { UserName = userName, UserPwd = pwd1, UserType = "1"});
+                    await normUserService.CreateAsync(new norm_user() {UserName = userName});
                     MessageBox.Show("注册成功");
                 }
                 else

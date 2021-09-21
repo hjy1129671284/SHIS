@@ -1,10 +1,9 @@
 ﻿using System.Windows;
-using SqlSugar;
-using System.Diagnostics;
+using System.Windows.Controls;
 using System.Windows.Input;
-using Models;
-using DbType = SqlSugar.DbType;
 using MyApp.SHIS.Commom;
+using MyApp.SHIS.Repository.Repository;
+using MyApp.SHIS.Services.Services;
 
 namespace MyApp.SHIS.View.Window
 {
@@ -21,41 +20,19 @@ namespace MyApp.SHIS.View.Window
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            
-            //SqlSugar 注入
-            SqlSugarScope scope = new SqlSugarScope(new ConnectionConfig()
-            {
-                ConnectionString = "server=localhost;port=3306;uid=root;pwd=hjyhjyhjy;database=his",
-                DbType = DbType.MySql,
-                IsAutoCloseConnection = true
-            });
-            
-            //调试SQL事件，可以删掉
-            scope.Aop.OnLogExecuting = (sql, pars) =>
-            {
-                Trace.WriteLine(sql); //输出sql,查看执行sql
-            };
 
-            // 创建实体
-            // db.DbFirst.IsCreateAttribute().CreateClassFile("D:\\C Sharp\\demo\\SHIS\\MyApp.SHIS\\Models", "Models");
-            
-            // 创建表
-            // db.CodeFirst.SetStringDefaultLength(200).InitTables(typeof(pati_user));
-            
-            //查询表的所有
+            UserService userService = new UserService(new UserRepository());
 
             string userName = NameTextBox.Text;
+            string userType = ((ListBoxItem)ListBox.SelectedItem).Content.ToString();
+            var result = userService.QueryAsync(it => it.UserName == userName).Result;
 
-            if (scope.Queryable<user>().Any(it => it.UserName == userName))
+            if (result != null && result.Count > 0)
             {
-                var result = scope.Queryable<user>().Where(it => it.UserName == userName).ToList();
-
-                bool loginFlag = result[0].UserPwd == PasswordBox.Password;
-            
-                if (loginFlag)
+                if (result[0].UserPwd == PasswordBox.Password)
                 {
                     MessageBox.Show($"登录成功，欢迎 {userName}");
-                    ViewManage.ChangeView(this, new DashBoardView(true, userName));
+                    ViewManage.ChangeView(this, new DashBoardView(userName, userType));
                 }
                 else
                 {
@@ -83,5 +60,6 @@ namespace MyApp.SHIS.View.Window
         {
             ViewManage.ChangeView(this, new DashBoardView());
         }
+        
     }
 }
