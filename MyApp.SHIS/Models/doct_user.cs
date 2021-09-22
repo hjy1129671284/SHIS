@@ -24,14 +24,14 @@ namespace Models
            public int DoctID {get;set;}
 
            /// <summary>
-           /// Desc:用户名
+           /// Desc:
            /// Default:
            /// Nullable:False
            /// </summary>           
            public string UserName {get;set;}
 
            /// <summary>
-           /// Desc:医生姓名
+           /// Desc:
            /// Default:
            /// Nullable:False
            /// </summary>           

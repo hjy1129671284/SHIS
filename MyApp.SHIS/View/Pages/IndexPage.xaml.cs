@@ -25,8 +25,7 @@ namespace MyApp.SHIS.View.Pages
         {
             
             UserService _iuserService = new UserService(new UserRepository());
-            var result = await _iuserService.QueryAsync();
-            DataGrid.ItemsSource = result;
+            DataGrid.ItemsSource = await _iuserService.QueryAsync();
             
         }
     }

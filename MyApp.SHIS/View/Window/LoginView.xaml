@@ -47,7 +47,10 @@
         </Border>
 
 
-        <Grid Height="200" Width="400" Margin="46,73,46,46">
+        <Grid
+            Height="200"
+            Margin="46,73,46,46"
+            Width="400">
             <Rectangle
                 Fill="#FFF4F4F5"
                 Height="180"
@@ -122,14 +125,13 @@
                 Width="25" />
         </Button>
         <ListBox
-            Margin="81,202,80,74"
+            Margin="115,200,110,74"
             Name="ListBox"
             Style="{StaticResource MaterialDesignChoiceChipAccentOutlineListBox}">
             <ListBoxItem Content="普通用户" IsSelected="True" />
-            <ListBoxItem Content="病人" />
-            <ListBoxItem Content="医生" />
-            <ListBoxItem Content="挂号员" />
-            <ListBoxItem Content="收费员" />
+            <ListBoxItem Content="患者" />
+            <ListBoxItem Content="职工" />
+            <ListBoxItem Content="管理员" />
         </ListBox>
         <Button
             Click="button1_Click"

@@ -187,25 +187,39 @@
     <Compile Include="Models\doct_user.cs" />
     <Compile Include="Models\norm_user.cs" />
     <Compile Include="Models\pati_user.cs" />
-    <Compile Include="Models\rgst_user.cs" />
-    <Compile Include="Models\toll_user.cs" />
+    <Compile Include="Models\staff_user.cs" />
     <Compile Include="Models\user.cs" />
     <Compile Include="Repository\IRepository\IBaseRepository.cs" />
+    <Compile Include="Repository\IRepository\IDoctUserRepository.cs" />
     <Compile Include="Repository\IRepository\INormUserRepository.cs" />
+    <Compile Include="Repository\IRepository\IPatiUserRepository.cs" />
+    <Compile Include="Repository\IRepository\IStaffUserRepository.cs" />
     <Compile Include="Repository\IRepository\IUserRepository.cs" />
     <Compile Include="Repository\Repository\BaseRepository.cs" />
+    <Compile Include="Repository\Repository\DoctUserRepository.cs" />
     <Compile Include="Repository\Repository\NormUserRepository.cs" />
+    <Compile Include="Repository\Repository\PatiUserRepository.cs" />
+    <Compile Include="Repository\Repository\StaffUserRepository.cs" />
     <Compile Include="Repository\Repository\UserRepository.cs" />
     <Compile Include="Services\IServices\IBaseService.cs" />
+    <Compile Include="Services\IServices\IDoctUserService.cs" />
     <Compile Include="Services\IServices\INromUserService.cs" />
+    <Compile Include="Services\IServices\IPatiUserService.cs" />
+    <Compile Include="Services\IServices\IStaffUserService.cs" />
     <Compile Include="Services\IServices\IUserService.cs" />
     <Compile Include="Services\Services\BaseService.cs" />
+    <Compile Include="Services\Services\DoctUserService.cs" />
     <Compile Include="Services\Services\NormUserService.cs" />
+    <Compile Include="Services\Services\PatiUserService.cs" />
+    <Compile Include="Services\Services\StaffUserService.cs" />
     <Compile Include="Services\Services\UserService.cs" />
     <Compile Include="ViewModel\ItemMenu.cs" />
     <Compile Include="ViewModel\SubItem.cs" />
     <Compile Include="View\Pages\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\CheckUserPage.xaml.cs">
+      <DependentUpon>CheckUserPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\IndexPage.xaml.cs">
       <DependentUpon>IndexPage.xaml</DependentUpon>
@@ -261,6 +275,7 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\Pages\BlankPage.xaml" />
+    <Page Include="View\Pages\CheckUserPage.xaml" />
     <Page Include="View\Pages\IndexPage.xaml" />
     <Page Include="View\Pages\MyAccountPage.xaml" />
     <Page Include="View\Pages\SettingPage.xaml" />

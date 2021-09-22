@@ -1,0 +1,58 @@
+﻿<Page
+    Height="450"
+    Title="CheckUserPage"
+    Width="800"
+    mc:Ignorable="d"
+    x:Class="MyApp.SHIS.View.Pages.CheckUserPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyApp.SHIS.View.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <StackPanel Margin="20,40">
+            <WrapPanel Margin="50,0">
+                <Button
+                    Click="AllUserButton_OnClick"
+                    Content="所有用户"
+                    Width="200" />
+                <Button
+                    Click="NormUserButton_OnClick"
+                    Content="普通用户"
+                    Width="200" />
+                <Button
+                    Click="StaffUserButton_OnClick"
+                    Content="职工"
+                    Width="200" />
+            </WrapPanel>
+            <WrapPanel Margin="50,0">
+                <Button
+                    Click="PatiUserButton_OnClick"
+                    Content="病人"
+                    Width="100" />
+                <Button
+                    Click="DoctUserButton_OnClick"
+                    Content="医生"
+                    Width="100" />
+                <Button
+                    Click="PhstUserButton_OnClick"
+                    Content="药师"
+                    Width="100" />
+                <Button
+                    Click="RgstUserButton_OnClick"
+                    Content="挂号员"
+                    Width="100" />
+                <Button
+                    Click="TollUserButton_OnClick"
+                    Content="收费员"
+                    Width="100" />
+                <Button
+                    Click="NurseUserButton_OnClick"
+                    Content="护士"
+                    Width="100" />
+            </WrapPanel>
+            <DataGrid Margin="50" Name="DataGrid" />
+        </StackPanel>
+    </Grid>
+</Page>
+

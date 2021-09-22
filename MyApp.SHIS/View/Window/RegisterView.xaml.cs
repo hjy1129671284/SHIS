@@ -46,7 +46,7 @@ namespace MyApp.SHIS.View.Window
                 if (pwd1 == pwd2)
                 {
                     // 插入数据
-                    await userService.CreateAsync(new user() { UserName = userName, UserPwd = pwd1, UserType = "1"});
+                    await userService.CreateAsync(new user() { UserName = userName, UserPwd = pwd1, UserType = 1});
                     await normUserService.CreateAsync(new norm_user() {UserName = userName});
                     MessageBox.Show("注册成功");
                 }

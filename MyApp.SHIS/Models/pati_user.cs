@@ -20,7 +20,7 @@ namespace Models
            /// Default:
            /// Nullable:False
            /// </summary>           
-           [SugarColumn(IsPrimaryKey=true)]
+           [SugarColumn(IsPrimaryKey=true,IsIdentity=true)]
            public int PatiID {get;set;}
 
            /// <summary>

@@ -6,7 +6,7 @@ using SqlSugar;
 
 namespace MyApp.SHIS.Services.IServices
 {
-    public interface IBaseServices<TEntity> where TEntity : class, new()
+    public interface IBaseServices<TEntity>
     {
         Task<bool> CreateAsync(TEntity entity);
         Task<bool> DeleteAsync(int id);
