@@ -1,12 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
+using Models;
 using MyApp.SHIS.Commom;
+using MyApp.SHIS.Repository.Repository;
+using MyApp.SHIS.Services.Services;
 using MyApp.SHIS.View.Pages;
 using MyApp.SHIS.ViewModel;
-using SqlSugar.Extensions;
+using Newtonsoft.Json;
 using SqlSugar.IOC;
 
 namespace MyApp.SHIS.View.Window
@@ -18,24 +24,37 @@ namespace MyApp.SHIS.View.Window
         // 未登录窗口
         public DashBoardView()
         {
+            // 读取 AppSetting.json 
+            StreamReader streamReader = new StreamReader("AppSetting.json");
+            string jsonString = streamReader.ReadToEnd();
+            AppSetting m = JsonConvert.DeserializeObject<AppSetting>(jsonString);
+            
             // SqlSugar.IOC 注入
-            SugarIocServices.AddSqlSugar(new IocConfig()
+            if (m != null)
+                SugarIocServices.AddSqlSugar(new IocConfig()
+                {
+                    ConnectionString = m.ConnectionString,
+                    DbType = IocDbType.MySql,
+                    IsAutoCloseConnection = true //自动释放
+                });
+            else
             {
-                ConnectionString = "server=localhost;port=3306;uid=root;pwd=hjyhjyhjy;database=his",
-                DbType = IocDbType.MySql,
-                IsAutoCloseConnection = true//自动释放
-            }); 
+                MessageBox.Show("请在AppSetting.json文件中确认ConnectionString是否正确");
+            }
             InitializeComponent();
             GenerateNoLoginMenu();
-
-            // 生成实体
-            // DbScoped.Sugar.DbFirst.IsCreateAttribute().CreateClassFile("D:\\C Sharp\\demo\\SHIS\\MyApp.SHIS\\Models", "Models");
+            SettingButton.Visibility = Visibility.Collapsed;
+            // 创建数据库、表、项
+            // SqlSugarCreate();
         }
+
+
         
         // 登录后窗口
         public DashBoardView(string username, int userType)
         {
             InitializeComponent();
+            
             
             UserNameButton.Content = "退出登录";
             switch (userType)
@@ -50,6 +69,35 @@ namespace MyApp.SHIS.View.Window
                 case 7: UserNameTextBlock.Text = "护士 "+username; GenerateNurseMenu(); break;
             }
         }
+
+        #region 初始化数据库
+        public async void SqlSugarCreate()
+        {
+            // 创建数据库
+            DbScoped.Sugar.DbMaintenance.CreateDatabase();
+            // 创建表
+            DbScoped.Sugar.CodeFirst.SetStringDefaultLength(200).InitTables
+            (
+                typeof(user),
+                typeof(norm_user),
+                typeof(pati_user),
+                typeof(staff_user),
+                typeof(doct_user)
+            );
+            // 生成管理员帐号
+            UserService userService = new UserService(new UserRepository());
+            await userService.CreateAsync(new user()
+            {
+                UserID = 1,
+                UserName = "root",
+                UserPwd = "123456",
+                UserType = 0
+            });
+            // 生成实体
+            // DbScoped.Sugar.DbFirst.IsCreateAttribute().CreateClassFile("D:\\C Sharp\\demo\\SHIS\\MyApp.SHIS\\Models", "Models");
+        }
+        #endregion
+        
 
         internal void SwitchPages(object sender)
         {
@@ -82,6 +130,16 @@ namespace MyApp.SHIS.View.Window
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
         }
         
+        private void ScrollViewer_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+            {
+                RoutedEvent = UIElement.MouseWheelEvent,
+                Source = sender
+            };
+            ScrollViewer.RaiseEvent(eventArg);
+        }
+        
         private void GridTitle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
@@ -105,7 +163,7 @@ namespace MyApp.SHIS.View.Window
             var menuAuth = new List<SubItem>
             {
                 new SubItem("所有用户", new CheckUserPage()),
-                new SubItem("权限改动"),
+                new SubItem("权限改动", new AuthChangePage()),
                 new SubItem("申请审核")
             };
             var item2 = new ItemMenu("用户权限管理", menuAuth, PackIconKind.ShoppingBasket);
@@ -296,5 +354,7 @@ namespace MyApp.SHIS.View.Window
             Menu.Children.Add(new UserControlMenuItem(item2, this));
         }
         #endregion
+
+        
     }
 }

@@ -39,16 +39,30 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1200" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <Storyboard x:Key="MenuOpen3">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScrollViewer" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="600" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="480" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="MenuClose3">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScrollViewer" Storyboard.TargetProperty="(FrameworkElement.Height)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="480" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="600" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </Window.Resources>
 
     <Window.Triggers>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
             <BeginStoryboard Storyboard="{StaticResource MenuOpen1}" />
             <BeginStoryboard Storyboard="{StaticResource MenuOpen2}" />
+            <BeginStoryboard Storyboard="{StaticResource MenuOpen3}" />
         </EventTrigger>
         <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
             <BeginStoryboard Storyboard="{StaticResource MenuClose1}" />
             <BeginStoryboard Storyboard="{StaticResource MenuClose2}" />
+            <BeginStoryboard Storyboard="{StaticResource MenuClose3}" />
         </EventTrigger>
     </Window.Triggers>
 
@@ -58,7 +72,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="200" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <materialDesign:ColorZone
@@ -75,6 +89,7 @@
                 <TextBlock
                     FontSize="22"
                     HorizontalAlignment="Center"
+                    Name="TitleText"
                     Text="Dash Board"
                     VerticalAlignment="Center" />
                 <StackPanel
@@ -96,7 +111,10 @@
                                 Click="UserNameButton_OnClick"
                                 Content="账号登录"
                                 Name="UserNameButton" />
-                            <Button Click="ButtonBase_OnClick" Content="设置" />
+                            <Button
+                                Click="ButtonBase_OnClick"
+                                Content="设置"
+                                Name="SettingButton" />
                             <Button Content="帮助" />
                             <Separator />
                             <Button
@@ -151,8 +169,8 @@
                 </Grid>
                 <Grid Background="{StaticResource PrimaryHueMidBrush}" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="70" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid Background="GhostWhite" Grid.Row="0">
                         <Image Source="../小水人.jpg" />
@@ -160,9 +178,12 @@
                     <ScrollViewer
                         Background="#FF1B3861"
                         Grid.Row="1"
+                        Height="600"
                         HorizontalAlignment="Stretch"
                         HorizontalScrollBarVisibility="Disabled"
-                        VerticalScrollBarVisibility="Disabled">
+                        Name="ScrollViewer"
+                        PreviewMouseWheel="ScrollViewer_OnPreviewMouseWheel"
+                        VerticalScrollBarVisibility="Hidden">
                         <StackPanel Margin="0,0,-10,0" x:Name="Menu" />
                     </ScrollViewer>
                 </Grid>
@@ -170,16 +191,17 @@
 
         </Grid>
         <Grid
+            Grid.Column="0"
             Grid.ColumnSpan="2"
             Grid.Row="0"
+            Grid.RowSpan="2"
             Height="660"
             HorizontalAlignment="Right"
-            Margin="0,60,0,0"
+            Margin="0,65,0,0"
             Name="GridContent"
             VerticalAlignment="Top"
             Width="1220">
             <Viewbox HorizontalAlignment="Right">
-                <Viewbox.Margin>20</Viewbox.Margin>
                 <ContentControl Name="ContentControl" />
             </Viewbox>
         </Grid>

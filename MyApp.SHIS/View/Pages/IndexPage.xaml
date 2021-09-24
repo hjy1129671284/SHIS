@@ -10,20 +10,30 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-        <StackPanel>
-            <TextBlock FontSize="30" Text="Hello" />
-            <WrapPanel>
-                <TextBox
-                    HorizontalAlignment="Left"
-                    Name="TextBox"
-                    Width="600" />
-                <Button
-                    Click="ButtonBase_OnClick"
-                    Content="查询"
-                    Width="90" />
+        <StackPanel Margin="10">
+            <TextBlock
+                FontSize="30"
+                HorizontalAlignment="Center"
+                Margin="10"
+                Text="欢迎访问医院" />
+            <WrapPanel HorizontalAlignment="Right" Margin="10">
+                <TextBlock FontSize="30" Text="当前时间:" />
+                <TextBlock Name="TimeTextBolck" />
             </WrapPanel>
 
-            <DataGrid Name="DataGrid" />
+            <WrapPanel Margin="10">
+                <TextBlock
+                    FontSize="30"
+                    HorizontalAlignment="Left"
+                    Text="当前挂号排队人数:" />
+                <TextBlock FontSize="40" Text="______" />
+                <TextBlock FontSize="30" Text="人" />
+            </WrapPanel>
+
+            <TextBlock
+                FontSize="20"
+                HorizontalAlignment="Center"
+                Text="最近新闻" />
         </StackPanel>
     </Grid>
 </Page>

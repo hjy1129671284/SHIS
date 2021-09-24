@@ -62,6 +62,7 @@
                 Width="360" />
             <StackPanel Margin="0,35,0,-5" Name="StackPanel">
                 <TextBox
+                    KeyDown="UIElement_OnKeyDown"
                     Width="250"
                     materialDesign:HintAssist.HelperText="请输入您的用户名"
                     materialDesign:HintAssist.Hint="UserName"
@@ -72,6 +73,7 @@
                 </TextBox>
                 <Rectangle Height="25" />
                 <PasswordBox
+                    KeyDown="UIElement_OnKeyDown"
                     Width="250"
                     materialDesign:HintAssist.HelperText="请输入您的密码"
                     materialDesign:HintAssist.Hint="PassWord"

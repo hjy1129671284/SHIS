@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -27,6 +28,17 @@ namespace MyApp.SHIS.View.Window
             
             LoginAdjust(userName, userType);
             
+        }
+        
+        private void UIElement_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                string userName = NameTextBox.Text;
+                string userType = ((ListBoxItem)ListBox.SelectedItem).Content.ToString();
+            
+                LoginAdjust(userName, userType);
+            }
         }
         
         private void TextBox1_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -117,5 +129,6 @@ namespace MyApp.SHIS.View.Window
         }
         #endregion
 
+        
     }
 }

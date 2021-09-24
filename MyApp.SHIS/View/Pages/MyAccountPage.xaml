@@ -10,6 +10,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-        <TextBlock Text="hello" />
+        <ScrollViewer Margin="10">
+            <StackPanel Margin="10">
+                <GroupBox Background="White">
+                    <GroupBox.Header>
+                        <TextBlock FontSize="16" Text="我的信息" />
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <WrapPanel Margin="10">
+                            <TextBlock
+                                FontSize="15"
+                                Text="用户名"
+                                VerticalAlignment="Center"
+                                Width="50" />
+                            <TextBox Name="UserNameTextBox" Width="100" />
+                            <Button Content="确认修改" Margin="10,0" />
+
+                        </WrapPanel>
+                    </StackPanel>
+
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
