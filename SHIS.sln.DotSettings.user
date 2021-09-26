@@ -16,6 +16,7 @@
   &lt;PhysicalFolder Path="C:\Users\HP\.nuget\packages\microsoft.extensions.configuration\5.0.0" Loaded="True" /&gt;&#xD;
   &lt;PhysicalFolder Path="D:\C Sharp\demo\SHIS\packages\Microsoft.Extensions.Configuration.5.0.0" Loaded="True" /&gt;&#xD;
   &lt;Assembly Path="D:\C Sharp\demo\SHIS\packages\Microsoft.Extensions.Configuration.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.Configuration.Abstractions.dll" /&gt;&#xD;
+  &lt;Assembly Path="D:\C Sharp\demo\SHIS\packages\MaterialDesignThemes.4.1.0\lib\net452\MaterialDesignThemes.Wpf.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MyApp_002ESHIS_002FProperties_002FResources/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean>

@@ -98,8 +98,11 @@
                     VerticalAlignment="Center">
                     <TextBlock
                         FontSize="18"
+                        Name="UserTypeTextBlock"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        FontSize="18"
                         Name="UserNameTextBlock"
-                        Text=""
                         VerticalAlignment="Center" />
                     <materialDesign:PopupBox
                         Foreground="White"

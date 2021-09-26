@@ -18,7 +18,7 @@
             Content="{Binding Path=Header}"
             FontSize="15"
             Foreground="White"
-            HorizontalContentAlignment="Center"
+            HorizontalContentAlignment="Left"
             Padding="37,14"
             VerticalContentAlignment="Center"
             x:Name="ListViewItemMenu" />
@@ -29,7 +29,7 @@
             HorizontalAlignment="Right"
             IsExpanded="False"
             Margin="0,0,-13,0"
-            Width="160"
+            Width="210"
             x:Name="ExpanderMenu">
             <ListView
                 Foreground="White"

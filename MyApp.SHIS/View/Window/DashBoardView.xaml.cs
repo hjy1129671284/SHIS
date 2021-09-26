@@ -57,17 +57,20 @@ namespace MyApp.SHIS.View.Window
             
             
             UserNameButton.Content = "退出登录";
+            UserNameTextBlock.Text = username;
             switch (userType)
             {
-                case 0: UserNameTextBlock.Text = "管理员 "+username; GenerateAdminMenu(); break;
-                case 1: UserNameTextBlock.Text = "用户 "+username; GenerateNormMenu(); break;
-                case 2: UserNameTextBlock.Text = "患者 "+username; GeneratePatiMenu(); break;
-                case 3: UserNameTextBlock.Text = "医生 "+username; GenerateDoctMenu(); break;
-                case 4: UserNameTextBlock.Text = "药师 "+username; GeneratePhstMenu(); break;
-                case 5: UserNameTextBlock.Text = "挂号员 "+username; GenerateRgstMenu(); break;
-                case 6: UserNameTextBlock.Text = "收费员 "+username; GenerateTollMenu(); break;
-                case 7: UserNameTextBlock.Text = "护士 "+username; GenerateNurseMenu(); break;
+                case 0: UserTypeTextBlock.Text = "管理员 "; GenerateAdminMenu(); break;
+                case 1: UserTypeTextBlock.Text = "用户 "; GenerateNormMenu(); break;
+                case 2: UserTypeTextBlock.Text = "患者 "; GeneratePatiMenu(); break;
+                case 3: UserTypeTextBlock.Text = "医生 "; GenerateDoctMenu(); break;
+                case 4: UserTypeTextBlock.Text = "药师 "; GeneratePhstMenu(); break;
+                case 5: UserTypeTextBlock.Text = "挂号员 "; GenerateRgstMenu(); break;
+                case 6: UserTypeTextBlock.Text = "收费员 "; GenerateTollMenu(); break;
+                case 7: UserTypeTextBlock.Text = "护士 "; GenerateNurseMenu(); break;
             }
+
+            
         }
 
         #region 初始化数据库
@@ -202,9 +205,9 @@ namespace MyApp.SHIS.View.Window
             
             var menuRegister = new List<SubItem>
             {
-                new SubItem("我的账号", new MyAccountPage()),
-                new SubItem("实名认证", new MyAccountPage()),
-                new SubItem("我的病历", new MyAccountPage()),
+                new SubItem("我的账号", new MyAccountPage(UserNameTextBlock.Text)),
+                new SubItem("实名认证"),
+                new SubItem("我的病历")
             };
             var item1 = new ItemMenu("我的", menuRegister, PackIconKind.Register);
 
@@ -249,10 +252,10 @@ namespace MyApp.SHIS.View.Window
             
             var menuRegister = new List<SubItem>
             {
-                new SubItem("我的账号", new MyAccountPage()),
-                new SubItem("实名认证", new MyAccountPage()),
-                new SubItem("我的病历", new MyAccountPage()),
-                new SubItem("复诊信息", new MyAccountPage())
+                new SubItem("我的账号", new MyAccountPage(UserNameTextBlock.Text)),
+                new SubItem("实名认证"),
+                new SubItem("我的病历"),
+                new SubItem("复诊信息")
             };
             var item1 = new ItemMenu("我的", menuRegister, PackIconKind.Register);
 

@@ -347,9 +347,6 @@
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\UserControlMenuItem.xaml.cs" />
-    <Compile Include="View\UserControls\UserImformationControl.xaml.cs">
-      <DependentUpon>UserImformationControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Window\DashBoardView.xaml.cs">
       <DependentUpon>DashBoardView.xaml</DependentUpon>
     </Compile>
@@ -398,7 +395,6 @@
     <Page Include="View\Pages\MyAccountPage.xaml" />
     <Page Include="View\Pages\SettingPage.xaml" />
     <Page Include="View\UserControls\UserControlMenuItem.xaml" />
-    <Page Include="View\UserControls\UserImformationControl.xaml" />
     <Page Include="View\Window\DashBoardView.xaml" />
     <Page Include="View\Window\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>

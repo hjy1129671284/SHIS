@@ -2,7 +2,7 @@
 
 namespace MyApp.SHIS.Commom
 {
-    public class ViewManage
+    public static class ViewManage
     {
         public static void ChangeView(Window sourceWindow, Window targetWindow)
         {
