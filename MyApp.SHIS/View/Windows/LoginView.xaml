@@ -1,0 +1,147 @@
+﻿<Window
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    Height="350"
+    TextElement.FontSize="13"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    Title="登录"
+    Width="500"
+    mc:Ignorable="d"
+    x:Class="MyApp.SHIS.View.Windows.LoginView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyApp.SHIS.View.Windows"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+
+        <Rectangle Height="235" VerticalAlignment="Top">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1" />
+                    <GradientStop Color="#FF79A1BD" />
+                    <GradientStop Color="#FF222281" Offset="0.993" />
+                    <GradientStop Color="#FF5877A4" Offset="0.457" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Border
+            BorderBrush="Black"
+            BorderThickness="1"
+            CornerRadius="10"
+            Height="75"
+            HorizontalAlignment="Left"
+            Margin="208,10,0,0"
+            VerticalAlignment="Top"
+            Width="75">
+            <Image
+                Margin="-1,-1,1,1"
+                RenderTransformOrigin="0.377,0.541"
+                Source="../小水人.jpg" />
+
+
+        </Border>
+
+
+        <Grid
+            Height="200"
+            Margin="46,73,46,46"
+            Width="400">
+            <Rectangle
+                Fill="#FFF4F4F5"
+                Height="180"
+                HorizontalAlignment="Left"
+                Margin="20,11,0,9"
+                RadiusX="10"
+                RadiusY="10"
+                Stroke="Black"
+                Width="360" />
+            <StackPanel Margin="0,35,0,-5" Name="StackPanel">
+                <TextBox
+                    KeyDown="UIElement_OnKeyDown"
+                    Width="250"
+                    materialDesign:HintAssist.HelperText="请输入您的用户名"
+                    materialDesign:HintAssist.Hint="UserName"
+                    x:Name="NameTextBox">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" />
+                    </TextBox.Text>
+                </TextBox>
+                <Rectangle Height="25" />
+                <PasswordBox
+                    KeyDown="UIElement_OnKeyDown"
+                    Width="250"
+                    materialDesign:HintAssist.HelperText="请输入您的密码"
+                    materialDesign:HintAssist.Hint="PassWord"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    x:Name="PasswordBox" />
+                <Rectangle Height="20" />
+
+            </StackPanel>
+        </Grid>
+        <TextBlock
+            Cursor="Hand"
+            Height="23"
+            HorizontalAlignment="Left"
+            Margin="100,280,0,0"
+            MouseLeftButtonDown="TextBox1_OnMouseLeftButtonDown"
+            Text="账号注册"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            Width="65" />
+        <TextBlock
+            Height="23"
+            HorizontalAlignment="Left"
+            Margin="335,280,0,0"
+            MouseLeftButtonDown="TextBox2_OnMouseLeftButtonDown"
+            Text="忘记密码"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            Width="65" />
+        <TextBlock
+            Height="23"
+            HorizontalAlignment="Left"
+            Margin="231,90,0,0"
+            Text="医院"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            Width="32" />
+
+        <Button
+            Background="{x:Null}"
+            BorderBrush="{x:Null}"
+            Click="BackToDashBoardButton_Click"
+            HorizontalAlignment="Right"
+            Margin="-23,0,428,0"
+            ToolTip="返回仪表盘"
+            VerticalAlignment="Top"
+            Width="89">
+            <materialDesign:PackIcon
+                Foreground="White"
+                Height="25"
+                Kind="ArrowLeft"
+                Width="25" />
+        </Button>
+        <ListBox
+            Margin="115,200,110,74"
+            Name="ListBox"
+            Style="{StaticResource MaterialDesignChoiceChipAccentOutlineListBox}">
+            <ListBoxItem Content="普通用户" IsSelected="True" />
+            <ListBoxItem Content="患者" />
+            <ListBoxItem Content="职工" />
+            <ListBoxItem Content="管理员" />
+        </ListBox>
+        <Button
+            Click="button1_Click"
+            Content="登录"
+            HorizontalAlignment="Left"
+            IsCancel="True"
+            Margin="208,245,0,0"
+            VerticalAlignment="Top"
+            Width="75" />
+    </Grid>
+</Window>

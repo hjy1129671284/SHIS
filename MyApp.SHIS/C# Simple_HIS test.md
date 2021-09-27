@@ -30,7 +30,7 @@
 | 08   | UserAuthName    | 用户姓名       | nvarchar | 50   |            |                                                              |        |
 | 09   | SexID           | 性别编码       | int      | 1    |            | 0/ 1 / 2                                                     | 0      |
 | 10   | SexName         | 性别名称       | nvarchar | 10   |            | NULL(0)/男(1) /女(2)                                         | NULL   |
-| 11   | BirthDate       | 出生日期       | datetime |      |            | YYYY-MM-DD HH:MM:SS                                          | NULL   |
+| 11   | BirthDate       | 出生日期       | datetime |      |            | YYYY-MM-DD                                                   | NULL   |
 | 12   | MobileNum       | 手机号码       | string   | 15   |            |                                                              | NULL   |
 | 13   | PersonEmail     | 用户Email      | nvarchar | 50   |            |                                                              | NULL   |
 | 14   | OccupationID    | 职业编码       | int      | 6    |            | 查看[职业编码国标]([职业编码国标 - 百度文库 (baidu.com)](https://wenku.baidu.com/view/411f46530975f46526d3e14f.html)) | NULL   |
@@ -217,4 +217,18 @@
 在 **MainWindow** 中
 
 输入 (用户名  ----  密码)、选择登陆的用户权限 进行帐号登录。若帐号不在数据库中，则提示"帐号不存在，是否前往**注册帐号**"；若帐号存在数据库中，密码错误，则提示"密码错误，是否**忘记密码**"；若帐号存在数据库中且与其密码对应，则提示"登陆成功，欢迎 \$UserName\$ "。其中，普通用户权限可以由所有用户登录，病人权限可以由除了普通用户之外的用户登录，其余权限均只能由各自对应的用户登录
+
+
+
+
+
+
+
+# TODO
+
+- [ ] 我的账号页面(MyAccountPage)  	IDCardButton_OnClick 方法  写一个 证件号验证是否填写正确的判断代码
+- [ ] 实名认证页面(IDAutherView) 制作
+- [ ] 我的账号页面(MyAccountPage)  户籍地修改、 国籍修改 、 籍贯地、 邮编  编码太多，没想好办法
+- [ ] 仪表盘(DashBoardView) 左侧控件选择多个的聚焦优化
+- [ ] 准备切换成MVVM架构
 

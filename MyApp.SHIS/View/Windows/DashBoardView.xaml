@@ -7,10 +7,10 @@
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d"
-    x:Class="MyApp.SHIS.View.Window.DashBoardView"
+    x:Class="MyApp.SHIS.View.Windows.DashBoardView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:MyApp.SHIS"
+    xmlns:local="clr-namespace:MyApp.SHIS.View.Windows"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -89,7 +89,6 @@
                 <TextBlock
                     FontSize="22"
                     HorizontalAlignment="Center"
-                    Name="TitleText"
                     Text="Dash Board"
                     VerticalAlignment="Center" />
                 <StackPanel
@@ -98,11 +97,11 @@
                     VerticalAlignment="Center">
                     <TextBlock
                         FontSize="18"
-                        Name="UserTypeTextBlock"
+                        Text="{Binding UserType}"
                         VerticalAlignment="Center" />
                     <TextBlock
                         FontSize="18"
-                        Name="UserNameTextBlock"
+                        Text="{Binding UserName}"
                         VerticalAlignment="Center" />
                     <materialDesign:PopupBox
                         Foreground="White"
@@ -110,14 +109,11 @@
                         PlacementMode="BottomAndAlignRightEdges"
                         StaysOpen="False">
                         <StackPanel Width="150">
+                            <Button Click="UserNameButton_OnClick" Content="{Binding UserLoginButtonContent}" />
                             <Button
-                                Click="UserNameButton_OnClick"
-                                Content="账号登录"
-                                Name="UserNameButton" />
-                            <Button
-                                Click="ButtonBase_OnClick"
+                                Click="SettingButton_OnClick"
                                 Content="设置"
-                                Name="SettingButton" />
+                                Visibility="{Binding SettingButtonVisibility}" />
                             <Button Content="帮助" />
                             <Separator />
                             <Button
@@ -145,7 +141,7 @@
                         Height="60"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
-                        Visibility="Collapsed"
+                        Visibility="{Binding ButtonCloseMenuVisibility}"
                         Width="60"
                         x:Name="ButtonCloseMenu">
                         <materialDesign:PackIcon
@@ -161,6 +157,7 @@
                         Height="60"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
+                        Visibility="{Binding ButtonOpenMenuVisibility}"
                         Width="60"
                         x:Name="ButtonOpenMenu">
                         <materialDesign:PackIcon

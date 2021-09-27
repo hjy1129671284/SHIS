@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
+using GalaSoft.MvvmLight.Messaging;
 using MaterialDesignThemes.Wpf;
 using Models;
 using MyApp.SHIS.Commom;
@@ -12,14 +12,17 @@ using MyApp.SHIS.Repository.Repository;
 using MyApp.SHIS.Services.Services;
 using MyApp.SHIS.View.Pages;
 using MyApp.SHIS.ViewModel;
+using MyApp.SHIS.ViewModel.UserControlsViewModels;
+using MyApp.SHIS.ViewModel.WindowsViewModels;
 using Newtonsoft.Json;
 using SqlSugar.IOC;
 
-namespace MyApp.SHIS.View.Window
+namespace MyApp.SHIS.View.Windows
 {
     public partial class DashBoardView
     {
         public string UserName { get; set; }
+        private readonly DashBoardViewModel _dashBoardViewModel = new DashBoardViewModel();
         
         // 未登录窗口
         public DashBoardView()
@@ -33,7 +36,7 @@ namespace MyApp.SHIS.View.Window
             if (m != null)
                 SugarIocServices.AddSqlSugar(new IocConfig()
                 {
-                    ConnectionString = m.ConnectionString,
+                    ConnectionString = m.ConnectionString, // 格式 server=localhost;Database=SqlSugar4xTest;Uid=root;Pwd=haosql;
                     DbType = IocDbType.MySql,
                     IsAutoCloseConnection = true //自动释放
                 });
@@ -41,9 +44,14 @@ namespace MyApp.SHIS.View.Window
             {
                 MessageBox.Show("请在AppSetting.json文件中确认ConnectionString是否正确");
             }
+            this.DataContext = _dashBoardViewModel;
+            
+            _dashBoardViewModel.UserLoginButtonContent = "账号登录";
+            _dashBoardViewModel.SettingButtonVisibility = Visibility.Collapsed;
+            _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
             InitializeComponent();
             GenerateNoLoginMenu();
-            SettingButton.Visibility = Visibility.Collapsed;
+            
             // 创建数据库、表、项
             // SqlSugarCreate();
         }
@@ -54,25 +62,28 @@ namespace MyApp.SHIS.View.Window
         public DashBoardView(string username, int userType)
         {
             InitializeComponent();
+            this.DataContext = _dashBoardViewModel;
             
-            
-            UserNameButton.Content = "退出登录";
-            UserNameTextBlock.Text = username;
-            switch (userType)
-            {
-                case 0: UserTypeTextBlock.Text = "管理员 "; GenerateAdminMenu(); break;
-                case 1: UserTypeTextBlock.Text = "用户 "; GenerateNormMenu(); break;
-                case 2: UserTypeTextBlock.Text = "患者 "; GeneratePatiMenu(); break;
-                case 3: UserTypeTextBlock.Text = "医生 "; GenerateDoctMenu(); break;
-                case 4: UserTypeTextBlock.Text = "药师 "; GeneratePhstMenu(); break;
-                case 5: UserTypeTextBlock.Text = "挂号员 "; GenerateRgstMenu(); break;
-                case 6: UserTypeTextBlock.Text = "收费员 "; GenerateTollMenu(); break;
-                case 7: UserTypeTextBlock.Text = "护士 "; GenerateNurseMenu(); break;
-            }
+            _dashBoardViewModel.UserLoginButtonContent = "退出登录";
+            _dashBoardViewModel.UserName = username;
+            _dashBoardViewModel.SettingButtonVisibility = Visibility.Visible;
+            _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
+            _dashBoardViewModel.UserType = userType.ToString();
 
+            switch (_dashBoardViewModel.UserType)
+            {
+                case "管理员 ": GenerateAdminMenu(); break;
+                case "用户 ": GenerateNormMenu(); break;
+                case "患者 ": GeneratePatiMenu(); break;
+                case "医生 ": GenerateDoctMenu(); break;
+                case "药师 ": GeneratePhstMenu(); break;
+                case "挂号员 ": GenerateRgstMenu(); break;
+                case "收费员 ": GenerateTollMenu(); break;
+                case "护士 ": GenerateNurseMenu(); break;
+            }
             
         }
-
+        
         #region 初始化数据库
         public async void SqlSugarCreate()
         {
@@ -123,14 +134,14 @@ namespace MyApp.SHIS.View.Window
 
         private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
         {
-            ButtonOpenMenu.Visibility = Visibility.Collapsed;
-            ButtonCloseMenu.Visibility = Visibility.Visible;
+            _dashBoardViewModel.ButtonOpenMenuVisibility = Visibility.Collapsed;
+            _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Visible;
         }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
-            ButtonOpenMenu.Visibility = Visibility.Visible;
-            ButtonCloseMenu.Visibility = Visibility.Collapsed;
+            _dashBoardViewModel.ButtonOpenMenuVisibility = Visibility.Visible;
+            _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
         }
         
         private void ScrollViewer_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -153,11 +164,12 @@ namespace MyApp.SHIS.View.Window
             ViewManage.ChangeView(this, new LoginView());
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void SettingButton_OnClick(object sender, RoutedEventArgs e)
         {
             SwitchPages(new SettingPage());
         }
-        
+
+        #region 生成个人面板
         #region 生成管理员的个人面板
         public void GenerateAdminMenu()
         {
@@ -205,7 +217,7 @@ namespace MyApp.SHIS.View.Window
             
             var menuRegister = new List<SubItem>
             {
-                new SubItem("我的账号", new MyAccountPage(UserNameTextBlock.Text)),
+                new SubItem("我的账号", new MyAccountPage(_dashBoardViewModel.UserName, this)),
                 new SubItem("实名认证"),
                 new SubItem("我的病历")
             };
@@ -252,7 +264,7 @@ namespace MyApp.SHIS.View.Window
             
             var menuRegister = new List<SubItem>
             {
-                new SubItem("我的账号", new MyAccountPage(UserNameTextBlock.Text)),
+                new SubItem("我的账号", new MyAccountPage(_dashBoardViewModel.UserName, this)),
                 new SubItem("实名认证"),
                 new SubItem("我的病历"),
                 new SubItem("复诊信息")
@@ -280,7 +292,9 @@ namespace MyApp.SHIS.View.Window
             {
                 new SubItem("挂号缴费"),
                 new SubItem("药品缴费"),
-                new SubItem("缴费单")
+                new SubItem("缴费单"),
+                new SubItem("退款"),
+                new SubItem("发票打印")
             };
             var item4 = new ItemMenu("缴费", menuPays, PackIconKind.FileReport);
             
@@ -357,6 +371,8 @@ namespace MyApp.SHIS.View.Window
             Menu.Children.Add(new UserControlMenuItem(item2, this));
         }
         #endregion
+        #endregion
+        
 
         
     }

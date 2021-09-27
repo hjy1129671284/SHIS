@@ -37,8 +37,24 @@
     <AllowedReferenceRelatedFileExtensions>.allowedextension</AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0">
+      <HintPath>..\packages\CommonServiceLocator.2.0.6\lib\net48\CommonServiceLocator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Costura, Version=5.6.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\Costura.Fody.5.6.0\lib\netstandard1.0\Costura.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=2.0.3.8, Culture=neutral, PublicKeyToken=df2a72020bd7962a">
@@ -123,14 +139,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59">
-      <HintPath>..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Prism.Wpf, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59">
-      <HintPath>..\packages\Prism.Wpf.8.1.97\lib\net47\Prism.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ShowMeTheXAML, Version=2.0.0.62, Culture=neutral, PublicKeyToken=null">
@@ -273,6 +281,10 @@
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -302,6 +314,7 @@
     <Compile Include="Models\pati_user.cs" />
     <Compile Include="Models\staff_user.cs" />
     <Compile Include="Models\user.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repository\IRepository\IBaseRepository.cs" />
     <Compile Include="Repository\IRepository\IDoctUserRepository.cs" />
     <Compile Include="Repository\IRepository\INormUserRepository.cs" />
@@ -326,8 +339,21 @@
     <Compile Include="Services\Services\PatiUserService.cs" />
     <Compile Include="Services\Services\StaffUserService.cs" />
     <Compile Include="Services\Services\UserService.cs" />
-    <Compile Include="ViewModel\ItemMenu.cs" />
-    <Compile Include="ViewModel\SubItem.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\AuthChangePageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\BlankPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\CheckUserPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\IndexPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\MyAccountPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\SettingPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\VerifiedPageViewModel.cs" />
+    <Compile Include="ViewModel\UserControlsViewModels\UserControlMenuItemViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\DashBoardViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\IDAutherViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\RetrPwdViewModel.cs" />
     <Compile Include="View\Pages\AuthChangePage.xaml.cs">
       <DependentUpon>AuthChangePage.xaml</DependentUpon>
     </Compile>
@@ -346,20 +372,15 @@
     <Compile Include="View\Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Pages\VerifiedPage.xaml.cs">
+      <DependentUpon>VerifiedPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\UserControlMenuItem.xaml.cs" />
-    <Compile Include="View\Window\DashBoardView.xaml.cs">
-      <DependentUpon>DashBoardView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Window\LoginView.xaml.cs">
-      <DependentUpon>LoginView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="View\Window\RegisterView.xaml.cs">
-      <DependentUpon>RegisterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Window\RetrPwdView.xaml.cs">
-      <DependentUpon>RetrPwdView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="View\Windows\DashBoardView.xaml.cs" />
+    <Compile Include="View\Windows\IDAutherView.xaml.cs" />
+    <Compile Include="View\Windows\LoginView.xaml.cs" />
+    <Compile Include="View\Windows\RegisterView.xaml.cs" />
+    <Compile Include="View\Windows\RetrPwdView.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -384,7 +405,7 @@
     <Content Include="C# Simple_HIS test.assets\表数据.png" />
     <Content Include="C# Simple_HIS test.assets\表结构.png" />
     <Content Include="C# Simple_HIS test.md" />
-    <Content Include="View\Window\AppSetting.json" />
+    <Content Include="View\Windows\AppSetting.json" />
     <Resource Include="View\小水人.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -394,14 +415,13 @@
     <Page Include="View\Pages\IndexPage.xaml" />
     <Page Include="View\Pages\MyAccountPage.xaml" />
     <Page Include="View\Pages\SettingPage.xaml" />
+    <Page Include="View\Pages\VerifiedPage.xaml" />
     <Page Include="View\UserControls\UserControlMenuItem.xaml" />
-    <Page Include="View\Window\DashBoardView.xaml" />
-    <Page Include="View\Window\LoginView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Window\RegisterView.xaml" />
-    <Page Include="View\Window\RetrPwdView.xaml" />
+    <Page Include="View\Windows\DashBoardView.xaml" />
+    <Page Include="View\Windows\IDAutherView.xaml" />
+    <Page Include="View\Windows\LoginView.xaml" />
+    <Page Include="View\Windows\RegisterView.xaml" />
+    <Page Include="View\Windows\RetrPwdView.xaml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets')" />

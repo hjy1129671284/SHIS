@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MyApp.SHIS.View.Pages;
-using MyApp.SHIS.View.Window;
+using MyApp.SHIS.View.Windows;
+using MyApp.SHIS.ViewModel.UserControlsViewModels;
 
 namespace MyApp.SHIS.View
 {

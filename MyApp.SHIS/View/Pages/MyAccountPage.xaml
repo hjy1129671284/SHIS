@@ -21,18 +21,18 @@
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="UserNameTextBlock"
-                                Text="用户名"
+                                Name="UserAgeTextBlock"
+                                Text="年龄"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 Margin="10,0"
-                                Name="UserNameTextBox"
+                                Name="UserAgeTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Width="140"
                                 materialDesign:HintAssist.Hint="" />
                             <Button
-                                Click="UserNameButton_OnClick"
+                                Click="UserAgeButton_OnClick"
                                 Content="确认修改"
                                 Width="100" />
                             <Rectangle Width="20" />
@@ -42,12 +42,19 @@
                                 Text="性别"
                                 VerticalAlignment="Center"
                                 Width="60" />
-                            <TextBox
+                            <ComboBox
                                 Margin="10,0"
-                                Name="UserSexTextBox"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                                Name="UserSexTextComboBox"
+                                Style="{StaticResource MaterialDesignFilledComboBox}"
+                                Width="140">
+                                <ComboBoxItem Content="  " />
+                                <ComboBoxItem Content="男" />
+                                <ComboBoxItem Content="女" />
+                            </ComboBox>
+                            <Button
+                                Click="UserSexButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
@@ -56,12 +63,37 @@
                                 Text="证件类型"
                                 VerticalAlignment="Center"
                                 Width="60" />
+                            <ComboBox
+                                Margin="10,0"
+                                Name="IDCardTypeTextComboBox"
+                                Style="{StaticResource MaterialDesignFilledComboBox}"
+                                Width="140">
+                                <ComboBoxItem Content="身份证" />
+                                <ComboBoxItem Content="军人证" />
+                                <ComboBoxItem Content="护照" />
+                                <ComboBoxItem Content="户口本" />
+                                <ComboBoxItem Content="外国人永久居留证" />
+                                <ComboBoxItem Content="武警证" />
+                                <ComboBoxItem Content="公章" />
+                                <ComboBoxItem Content="工商营业执照" />
+                                <ComboBoxItem Content="法人代码证" />
+                                <ComboBoxItem Content="学生证" />
+                                <ComboBoxItem Content="士兵证" />
+                                <ComboBoxItem Content="港澳居民来往内地通行证" />
+                                <ComboBoxItem Content="台湾居民来往大陆通行证" />
+                                <ComboBoxItem Content="其他证件类型" />
+                            </ComboBox>
                             <TextBox
                                 Margin="10,0"
-                                Name="IDCardTypeTextBox"
+                                Name="QTZJLXTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                                Visibility="Collapsed"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="其他证件类型" />
+                            <Button
+                                Click="IDCardTypeButtonBase_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
@@ -74,34 +106,56 @@
                                 Name="IDCardTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                            <Button
+                                Click="IDCardButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
                                 Name="IDAutherTextBlock"
-                                Text="实名认证状态"
+                                Text="实名状态"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
+                                IsEnabled="False"
                                 Margin="10,0"
                                 Name="IDAutherTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="未认证"
                                 Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                            <Button
+                                Click="IDAutherButton_OnClick"
+                                Content="去认证"
+                                Name="IDAutherButton"
+                                Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
                                 Name="IDAutherMethodTextBlock"
-                                Text="实名认证方式"
+                                Text="实名方式"
                                 VerticalAlignment="Center"
                                 Width="60" />
-                            <TextBox
+                            <ComboBox
+                                IsEnabled="False"
                                 Margin="10,0"
-                                Name="IDAutherMethodTextBox"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                                Name="IDAutherMethodComboBox"
+                                Style="{StaticResource MaterialDesignFilledComboBox}"
+                                Width="140">
+                                <ComboBoxItem Content="HIS认证" />
+                                <ComboBoxItem Content="医院挂号网站认证" />
+                                <ComboBoxItem Content="12320认证" />
+                                <ComboBoxItem Content="ICBC认证" />
+                                <ComboBoxItem Content="APP认证" />
+                                <ComboBoxItem Content="卫计委保健局认证" />
+                            </ComboBox>
+                            <Button
+                                Click="IDAutherMethodButton_OnClick"
+                                Content="重新认证"
+                                IsEnabled="False"
+                                Name="IDAutherMethodButton"
+                                Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
@@ -111,11 +165,17 @@
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
+                                IsEnabled="False"
                                 Margin="10,0"
                                 Name="UserAuthNameTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                            <Button
+                                Click="UserAuthNameButton_OnClick"
+                                Content="重新认证"
+                                IsEnabled="False"
+                                Name="UserAuthNameButton"
+                                Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
@@ -123,12 +183,15 @@
                                 Text="出生日期"
                                 VerticalAlignment="Center"
                                 Width="60" />
-                            <TextBox
+                            <DatePicker
                                 Margin="10,0"
-                                Name="BirthDateTextBox"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Name="BirthDatePicker"
+                                Style="{StaticResource MaterialDesignFilledDatePicker}"
                                 Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                            <Button
+                                Click="BirthDateButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
@@ -142,7 +205,10 @@
                                 Name="MobileNumTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                            <Button
+                                Click="MobileNumButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
@@ -155,7 +221,10 @@
                                 Name="PersonEmailTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                            <Button
+                                Click="PersonEmailButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
@@ -164,12 +233,26 @@
                                 Text="职业"
                                 VerticalAlignment="Center"
                                 Width="60" />
-                            <TextBox
+                            <ComboBox
                                 Margin="10,0"
-                                Name="OccupationTextBox"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                                Name="OccupationComboBox"
+                                Style="{StaticResource MaterialDesignFilledComboBox}"
+                                Width="140">
+                                <ComboBoxItem Content="国家机关、党群组织、企业、事业单位负责人" />
+                                <ComboBoxItem Content="专业技术人员" />
+                                <ComboBoxItem Content="办事人员和有关人员" />
+                                <ComboBoxItem Content="商业、服务业人员" />
+                                <ComboBoxItem Content="农、林、牧、渔、水利业生产人员" />
+                                <ComboBoxItem Content="生产、运输设备操作人员及有关人员" />
+                                <ComboBoxItem Content="军人" />
+                                <ComboBoxItem Content="无职业者分类及代码" />
+                                <ComboBoxItem Content="不便分类的其他人群" />
+                                <ComboBoxItem Content="不知道" />
+                            </ComboBox>
+                            <Button
+                                Click="OccupationButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
@@ -191,12 +274,24 @@
                                 Text="婚姻状态"
                                 VerticalAlignment="Center"
                                 Width="60" />
-                            <TextBox
+                            <ComboBox
                                 Margin="10,0"
-                                Name="MarriedTextBox"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                                Name="MarriedComboBox"
+                                Style="{StaticResource MaterialDesignFilledComboBox}"
+                                Width="140">
+                                <ComboBoxItem Content="  " />
+                                <ComboBoxItem Content="未婚" />
+                                <ComboBoxItem Content="已婚" />
+                                <ComboBoxItem Content="已婚-初婚" />
+                                <ComboBoxItem Content="已婚-再婚" />
+                                <ComboBoxItem Content="已婚-复婚" />
+                                <ComboBoxItem Content="丧偶" />
+                                <ComboBoxItem Content="离婚" />
+                            </ComboBox>
+                            <Button
+                                Click="MarriedButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
@@ -204,12 +299,19 @@
                                 Text="职退状态"
                                 VerticalAlignment="Center"
                                 Width="60" />
-                            <TextBox
+                            <ComboBox
                                 Margin="10,0"
-                                Name="RetireTypeTextBox"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                                Name="RetireTypeComboBox"
+                                Style="{StaticResource MaterialDesignFilledComboBox}"
+                                Width="140">
+                                <ComboBoxItem Content="  " />
+                                <ComboBoxItem Content="退休" />
+                                <ComboBoxItem Content="在职" />
+                            </ComboBox>
+                            <Button
+                                Click="RetireTypeButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
@@ -223,7 +325,10 @@
                                 Name="CountryTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                            <Button
+                                Click="CountryButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
@@ -231,12 +336,75 @@
                                 Text="民族"
                                 VerticalAlignment="Center"
                                 Width="60" />
-                            <TextBox
+                            <ComboBox
                                 Margin="10,0"
-                                Name="NationalityTextBox"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                                Name="NationalityComboBox"
+                                Style="{StaticResource MaterialDesignFilledComboBox}"
+                                Width="140">
+                                <ComboBoxItem Content="  " />
+                                <ComboBoxItem Content="汉族" />
+                                <ComboBoxItem Content="蒙古族" />
+                                <ComboBoxItem Content="回族" />
+                                <ComboBoxItem Content="藏族" />
+                                <ComboBoxItem Content="维吾尔族" />
+                                <ComboBoxItem Content="苗族" />
+                                <ComboBoxItem Content="彝族" />
+                                <ComboBoxItem Content="壮族" />
+                                <ComboBoxItem Content="布依族" />
+                                <ComboBoxItem Content="朝鲜族" />
+                                <ComboBoxItem Content="满族" />
+                                <ComboBoxItem Content="侗族" />
+                                <ComboBoxItem Content="瑶族" />
+                                <ComboBoxItem Content="白族" />
+                                <ComboBoxItem Content="土家族" />
+                                <ComboBoxItem Content="哈尼族" />
+                                <ComboBoxItem Content="哈萨克族" />
+                                <ComboBoxItem Content="傣族" />
+                                <ComboBoxItem Content="黎族" />
+                                <ComboBoxItem Content="傈僳族" />
+                                <ComboBoxItem Content="佤族" />
+                                <ComboBoxItem Content="畲族" />
+                                <ComboBoxItem Content="高山族" />
+                                <ComboBoxItem Content="拉祜族" />
+                                <ComboBoxItem Content="水族" />
+                                <ComboBoxItem Content="东乡族" />
+                                <ComboBoxItem Content="纳西族" />
+                                <ComboBoxItem Content="景颇族" />
+                                <ComboBoxItem Content="柯尔克孜族" />
+                                <ComboBoxItem Content="土族" />
+                                <ComboBoxItem Content="达斡尔族" />
+                                <ComboBoxItem Content="仫佬族" />
+                                <ComboBoxItem Content="羌族" />
+                                <ComboBoxItem Content="布朗族" />
+                                <ComboBoxItem Content="撒拉族" />
+                                <ComboBoxItem Content="毛难族" />
+                                <ComboBoxItem Content="仡佬族" />
+                                <ComboBoxItem Content="锡伯族" />
+                                <ComboBoxItem Content="阿昌族" />
+                                <ComboBoxItem Content="普米族" />
+                                <ComboBoxItem Content="塔吉克族" />
+                                <ComboBoxItem Content="怒族" />
+                                <ComboBoxItem Content="乌孜别克族" />
+                                <ComboBoxItem Content="俄罗斯族" />
+                                <ComboBoxItem Content="鄂温克族" />
+                                <ComboBoxItem Content="崩龙族" />
+                                <ComboBoxItem Content="保安族" />
+                                <ComboBoxItem Content="裕固族" />
+                                <ComboBoxItem Content="京族" />
+                                <ComboBoxItem Content="塔塔尔族" />
+                                <ComboBoxItem Content="独龙族" />
+                                <ComboBoxItem Content="鄂伦春族" />
+                                <ComboBoxItem Content="赫哲族" />
+                                <ComboBoxItem Content="门巴族" />
+                                <ComboBoxItem Content="珞巴族" />
+                                <ComboBoxItem Content="基诺族" />
+                                <ComboBoxItem Content="其他" />
+                                <ComboBoxItem Content="外国血统" />
+                            </ComboBox>
+                            <Button
+                                Click="NationalityButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
@@ -250,7 +418,10 @@
                                 Name="NativePlaceTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                            <Button
+                                Click="NativePlaceButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
@@ -263,7 +434,10 @@
                                 Name="RegiLocPostCodeTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                            <Button
+                                Click="RegiLocPostCodeButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
@@ -272,12 +446,21 @@
                                 Text="血型"
                                 VerticalAlignment="Center"
                                 Width="60" />
-                            <TextBox
+                            <ComboBox
                                 Margin="10,0"
-                                Name="BloodTypeTextBox"
-                                Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                                Name="BloodTypeComboBox"
+                                Style="{StaticResource MaterialDesignFilledComboBox}"
+                                Width="140">
+                                <ComboBoxItem Content="  " />
+                                <ComboBoxItem Content="A型血" />
+                                <ComboBoxItem Content="B型血" />
+                                <ComboBoxItem Content="AB型血" />
+                                <ComboBoxItem Content="O型血" />
+                            </ComboBox>
+                            <Button
+                                Click="BloodTypeButton_OnClick"
+                                Content="确认修改"
+                                Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
@@ -286,11 +469,12 @@
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
+                                IsEnabled="False"
                                 Margin="10,0"
                                 Name="MedCardNumTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                            <Button Content="无法修改" Width="100" />
                         </WrapPanel>
                     </StackPanel>
 
