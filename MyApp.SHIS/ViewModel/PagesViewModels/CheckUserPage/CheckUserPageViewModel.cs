@@ -1,4 +1,4 @@
-﻿namespace MyApp.SHIS.ViewModel.PagesViewModels
+﻿namespace MyApp.SHIS.ViewModel.PagesViewModels.CheckUserPage
 {
     public class CheckUserPageViewModel
     {

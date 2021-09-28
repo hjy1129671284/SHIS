@@ -116,10 +116,7 @@
                                 Visibility="{Binding SettingButtonVisibility}" />
                             <Button Content="帮助" />
                             <Separator />
-                            <Button
-                                Click="ButtonPopUpLogout_Click"
-                                Content="退出"
-                                x:Name="ButtonPopUpLogout" />
+                            <Button Command="{Binding CloseWindow}" Content="退出" />
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </StackPanel>

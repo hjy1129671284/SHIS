@@ -1,4 +1,4 @@
-﻿namespace MyApp.SHIS
+﻿namespace MyApp.SHIS.Models
 {
     public class AppSetting
     {

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using SqlSugar;
 
-namespace Models
+namespace MyApp.SHIS.Models
 {
     ///<summary>
     ///

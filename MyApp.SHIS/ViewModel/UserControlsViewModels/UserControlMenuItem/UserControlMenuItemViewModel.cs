@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
 
-namespace MyApp.SHIS.ViewModel.UserControlsViewModels
+namespace MyApp.SHIS.ViewModel.UserControlsViewModels.UserControlMenuItem
 {
     public class ItemMenu
     {

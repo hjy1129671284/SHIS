@@ -16,8 +16,20 @@ using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 using MyApp.SHIS.View;
 using MyApp.SHIS.ViewModel.PagesViewModels;
-using MyApp.SHIS.ViewModel.UserControlsViewModels;
+using MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage;
+using MyApp.SHIS.ViewModel.PagesViewModels.BlankPage;
+using MyApp.SHIS.ViewModel.PagesViewModels.CheckUserPage;
+using MyApp.SHIS.ViewModel.PagesViewModels.IndexPage;
+using MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage;
+using MyApp.SHIS.ViewModel.PagesViewModels.SettingPage;
+using MyApp.SHIS.ViewModel.PagesViewModels.VerifiedPage;
+using MyApp.SHIS.ViewModel.UserControlsViewModels.UserControlMenuItem;
 using MyApp.SHIS.ViewModel.WindowsViewModels;
+using MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard;
+using MyApp.SHIS.ViewModel.WindowsViewModels.IDAuther;
+using MyApp.SHIS.ViewModel.WindowsViewModels.Login;
+using MyApp.SHIS.ViewModel.WindowsViewModels.Register;
+using MyApp.SHIS.ViewModel.WindowsViewModels.RetrPwd;
 
 namespace MyApp.SHIS.ViewModel
 {

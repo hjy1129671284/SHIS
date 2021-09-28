@@ -339,21 +339,24 @@
     <Compile Include="Services\Services\PatiUserService.cs" />
     <Compile Include="Services\Services\StaffUserService.cs" />
     <Compile Include="Services\Services\UserService.cs" />
+    <Compile Include="ViewModel\Common\EventCommand.cs" />
+    <Compile Include="ViewModel\Common\NotificationObject.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\PagesViewModels\AuthChangePageViewModel.cs" />
-    <Compile Include="ViewModel\PagesViewModels\BlankPageViewModel.cs" />
-    <Compile Include="ViewModel\PagesViewModels\CheckUserPageViewModel.cs" />
-    <Compile Include="ViewModel\PagesViewModels\IndexPageViewModel.cs" />
-    <Compile Include="ViewModel\PagesViewModels\MyAccountPageViewModel.cs" />
-    <Compile Include="ViewModel\PagesViewModels\SettingPageViewModel.cs" />
-    <Compile Include="ViewModel\PagesViewModels\VerifiedPageViewModel.cs" />
-    <Compile Include="ViewModel\UserControlsViewModels\UserControlMenuItemViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\AuthChangePage\AuthChangePageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\BlankPage\BlankPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\CheckUserPage\CheckUserPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\IndexPage\IndexPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\MyAccountPage\MyAccountPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\SettingPage\SettingPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\VerifiedPage\VerifiedPageViewModel.cs" />
+    <Compile Include="ViewModel\UserControlsViewModels\UserControlMenuItem\UserControlMenuItemViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\WindowsViewModels\DashBoardViewModel.cs" />
-    <Compile Include="ViewModel\WindowsViewModels\IDAutherViewModel.cs" />
-    <Compile Include="ViewModel\WindowsViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModel\WindowsViewModels\RegisterViewModel.cs" />
-    <Compile Include="ViewModel\WindowsViewModels\RetrPwdViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\DashBoard\DashBoardModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\DashBoard\DashBoardViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\IDAuther\IDAutherViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\Login\LoginViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\Register\RegisterViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\RetrPwd\RetrPwdViewModel.cs" />
     <Compile Include="View\Pages\AuthChangePage.xaml.cs">
       <DependentUpon>AuthChangePage.xaml</DependentUpon>
     </Compile>

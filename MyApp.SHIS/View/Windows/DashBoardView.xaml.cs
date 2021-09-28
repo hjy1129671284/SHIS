@@ -6,14 +6,15 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Messaging;
 using MaterialDesignThemes.Wpf;
-using Models;
 using MyApp.SHIS.Commom;
+using MyApp.SHIS.Models;
 using MyApp.SHIS.Repository.Repository;
 using MyApp.SHIS.Services.Services;
 using MyApp.SHIS.View.Pages;
 using MyApp.SHIS.ViewModel;
-using MyApp.SHIS.ViewModel.UserControlsViewModels;
+using MyApp.SHIS.ViewModel.UserControlsViewModels.UserControlMenuItem;
 using MyApp.SHIS.ViewModel.WindowsViewModels;
+using MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard;
 using Newtonsoft.Json;
 using SqlSugar.IOC;
 
@@ -46,12 +47,18 @@ namespace MyApp.SHIS.View.Windows
             }
             this.DataContext = _dashBoardViewModel;
             
+            //注册消息
+            Messenger.Default.Register<string>(this,"closeWindow", CloseWindow);
+            Messenger.Default.Register<string>(this, "generateMenu",GenerateMenu);
+            
             _dashBoardViewModel.UserLoginButtonContent = "账号登录";
             _dashBoardViewModel.SettingButtonVisibility = Visibility.Collapsed;
             _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
             InitializeComponent();
             GenerateNoLoginMenu();
             
+            // 移除消息
+            Unloaded += (sender, e) => Messenger.Default.Unregister(this);
             // 创建数据库、表、项
             // SqlSugarCreate();
         }
@@ -63,27 +70,44 @@ namespace MyApp.SHIS.View.Windows
         {
             InitializeComponent();
             this.DataContext = _dashBoardViewModel;
+            //注册消息
+            Messenger.Default.Register<string>(this,"closeWindow", CloseWindow);
+            Messenger.Default.Register<string>(this, "generateMenu", GenerateMenu);
             
             _dashBoardViewModel.UserLoginButtonContent = "退出登录";
             _dashBoardViewModel.UserName = username;
             _dashBoardViewModel.SettingButtonVisibility = Visibility.Visible;
             _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
             _dashBoardViewModel.UserType = userType.ToString();
-
-            switch (_dashBoardViewModel.UserType)
-            {
-                case "管理员 ": GenerateAdminMenu(); break;
-                case "用户 ": GenerateNormMenu(); break;
-                case "患者 ": GeneratePatiMenu(); break;
-                case "医生 ": GenerateDoctMenu(); break;
-                case "药师 ": GeneratePhstMenu(); break;
-                case "挂号员 ": GenerateRgstMenu(); break;
-                case "收费员 ": GenerateTollMenu(); break;
-                case "护士 ": GenerateNurseMenu(); break;
-            }
             
+            //移除消息
+            Unloaded += (sender, e) => Messenger.Default.Unregister(this);
+
+        }
+
+        private void CloseWindow(string msg)
+        {
+            this.Close();
+        }
+
+        public void GenerateMenu(string msg)
+        {
+            MessageBox.Show(msg);
+            switch (msg)
+            {
+                case "管理员": GenerateAdminMenu(); break;
+                case "用户": GenerateNormMenu(); break;
+                case "患者": GeneratePatiMenu(); break;
+                case "医生": GenerateDoctMenu(); break;
+                case "药师": GeneratePhstMenu(); break;
+                case "挂号员": GenerateRgstMenu(); break;
+                case "收费员": GenerateTollMenu(); break;
+                case "护士": GenerateNurseMenu(); break;
+                default: GenerateNoLoginMenu(); break;
+            }
         }
         
+
         #region 初始化数据库
         public async void SqlSugarCreate()
         {
@@ -125,11 +149,6 @@ namespace MyApp.SHIS.View.Windows
                 };
             }
 
-        }
-
-        private void ButtonPopUpLogout_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
 
         private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,4 @@
-﻿using Models;
+﻿using MyApp.SHIS.Models;
 
 namespace MyApp.SHIS.Repository.IRepository
 {

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MyApp.SHIS.View.Windows;
-using MyApp.SHIS.ViewModel.UserControlsViewModels;
+using MyApp.SHIS.ViewModel.UserControlsViewModels.UserControlMenuItem;
 
 namespace MyApp.SHIS.View
 {

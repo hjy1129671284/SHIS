@@ -1,4 +1,4 @@
-﻿using Models;
+﻿using MyApp.SHIS.Models;
 using MyApp.SHIS.Repository.IRepository;
 using MyApp.SHIS.Services.IServices;
 

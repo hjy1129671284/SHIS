@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
-using Models;
 using MyApp.SHIS.Commom;
+using MyApp.SHIS.Models;
 using SqlSugar;
 
 namespace MyApp.SHIS.View.Windows

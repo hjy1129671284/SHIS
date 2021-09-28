@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Models;
 using MyApp.SHIS.Repository.Repository;
 using MyApp.SHIS.Services.Services;
 

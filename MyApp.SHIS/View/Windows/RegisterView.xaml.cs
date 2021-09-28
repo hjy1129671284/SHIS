@@ -3,7 +3,7 @@ using SqlSugar;
 using MyApp.SHIS.Commom;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Models;
+using MyApp.SHIS.Models;
 using MyApp.SHIS.Repository.Repository;
 using MyApp.SHIS.Services.Services;
 
