@@ -307,6 +307,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commom\PasswordBoxHelper.cs" />
     <Compile Include="Commom\ViewManage.cs" />
     <Compile Include="Models\AppSetting.cs" />
     <Compile Include="Models\doct_user.cs" />
@@ -342,8 +343,10 @@
     <Compile Include="ViewModel\Common\EventCommand.cs" />
     <Compile Include="ViewModel\Common\NotificationObject.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\AuthChangePage\AuthChangePageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\AuthChangePage\AuthChangePageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\BlankPage\BlankPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\CheckUserPage\CheckUserPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\CheckUserPage\CheckUserPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\IndexPage\IndexPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\MyAccountPage\MyAccountPageViewModel.cs" />
@@ -354,8 +357,11 @@
     <Compile Include="ViewModel\WindowsViewModels\DashBoard\DashBoardModel.cs" />
     <Compile Include="ViewModel\WindowsViewModels\DashBoard\DashBoardViewModel.cs" />
     <Compile Include="ViewModel\WindowsViewModels\IDAuther\IDAutherViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\Login\LoginModel.cs" />
     <Compile Include="ViewModel\WindowsViewModels\Login\LoginViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\Register\RegisterModel.cs" />
     <Compile Include="ViewModel\WindowsViewModels\Register\RegisterViewModel.cs" />
+    <Compile Include="ViewModel\WindowsViewModels\RetrPwd\RetrPwdModel.cs" />
     <Compile Include="ViewModel\WindowsViewModels\RetrPwd\RetrPwdViewModel.cs" />
     <Compile Include="View\Pages\AuthChangePage.xaml.cs">
       <DependentUpon>AuthChangePage.xaml</DependentUpon>
@@ -377,6 +383,9 @@
     </Compile>
     <Compile Include="View\Pages\VerifiedPage.xaml.cs">
       <DependentUpon>VerifiedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\PasswordBoxUserControl.xaml.cs">
+      <DependentUpon>PasswordBoxUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\UserControlMenuItem.xaml.cs" />
     <Compile Include="View\Windows\DashBoardView.xaml.cs" />
@@ -419,6 +428,7 @@
     <Page Include="View\Pages\MyAccountPage.xaml" />
     <Page Include="View\Pages\SettingPage.xaml" />
     <Page Include="View\Pages\VerifiedPage.xaml" />
+    <Page Include="View\UserControls\PasswordBoxUserControl.xaml" />
     <Page Include="View\UserControls\UserControlMenuItem.xaml" />
     <Page Include="View\Windows\DashBoardView.xaml" />
     <Page Include="View\Windows\IDAutherView.xaml" />

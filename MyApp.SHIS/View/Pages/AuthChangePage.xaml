@@ -19,14 +19,19 @@
                 Text="权限改变" />
             <WrapPanel Margin="10">
                 <TextBox
-                    KeyDown="UserNameTextBox_OnKeyDown"
                     Margin="10"
-                    Name="UserNameTextBox"
                     Style="{StaticResource MaterialDesignFilledTextBox}"
                     Width="200"
-                    materialDesign:HintAssist.Hint="请输入需要改变权限的用户名" />
+                    materialDesign:HintAssist.Hint="请输入需要改变权限的用户名">
+                    <TextBox.Text>
+                        <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" />
+                    </TextBox.Text>
+                    <TextBox.InputBindings>
+                        <KeyBinding Command="{Binding FindUser}" Key="Enter" />
+                    </TextBox.InputBindings>
+                </TextBox>
                 <Button
-                    Click="ButtonBase_OnClick"
+                    Command="{Binding FindUser}"
                     Margin="10"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
                     ToolTip="MaterialDesignRaisedLightButton with Round Corners"
@@ -36,7 +41,7 @@
                 <ComboBox
                     IsEditable="False"
                     Margin="10"
-                    Name="AuthComboBox"
+                    SelectedItem="{Binding UserType}"
                     Style="{StaticResource MaterialDesignFilledComboBox}"
                     Width="200"
                     materialDesign:HintAssist.Hint="请选择该用户的权限">
@@ -50,16 +55,15 @@
                     <ComboBoxItem Content="护士" />
                 </ComboBox>
                 <Button
-                    Click="ChangeAuthButton_OnClick"
+                    Command="{Binding ChangeAuth}"
                     Margin="10"
-                    Name="ChangeAuthButton"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
                     ToolTip="MaterialDesignRaisedLightButton with Round Corners"
                     materialDesign:ButtonAssist.CornerRadius="5">
                     <TextBlock Text="改变权限" />
                 </Button>
             </WrapPanel>
-            <DataGrid IsEnabled="False" Name="DataGrid" />
+            <DataGrid IsEnabled="False" ItemsSource="{Binding UserList}" />
         </StackPanel>
     </Grid>
 </Page>

@@ -1,24 +1,13 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
-using MyApp.SHIS.Annotations;
+using MyApp.SHIS.ViewModel.Common;
 
 namespace MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard
 {
-    public sealed class DashBoardViewModel : INotifyPropertyChanged
+    public sealed class DashBoardViewModel : NotificationObject
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private readonly DashBoardModel _dashBoardModel = new DashBoardModel();
 
         public string UserType
@@ -101,6 +90,28 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard
                     () => { Messenger.Default.Send("", "closeWindow"); }));
             }
             set => _closeWindow = value;
+        }
+
+        private ICommand _openMenu;
+        public ICommand OpenMenu
+        {
+            get
+            {
+                return _openMenu ?? (_openMenu = new RelayCommand(
+                    () => { Messenger.Default.Send("", "openMenu"); }));
+            }
+            set => _openMenu = value;
+        }
+        
+        private ICommand _closenMenu;
+        public ICommand CloseMenu
+        {
+            get
+            {
+                return _closenMenu ?? (_closenMenu = new RelayCommand(
+                    () => { Messenger.Default.Send("", "closeMenu"); }));
+            }
+            set => _closenMenu = value;
         }
     }
 }

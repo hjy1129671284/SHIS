@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,9 +10,7 @@ using MyApp.SHIS.Models;
 using MyApp.SHIS.Repository.Repository;
 using MyApp.SHIS.Services.Services;
 using MyApp.SHIS.View.Pages;
-using MyApp.SHIS.ViewModel;
 using MyApp.SHIS.ViewModel.UserControlsViewModels.UserControlMenuItem;
-using MyApp.SHIS.ViewModel.WindowsViewModels;
 using MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard;
 using Newtonsoft.Json;
 using SqlSugar.IOC;
@@ -34,26 +31,38 @@ namespace MyApp.SHIS.View.Windows
             AppSetting m = JsonConvert.DeserializeObject<AppSetting>(jsonString);
             
             // SqlSugar.IOC 注入
-            if (m != null)
-                SugarIocServices.AddSqlSugar(new IocConfig()
+            try
+            {
+                if (m != null)
+                    SugarIocServices.AddSqlSugar(new IocConfig()
+                    {
+                        ConnectionString =
+                            m.ConnectionString, // 格式 server=localhost;Database=SqlSugar4xTest;Uid=root;Pwd=haosql;
+                        DbType = IocDbType.MySql,
+                        IsAutoCloseConnection = true //自动释放
+                    });
+                else
                 {
-                    ConnectionString = m.ConnectionString, // 格式 server=localhost;Database=SqlSugar4xTest;Uid=root;Pwd=haosql;
-                    DbType = IocDbType.MySql,
-                    IsAutoCloseConnection = true //自动释放
-                });
-            else
+                    MessageBox.Show("请在AppSetting.json文件中填写ConnectionString");
+                }
+            }
+            catch
             {
                 MessageBox.Show("请在AppSetting.json文件中确认ConnectionString是否正确");
             }
+
             this.DataContext = _dashBoardViewModel;
             
             //注册消息
             Messenger.Default.Register<string>(this,"closeWindow", CloseWindow);
             Messenger.Default.Register<string>(this, "generateMenu",GenerateMenu);
+            Messenger.Default.Register<string>(this, "openMenu", OpenMenu);
+            Messenger.Default.Register<string>(this, "closeMenu", CloseMenu);
             
             _dashBoardViewModel.UserLoginButtonContent = "账号登录";
             _dashBoardViewModel.SettingButtonVisibility = Visibility.Collapsed;
             _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
+
             InitializeComponent();
             GenerateNoLoginMenu();
             
@@ -63,8 +72,6 @@ namespace MyApp.SHIS.View.Windows
             // SqlSugarCreate();
         }
 
-
-        
         // 登录后窗口
         public DashBoardView(string username, int userType)
         {
@@ -73,6 +80,8 @@ namespace MyApp.SHIS.View.Windows
             //注册消息
             Messenger.Default.Register<string>(this,"closeWindow", CloseWindow);
             Messenger.Default.Register<string>(this, "generateMenu", GenerateMenu);
+            Messenger.Default.Register<string>(this, "openMenu", OpenMenu);
+            Messenger.Default.Register<string>(this, "closeMenu", CloseMenu);
             
             _dashBoardViewModel.UserLoginButtonContent = "退出登录";
             _dashBoardViewModel.UserName = username;
@@ -87,12 +96,11 @@ namespace MyApp.SHIS.View.Windows
 
         private void CloseWindow(string msg)
         {
-            this.Close();
+            Application.Current.Shutdown();
         }
 
         public void GenerateMenu(string msg)
         {
-            MessageBox.Show(msg);
             switch (msg)
             {
                 case "管理员": GenerateAdminMenu(); break;
@@ -151,13 +159,13 @@ namespace MyApp.SHIS.View.Windows
 
         }
 
-        private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
+        private void OpenMenu(string msg)
         {
             _dashBoardViewModel.ButtonOpenMenuVisibility = Visibility.Collapsed;
             _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Visible;
         }
 
-        private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
+        private void CloseMenu(string msg)
         {
             _dashBoardViewModel.ButtonOpenMenuVisibility = Visibility.Visible;
             _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;

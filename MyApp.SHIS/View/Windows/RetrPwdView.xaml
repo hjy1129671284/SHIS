@@ -52,8 +52,11 @@
                 materialDesign:HintAssist.Hint="UserName"
                 x:Name="NameTextBox">
                 <TextBox.Text>
-                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" />
+                    <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" />
                 </TextBox.Text>
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding RetrievePwd}" Key="Enter" />
+                </TextBox.InputBindings>
             </TextBox>
 
 
@@ -61,7 +64,7 @@
         <Button
             Background="{x:Null}"
             BorderBrush="{x:Null}"
-            Click="button_Click"
+            Command="{Binding Back2Login}"
             Content="返回登录页面"
             Foreground="#DD3A14E6"
             Height="35"
@@ -83,7 +86,7 @@
         <Button
             Background="{x:Null}"
             BorderBrush="{x:Null}"
-            Click="BackToDashBoardButton_Click"
+            Command="{Binding Back2DashBoard}"
             HorizontalAlignment="Right"
             Margin="-18,0,733,0"
             ToolTip="返回仪表盘"
@@ -97,7 +100,7 @@
                 Width="25" />
         </Button>
         <Button
-            Click="button1_Click"
+            Command="{Binding RetrievePwd}"
             Content="找回密码"
             Height="33"
             HorizontalAlignment="Left"

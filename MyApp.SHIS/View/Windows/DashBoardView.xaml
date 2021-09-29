@@ -134,7 +134,7 @@
                     <Button
                         Background="{x:Null}"
                         BorderBrush="{x:Null}"
-                        Click="ButtonCloseMenu_Click"
+                        Command="{Binding CloseMenu}"
                         Height="60"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
@@ -150,7 +150,7 @@
                     <Button
                         Background="{x:Null}"
                         BorderBrush="{x:Null}"
-                        Click="ButtonOpenMenu_Click"
+                        Command="{Binding OpenMenu}"
                         Height="60"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"

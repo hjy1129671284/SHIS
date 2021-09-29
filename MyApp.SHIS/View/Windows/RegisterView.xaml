@@ -12,6 +12,7 @@
     mc:Ignorable="d"
     x:Class="MyApp.SHIS.View.Windows.RegisterView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:commom="clr-namespace:MyApp.SHIS.Commom"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyApp.SHIS.View.Windows"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -51,37 +52,51 @@
                 materialDesign:HintAssist.Hint="UserName"
                 x:Name="NameTextBox">
                 <TextBox.Text>
-                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" />
+                    <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" />
                 </TextBox.Text>
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding Register}" Key="Enter" />
+                </TextBox.InputBindings>
             </TextBox>
             <PasswordBox
                 Canvas.Top="59"
                 Width="406"
+                commom:PasswordBoxHelper.Attach="True"
+                commom:PasswordBoxHelper.Password="{Binding Path=PassWord1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.HelperText="请输入您的密码"
                 materialDesign:HintAssist.Hint="PassWord"
                 materialDesign:TextFieldAssist.HasClearButton="True"
-                x:Name="PasswordBox1" />
+                x:Name="PasswordBox1">
+                <PasswordBox.InputBindings>
+                    <KeyBinding Command="{Binding Register}" Key="Enter" />
+                </PasswordBox.InputBindings>
+            </PasswordBox>
             <PasswordBox
                 Canvas.Top="103"
                 Width="406"
+                commom:PasswordBoxHelper.Attach="True"
+                commom:PasswordBoxHelper.Password="{Binding Path=PassWord2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.HelperText="请确认您的密码"
                 materialDesign:HintAssist.Hint="PassWord"
                 materialDesign:TextFieldAssist.HasClearButton="True"
-                x:Name="PasswordBox2" />
+                x:Name="PasswordBox2">
+                <PasswordBox.InputBindings>
+                    <KeyBinding Command="{Binding Register}" Key="Enter" />
+                </PasswordBox.InputBindings>
+            </PasswordBox>
 
         </Canvas>
         <Button
             Background="{x:Null}"
             BorderBrush="{x:Null}"
-            Click="button_Click"
+            Command="{Binding Back2Login}"
             Content="返回登录页面"
             Foreground="#DD3A14E6"
             Height="35"
             HorizontalAlignment="Left"
             Margin="309,374,0,0"
             VerticalAlignment="Top"
-            Width="132"
-            x:Name="button" />
+            Width="132" />
         <TextBlock
             FontSize="20"
             Height="35"
@@ -90,18 +105,16 @@
             Text="医院"
             TextWrapping="Wrap"
             VerticalAlignment="Top"
-            Width="48"
-            x:Name="textBlock" />
+            Width="48" />
         <Button
             Background="{x:Null}"
             BorderBrush="{x:Null}"
-            Click="BackToDashBoardButton_Click"
+            Command="{Binding Back2DashBoard}"
             HorizontalAlignment="Right"
             Margin="-18,0,733,0"
             ToolTip="返回仪表盘"
             VerticalAlignment="Top"
-            Width="77"
-            x:Name="BackToDashBoardButton">
+            Width="77">
             <materialDesign:PackIcon
                 Foreground="White"
                 Height="25"
@@ -109,13 +122,12 @@
                 Width="25" />
         </Button>
         <Button
-            Click="button1_Click"
+            Command="{Binding Register}"
             Content="注册"
             Height="33"
             HorizontalAlignment="Left"
             Margin="282,316,0,0"
             VerticalAlignment="Top"
-            Width="186"
-            x:Name="button1" />
+            Width="186" />
     </Grid>
 </Window>
