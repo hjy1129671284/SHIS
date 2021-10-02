@@ -10,7 +10,7 @@ namespace MyApp.SHIS.Repository.Repository
 {
     public class BaseRepository<TEntity> : SimpleClient<TEntity>, IBaseRepository<TEntity> where TEntity : class, new()
     {
-        public BaseRepository(ISqlSugarClient context=null) : base(context)
+        protected BaseRepository(ISqlSugarClient context=null) : base(context)
         {
             base.Context = DbScoped.Sugar;
         }

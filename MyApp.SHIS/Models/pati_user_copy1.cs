@@ -8,27 +8,55 @@ namespace MyApp.SHIS.Models
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("norm_user")]
-    public partial class norm_user
+    [SugarTable("pati_user_copy1")]
+    public partial class pati_user_copy1
     {
-           public norm_user(){
+           public pati_user_copy1(){
 
 
            }
+           /// <summary>
+           /// Desc:病人编码
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           [SugarColumn(IsPrimaryKey=true,IsIdentity=true)]
+           public int PatiID {get;set;}
+
            /// <summary>
            /// Desc:普通用户编码
            /// Default:
            /// Nullable:False
            /// </summary>           
-           [SugarColumn(IsPrimaryKey=true,IsIdentity=true)]
            public int NormID {get;set;}
 
            /// <summary>
-           /// Desc:用户名 FK
+           /// Desc:用户名
            /// Default:
            /// Nullable:False
            /// </summary>           
            public string UserName {get;set;}
+
+           /// <summary>
+           /// Desc:就诊卡号
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public int MedCardNum {get;set;}
+
+           /// <summary>
+           /// Desc:病历保密级别编码，绝密(3)、机密(2)、秘密(1)、无(0)
+           /// Default:
+           /// Nullable:True
+           /// </summary>           
+           public int? SecretGradeID {get;set;}
+
+           /// <summary>
+           /// Desc:病人类型编码
+           /// Default:0
+           /// Nullable:True
+           /// </summary>           
+           public int? PatiCateID {get;set;}
 
            /// <summary>
            /// Desc:证件类型编码
@@ -66,7 +94,7 @@ namespace MyApp.SHIS.Models
            public string IDAutherMethod {get;set;}
 
            /// <summary>
-           /// Desc:用户真实姓名
+           /// Desc:用户姓名
            /// Default:
            /// Nullable:True
            /// </summary>           
@@ -204,13 +232,6 @@ namespace MyApp.SHIS.Models
            /// Nullable:True
            /// </summary>           
            public string BloodType {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public int? MedCardNum {get;set;}
 
     }
 }

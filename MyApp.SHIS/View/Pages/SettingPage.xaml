@@ -5,6 +5,7 @@
     mc:Ignorable="d"
     x:Class="MyApp.SHIS.View.Pages.SettingPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:commom="clr-namespace:MyApp.SHIS.Commom"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyApp.SHIS.View.Pages"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -18,7 +19,17 @@
                         <TextBlock Foreground="White" Text="钱包" />
                     </GroupBox.Header>
                     <StackPanel>
-                        <TextBlock Margin="10" Text="钱包余额" />
+                        <WrapPanel>
+                            <TextBlock
+                                Margin="10"
+                                Text="钱包余额"
+                                Width="150" />
+                            <TextBox
+                                FontSize="20"
+                                IsEnabled="False"
+                                Text="{Binding Balance}" />
+                            <TextBlock Margin="10" Text="元" />
+                        </WrapPanel>
                         <WrapPanel Margin="10">
                             <Button Content="充值" Margin="10,0" />
                             <Button Content="提现" Margin="10,0" />
@@ -31,6 +42,7 @@
                             <TextBlock Foreground="White" Text="修改密码" />
                             <Button
                                 Background="LightGray"
+                                Command="{Binding ChangePwd}"
                                 Content="保存"
                                 Margin="600,0,0,0"
                                 Width="100" />
@@ -39,16 +51,22 @@
                     <StackPanel HorizontalAlignment="Left" Width="300">
                         <PasswordBox
                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                            commom:PasswordBoxHelper.Attach="True"
+                            commom:PasswordBoxHelper.Password="{Binding Path=OldPwd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             materialDesign:HintAssist.Foreground="Green"
                             materialDesign:HintAssist.Hint="原密码"
                             materialDesign:TextFieldAssist.UnderlineBrush="Green" />
                         <PasswordBox
                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                            commom:PasswordBoxHelper.Attach="True"
+                            commom:PasswordBoxHelper.Password="{Binding Path=NewPwd1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             materialDesign:HintAssist.Foreground="Green"
                             materialDesign:HintAssist.Hint="新密码"
                             materialDesign:TextFieldAssist.UnderlineBrush="Green" />
                         <PasswordBox
                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                            commom:PasswordBoxHelper.Attach="True"
+                            commom:PasswordBoxHelper.Password="{Binding Path=NewPwd2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             materialDesign:HintAssist.Foreground="Green"
                             materialDesign:HintAssist.Hint="确认新密码"
                             materialDesign:TextFieldAssist.UnderlineBrush="Green" />

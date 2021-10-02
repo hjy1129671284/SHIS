@@ -48,9 +48,8 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Register
         {
             get
             {
-                return _register ?? new RelayCommand(
-                    () => { UserRegister(_registerModel.UserName, _registerModel.PassWord1, _registerModel.PassWord2); }
-                );
+                return _register ?? (_register = new RelayCommand(
+                    () => { UserRegister(_registerModel.UserName, _registerModel.PassWord1, _registerModel.PassWord2); }));
             }
             set => _register = value;
         }
@@ -60,9 +59,8 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Register
         {
             get
             {
-                return _back2DashBoard ?? new RelayCommand(
-                    () => { Messenger.Default.Send("", "register2DashBoard"); }
-                );
+                return _back2DashBoard ?? (_back2DashBoard = new RelayCommand(
+                    () => { Messenger.Default.Send("", "register2DashBoard"); }));
             }
             set => _back2DashBoard = value;
         }
@@ -72,9 +70,8 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Register
         {
             get
             {
-                return _back2Login ?? new RelayCommand(
-                    () => { Messenger.Default.Send("", "register2Login"); }
-                );
+                return _back2Login ?? (_back2Login = new RelayCommand(
+                    () => { Messenger.Default.Send("", "register2Login"); }));
             }
             set => _back2Login = value;
         }

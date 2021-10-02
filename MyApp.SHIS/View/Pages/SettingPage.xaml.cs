@@ -1,12 +1,15 @@
 ﻿using System.Windows.Controls;
+using MyApp.SHIS.ViewModel.PagesViewModels.SettingPage;
 
 namespace MyApp.SHIS.View.Pages
 {
     public partial class SettingPage : Page
     {
-        public SettingPage()
+        private readonly SettingPageViewModel _settingPageViewModel = new SettingPageViewModel();
+        public SettingPage(string userName)
         {
             InitializeComponent();
+            this.DataContext = _settingPageViewModel;
         }
     }
 }

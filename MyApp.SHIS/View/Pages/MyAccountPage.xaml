@@ -6,6 +6,7 @@
     x:Class="MyApp.SHIS.View.Pages.MyAccountPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:MyApp.SHIS.View.Pages"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -21,53 +22,66 @@
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="UserAgeTextBlock"
                                 Text="年龄"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 Margin="10,0"
-                                Name="UserAgeTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding Age, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="" />
+                                materialDesign:HintAssist.Hint="{Binding AgeHint}" />
                             <Button
-                                Click="UserAgeButton_OnClick"
+                                Command="{Binding AgeCommand}"
                                 Content="确认修改"
                                 Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
-                                Name="UserSexTextBlock"
                                 Text="性别"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
                                 Margin="10,0"
-                                Name="UserSexTextComboBox"
+                                SelectedItem="{Binding Gender}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
-                                Width="140">
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding GenderHint}">
                                 <ComboBoxItem Content="  " />
                                 <ComboBoxItem Content="男" />
                                 <ComboBoxItem Content="女" />
                             </ComboBox>
                             <Button
-                                Click="UserSexButton_OnClick"
+                                Command="{Binding GenderCommand}"
                                 Content="确认修改"
                                 Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="IDCardTypeTextBlock"
-                                Text="证件类型"
+                                Foreground="{Binding IDCardTextColor}"
+                                Text="{Binding IDCardText}"
                                 VerticalAlignment="Center"
-                                Width="60" />
+                                Width="60">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding IDCardTypeSelect}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBlock>
                             <ComboBox
                                 Margin="10,0"
-                                Name="IDCardTypeTextComboBox"
+                                SelectedItem="{Binding IDCardType}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
-                                Width="140">
+                                Visibility="{Binding IDCardComBoxVisibility}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding IDCardTypeHint}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding IDCardTypeSelectChange}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
                                 <ComboBoxItem Content="身份证" />
                                 <ComboBoxItem Content="军人证" />
                                 <ComboBoxItem Content="护照" />
@@ -85,64 +99,62 @@
                             </ComboBox>
                             <TextBox
                                 Margin="10,0"
-                                Name="QTZJLXTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Visibility="Collapsed"
+                                Text="{Binding IDCardTypeText}"
+                                Visibility="{Binding IDCardTextBoxVisibility}"
                                 Width="140"
                                 materialDesign:HintAssist.Hint="其他证件类型" />
                             <Button
-                                Click="IDCardTypeButtonBase_OnClick"
+                                Command="{Binding IDCardTypeCommand}"
                                 Content="确认修改"
                                 Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
-                                Name="IDCardTextBlock"
                                 Text="证件号"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 Margin="10,0"
-                                Name="IDCardTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
+                                Text="{Binding IDCard}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding IDCardHint}" />
                             <Button
-                                Click="IDCardButton_OnClick"
+                                Command="{Binding IDCardCommand}"
                                 Content="确认修改"
                                 Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="IDAutherTextBlock"
                                 Text="实名状态"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 IsEnabled="False"
                                 Margin="10,0"
-                                Name="IDAutherTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Text="未认证"
-                                Width="140" />
+                                Text="{Binding AuthType}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding AuthTypeHint}" />
                             <Button
-                                Click="IDAutherButton_OnClick"
-                                Content="去认证"
-                                Name="IDAutherButton"
+                                Command="{Binding AuthTypeCommand}"
+                                Content="{Binding AuthTypeText}"
                                 Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
-                                Name="IDAutherMethodTextBlock"
                                 Text="实名方式"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
                                 IsEnabled="False"
                                 Margin="10,0"
-                                Name="IDAutherMethodComboBox"
+                                SelectedItem="{Binding AuthMethod}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
-                                Width="140">
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding AuthMethodHint}">
                                 <ComboBoxItem Content="HIS认证" />
                                 <ComboBoxItem Content="医院挂号网站认证" />
                                 <ComboBoxItem Content="12320认证" />
@@ -151,93 +163,91 @@
                                 <ComboBoxItem Content="卫计委保健局认证" />
                             </ComboBox>
                             <Button
-                                Click="IDAutherMethodButton_OnClick"
+                                Command="{Binding AuthMethodCommand}"
                                 Content="重新认证"
-                                IsEnabled="False"
-                                Name="IDAutherMethodButton"
+                                IsEnabled="{Binding IsAuth}"
                                 Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="UserAuthNameTextBlock"
                                 Text="真实姓名"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 IsEnabled="False"
                                 Margin="10,0"
-                                Name="UserAuthNameTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
+                                Text="{Binding AuthName}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding AuthNameHint}" />
                             <Button
-                                Click="UserAuthNameButton_OnClick"
+                                Command="{Binding AuthNameCommand}"
                                 Content="重新认证"
-                                IsEnabled="False"
-                                Name="UserAuthNameButton"
+                                IsEnabled="{Binding IsAuth}"
                                 Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
-                                Name="BirthDateTextBlock"
                                 Text="出生日期"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <DatePicker
                                 Margin="10,0"
-                                Name="BirthDatePicker"
+                                SelectedDate="{Binding BirthDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Style="{StaticResource MaterialDesignFilledDatePicker}"
-                                Width="140" />
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding BirthDateHint}" />
                             <Button
-                                Click="BirthDateButton_OnClick"
+                                Command="{Binding BirthDateCommand}"
                                 Content="确认修改"
                                 Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="MobileNumTextBlock"
                                 Text="手机号码"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 Margin="10,0"
-                                Name="MobileNumTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
+                                Text="{Binding MobileNum}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding MobileNumHint}" />
                             <Button
-                                Click="MobileNumButton_OnClick"
+                                Command="{Binding MobileNumCommand}"
                                 Content="确认修改"
                                 Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
-                                Name="PersonEmailBlock"
                                 Text="电子邮箱"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 Margin="10,0"
-                                Name="PersonEmailTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
+                                Text="{Binding UserEmail}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding UserEmailHint}" />
                             <Button
-                                Click="PersonEmailButton_OnClick"
+                                Command="{Binding UserEmailCommand}"
                                 Content="确认修改"
                                 Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="OccupationTextBlock"
                                 Text="职业"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
                                 Margin="10,0"
-                                Name="OccupationComboBox"
+                                SelectedItem="{Binding OccupationName}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
-                                Width="140">
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding OccupationNameHint}">
                                 <ComboBoxItem Content="国家机关、党群组织、企业、事业单位负责人" />
                                 <ComboBoxItem Content="专业技术人员" />
                                 <ComboBoxItem Content="办事人员和有关人员" />
@@ -250,35 +260,38 @@
                                 <ComboBoxItem Content="不知道" />
                             </ComboBox>
                             <Button
-                                Click="OccupationButton_OnClick"
+                                Command="{Binding OccupationCommand}"
                                 Content="确认修改"
                                 Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
-                                Name="RegiLocTextBlock"
                                 Text="户口地"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 Margin="10,0"
-                                Name="RegiLocTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
-                            <Button Content="确认修改" Width="100" />
+                                Text="{Binding RegiLoc}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding RegiLocHint}" />
+                            <Button
+                                Command="{Binding RegiLocCommand}"
+                                Content="确认修改"
+                                Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="MarriedTextBlock"
                                 Text="婚姻状态"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
                                 Margin="10,0"
-                                Name="MarriedComboBox"
+                                SelectedItem="{Binding Married}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
-                                Width="140">
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding MarriedHint}">
                                 <ComboBoxItem Content="  " />
                                 <ComboBoxItem Content="未婚" />
                                 <ComboBoxItem Content="已婚" />
@@ -289,58 +302,58 @@
                                 <ComboBoxItem Content="离婚" />
                             </ComboBox>
                             <Button
-                                Click="MarriedButton_OnClick"
+                                Command="{Binding MarriedCommand}"
                                 Content="确认修改"
                                 Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
-                                Name="RetireTypeTextBlock"
                                 Text="职退状态"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
                                 Margin="10,0"
-                                Name="RetireTypeComboBox"
+                                SelectedItem="{Binding RetireType}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
-                                Width="140">
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding RetireTypeHint}">
                                 <ComboBoxItem Content="  " />
                                 <ComboBoxItem Content="退休" />
                                 <ComboBoxItem Content="在职" />
                             </ComboBox>
                             <Button
-                                Click="RetireTypeButton_OnClick"
+                                Command="{Binding RetireTypeCommand}"
                                 Content="确认修改"
                                 Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="CountryTextBlock"
                                 Text="国籍"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 Margin="10,0"
-                                Name="CountryTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
+                                Text="{Binding Country}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding CountryHint}" />
                             <Button
-                                Click="CountryButton_OnClick"
+                                Command="{Binding CountryCommand}"
                                 Content="确认修改"
                                 Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
-                                Name="NationalityTextBlock"
                                 Text="民族"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
                                 Margin="10,0"
-                                Name="NationalityComboBox"
+                                SelectedItem="{Binding Nationality}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
-                                Width="140">
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding NationalityHint}">
                                 <ComboBoxItem Content="  " />
                                 <ComboBoxItem Content="汉族" />
                                 <ComboBoxItem Content="蒙古族" />
@@ -402,55 +415,55 @@
                                 <ComboBoxItem Content="外国血统" />
                             </ComboBox>
                             <Button
-                                Click="NationalityButton_OnClick"
+                                Command="{Binding NationalityCommand}"
                                 Content="确认修改"
                                 Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="NativePlaceTextBlock"
                                 Text="籍贯地"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 Margin="10,0"
-                                Name="NativePlaceTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
+                                Text="{Binding NativePlace}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding NativePlaceHint}" />
                             <Button
-                                Click="NativePlaceButton_OnClick"
+                                Command="{Binding NativePlaceCommand}"
                                 Content="确认修改"
                                 Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
-                                Name="RegiLocPostCodeTextBlock"
                                 Text="邮编"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 Margin="10,0"
-                                Name="RegiLocPostCodeTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
+                                Text="{Binding RegiLocPostCode}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding RegiLocPostCodeHint}" />
                             <Button
-                                Click="RegiLocPostCodeButton_OnClick"
+                                Command="{Binding RegiLocPostCodeCommand}"
                                 Content="确认修改"
                                 Width="100" />
                         </WrapPanel>
                         <WrapPanel Margin="0,10">
                             <TextBlock
                                 FontSize="15"
-                                Name="BloodTypeTextBlock"
                                 Text="血型"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
                                 Margin="10,0"
-                                Name="BloodTypeComboBox"
+                                SelectedItem="{Binding BloodType}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
-                                Width="140">
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding BloodTypeHint}">
                                 <ComboBoxItem Content="  " />
                                 <ComboBoxItem Content="A型血" />
                                 <ComboBoxItem Content="B型血" />
@@ -458,22 +471,22 @@
                                 <ComboBoxItem Content="O型血" />
                             </ComboBox>
                             <Button
-                                Click="BloodTypeButton_OnClick"
+                                Command="{Binding BolldTypeCommand}"
                                 Content="确认修改"
                                 Width="100" />
                             <Rectangle Width="20" />
                             <TextBlock
                                 FontSize="15"
-                                Name="MedCardNumTextBlock"
                                 Text="就诊卡号"
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <TextBox
                                 IsEnabled="False"
                                 Margin="10,0"
-                                Name="MedCardNumTextBox"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Width="140" />
+                                Text="{Binding MedCardNum}"
+                                Width="140"
+                                materialDesign:HintAssist.Hint="{Binding MedCardNumHint}" />
                             <Button Content="无法修改" Width="100" />
                         </WrapPanel>
                     </StackPanel>

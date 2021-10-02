@@ -1,4 +1,7 @@
-﻿using SqlSugar;
+﻿using System;
+using System.Linq;
+using System.Text;
+using SqlSugar;
 
 namespace MyApp.SHIS.Models
 {

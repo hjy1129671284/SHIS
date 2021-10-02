@@ -13,45 +13,66 @@
         <StackPanel Margin="20,40">
             <WrapPanel Margin="50,0">
                 <Button
-                    Click="AllUserButton_OnClick"
+                    Command="{Binding AllUser}"
                     Content="所有用户"
                     Width="200" />
                 <Button
-                    Click="NormUserButton_OnClick"
+                    Command="{Binding NormUser}"
                     Content="普通用户"
                     Width="200" />
                 <Button
-                    Click="StaffUserButton_OnClick"
+                    Command="{Binding StaffUser}"
                     Content="职工"
                     Width="200" />
             </WrapPanel>
             <WrapPanel Margin="50,0">
                 <Button
-                    Click="PatiUserButton_OnClick"
+                    Command="{Binding PatiUser}"
                     Content="病人"
                     Width="100" />
                 <Button
-                    Click="DoctUserButton_OnClick"
+                    Command="{Binding DoctUser}"
                     Content="医生"
                     Width="100" />
                 <Button
-                    Click="PhstUserButton_OnClick"
+                    Command="{Binding PhstUser}"
                     Content="药师"
                     Width="100" />
                 <Button
-                    Click="RgstUserButton_OnClick"
+                    Command="{Binding RgstUser}"
                     Content="挂号员"
                     Width="100" />
                 <Button
-                    Click="TollUserButton_OnClick"
+                    Command="{Binding TollUser}"
                     Content="收费员"
                     Width="100" />
                 <Button
-                    Click="NurseUserButton_OnClick"
+                    Command="{Binding NurseUser}"
                     Content="护士"
                     Width="100" />
             </WrapPanel>
-            <DataGrid Margin="50" Name="DataGrid" />
+            <DataGrid
+                ItemsSource="{Binding Users}"
+                Margin="50"
+                Name="DataGrid"
+                Visibility="{Binding UsersGridVisibility}" />
+            <DataGrid
+                ItemsSource="{Binding NormUsers}"
+                Margin="50"
+                Visibility="{Binding NormUsersGridVisibility}" />
+            <DataGrid
+                ItemsSource="{Binding PatiUsers}"
+                Margin="50"
+                Visibility="{Binding PatiUsersGridVisibility}" />
+            <DataGrid
+                ItemsSource="{Binding StaffUsers}"
+                Margin="50"
+                Visibility="{Binding StaffUsersGridVisibility}" />
+            <DataGrid
+                ItemsSource="{Binding DoctUsers}"
+                Margin="50"
+                Visibility="{Binding DoctUsersGridVisibility}" />
+
         </StackPanel>
     </Grid>
 </Page>

@@ -1,4 +1,7 @@
-﻿using SqlSugar;
+﻿using System;
+using System.Linq;
+using System.Text;
+using SqlSugar;
 
 namespace MyApp.SHIS.Models
 {
@@ -13,11 +16,18 @@ namespace MyApp.SHIS.Models
 
            }
            /// <summary>
-           /// Desc:医生编码
+           /// Desc:
            /// Default:
            /// Nullable:False
            /// </summary>           
            [SugarColumn(IsPrimaryKey=true)]
+           public int UserID {get;set;}
+
+           /// <summary>
+           /// Desc:医生编码
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
            public int DoctID {get;set;}
 
            /// <summary>

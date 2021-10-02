@@ -348,8 +348,11 @@
     <Compile Include="ViewModel\PagesViewModels\BlankPage\BlankPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\CheckUserPage\CheckUserPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\CheckUserPage\CheckUserPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\IndexPage\IndexPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\IndexPage\IndexPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\MyAccountPage\MyAccountPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\MyAccountPage\MyAccountPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\SettingPage\SettingPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\SettingPage\SettingPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\VerifiedPage\VerifiedPageViewModel.cs" />
     <Compile Include="ViewModel\UserControlsViewModels\UserControlMenuItem\UserControlMenuItemViewModel.cs" />

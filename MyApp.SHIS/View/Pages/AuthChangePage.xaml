@@ -6,6 +6,7 @@
     x:Class="MyApp.SHIS.View.Pages.AuthChangePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:MyApp.SHIS.View.Pages"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -17,6 +18,7 @@
                 HorizontalAlignment="Center"
                 Margin="10"
                 Text="权限改变" />
+            <DataGrid IsEnabled="False" ItemsSource="{Binding UserList}" />
             <WrapPanel Margin="10">
                 <TextBox
                     Margin="10"
@@ -45,14 +47,16 @@
                     Style="{StaticResource MaterialDesignFilledComboBox}"
                     Width="200"
                     materialDesign:HintAssist.Hint="请选择该用户的权限">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectUserType}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ComboBoxItem Content="管理员" />
                     <ComboBoxItem Content="普通用户" />
                     <ComboBoxItem Content="病人" />
                     <ComboBoxItem Content="医生" />
-                    <ComboBoxItem Content="药师" />
-                    <ComboBoxItem Content="挂号员" />
-                    <ComboBoxItem Content="收费员" />
-                    <ComboBoxItem Content="护士" />
+                    <ComboBoxItem Content="其他职工" />
                 </ComboBox>
                 <Button
                     Command="{Binding ChangeAuth}"
@@ -63,7 +67,186 @@
                     <TextBlock Text="改变权限" />
                 </Button>
             </WrapPanel>
-            <DataGrid IsEnabled="False" ItemsSource="{Binding UserList}" />
+
+            <GroupBox
+                Background="White"
+                Margin="10"
+                Visibility="{Binding PatiVisibility}">
+                <GroupBox.Header>
+                    <WrapPanel>
+                        <TextBlock Foreground="White" Text="病人信息" />
+                        <Button
+                            Background="LightGray"
+                            Command="{Binding ChangePwd}"
+                            Content="确认信息"
+                            Margin="600,0,0,0"
+                            Width="100" />
+                    </WrapPanel>
+                </GroupBox.Header>
+                <StackPanel HorizontalAlignment="Center">
+                    <WrapPanel>
+                        <TextBlock
+                            FontSize="15"
+                            Text="医疗卡号"
+                            VerticalAlignment="Center"
+                            Width="60" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding MedCardNum}"
+                            Width="140"
+                            materialDesign:HintAssist.Hint="{Binding MedCardNumHint}" />
+                        <Rectangle Width="20" />
+                        <TextBlock
+                            FontSize="15"
+                            Text="保密级别"
+                            VerticalAlignment="Center"
+                            Width="60" />
+                        <ComboBox
+                            Margin="10,0"
+                            SelectedItem="{Binding SecretGradeID}"
+                            Style="{StaticResource MaterialDesignFilledComboBox}"
+                            Width="140"
+                            materialDesign:HintAssist.Hint="{Binding SecretGradeIDHint}">
+                            <ComboBoxItem Content="无" />
+                            <ComboBoxItem Content="秘密" />
+                            <ComboBoxItem Content="机密" />
+                            <ComboBoxItem Content="绝密" />
+                        </ComboBox>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox
+                Background="White"
+                Margin="10"
+                Visibility="{Binding StaffVisibility}">
+                <GroupBox.Header>
+                    <WrapPanel>
+                        <TextBlock Foreground="White" Text="职工信息" />
+                        <Button
+                            Background="LightGray"
+                            Command="{Binding ChangePwd}"
+                            Content="确认信息"
+                            Margin="600,0,0,0"
+                            Width="100" />
+                    </WrapPanel>
+                </GroupBox.Header>
+                <StackPanel>
+                    <WrapPanel>
+                        <TextBlock
+                            FontSize="15"
+                            Text="职工编号"
+                            VerticalAlignment="Center"
+                            Width="60" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding StaffUserID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="140"
+                            materialDesign:HintAssist.Hint="{Binding StaffUserIDHint}" />
+                        <TextBlock
+                            FontSize="15"
+                            Text="职工姓名"
+                            VerticalAlignment="Center"
+                            Width="60" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding StaffAuthName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="140"
+                            materialDesign:HintAssist.Hint="{Binding StaffAuthNameHint}" />
+                        <Rectangle Width="20" />
+                        <TextBlock
+                            FontSize="15"
+                            Text="职工类型"
+                            VerticalAlignment="Center"
+                            Width="60" />
+                        <ComboBox
+                            Margin="10,0"
+                            SelectedItem="{Binding StaffType}"
+                            Style="{StaticResource MaterialDesignFilledComboBox}"
+                            Width="140"
+                            materialDesign:HintAssist.Hint="{Binding StaffTypeHint}">
+                            <ComboBoxItem Content="药师" />
+                            <ComboBoxItem Content="挂号员" />
+                            <ComboBoxItem Content="收费员" />
+                            <ComboBoxItem Content="护士" />
+                        </ComboBox>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox
+                Background="White"
+                Margin="10"
+                Visibility="{Binding DoctVisibility}">
+                <GroupBox.Header>
+                    <WrapPanel>
+                        <TextBlock Foreground="White" Text="医生信息" />
+                        <Button
+                            Background="LightGray"
+                            Command="{Binding ChangePwd}"
+                            Content="确认信息"
+                            Margin="600,0,0,0"
+                            Width="100" />
+                    </WrapPanel>
+                </GroupBox.Header>
+                <StackPanel>
+                    <WrapPanel HorizontalAlignment="Center">
+                        <TextBlock
+                            FontSize="15"
+                            Text="医生编码"
+                            VerticalAlignment="Center"
+                            Width="60" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding StaffUserID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="140"
+                            materialDesign:HintAssist.Hint="{Binding StaffUserIDHint}" />
+                        <Rectangle Width="20" />
+                        <TextBlock
+                            FontSize="15"
+                            Text="医生姓名"
+                            VerticalAlignment="Center"
+                            Width="60" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding StaffAuthName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="140"
+                            materialDesign:HintAssist.Hint="{Binding StaffAuthNameHint}" />
+
+                    </WrapPanel>
+                    <Rectangle Height="20" />
+                    <WrapPanel HorizontalAlignment="Center">
+                        <TextBlock
+                            FontSize="15"
+                            Text="医生科室"
+                            VerticalAlignment="Center"
+                            Width="60" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding DoctDept}"
+                            Width="140"
+                            materialDesign:HintAssist.Hint="{Binding DoctDeptHint}" />
+                        <Rectangle Width="20" />
+                        <TextBlock
+                            FontSize="15"
+                            Text="医生职位"
+                            VerticalAlignment="Center"
+                            Width="60" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding DoctPosn}"
+                            Width="140"
+                            materialDesign:HintAssist.Hint="{Binding DoctPosnHint}" />
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
     </Grid>
 </Page>

@@ -109,9 +109,9 @@
                         PlacementMode="BottomAndAlignRightEdges"
                         StaysOpen="False">
                         <StackPanel Width="150">
-                            <Button Click="UserNameButton_OnClick" Content="{Binding UserLoginButtonContent}" />
+                            <Button Command="{Binding Login}" Content="{Binding UserLoginButtonContent}" />
                             <Button
-                                Click="SettingButton_OnClick"
+                                Command="{Binding Setting}"
                                 Content="设置"
                                 Visibility="{Binding SettingButtonVisibility}" />
                             <Button Content="帮助" />

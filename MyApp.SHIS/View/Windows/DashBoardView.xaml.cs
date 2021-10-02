@@ -29,15 +29,15 @@ namespace MyApp.SHIS.View.Windows
             StreamReader streamReader = new StreamReader("AppSetting.json");
             string jsonString = streamReader.ReadToEnd();
             AppSetting m = JsonConvert.DeserializeObject<AppSetting>(jsonString);
-            
-            // SqlSugar.IOC 注入
+
+            #region SqlSugar.IOC 注入
+
             try
             {
                 if (m != null)
                     SugarIocServices.AddSqlSugar(new IocConfig()
                     {
-                        ConnectionString =
-                            m.ConnectionString, // 格式 server=localhost;Database=SqlSugar4xTest;Uid=root;Pwd=haosql;
+                        ConnectionString = m.ConnectionString, // 格式 server=localhost;Database=SqlSugar4xTest;Uid=root;Pwd=haosql;
                         DbType = IocDbType.MySql,
                         IsAutoCloseConnection = true //自动释放
                     });
@@ -51,6 +51,8 @@ namespace MyApp.SHIS.View.Windows
                 MessageBox.Show("请在AppSetting.json文件中确认ConnectionString是否正确");
             }
 
+            #endregion 
+            
             this.DataContext = _dashBoardViewModel;
             
             //注册消息
@@ -58,6 +60,8 @@ namespace MyApp.SHIS.View.Windows
             Messenger.Default.Register<string>(this, "generateMenu",GenerateMenu);
             Messenger.Default.Register<string>(this, "openMenu", OpenMenu);
             Messenger.Default.Register<string>(this, "closeMenu", CloseMenu);
+            Messenger.Default.Register<string>(this, "dashBoard2Login", DashBOard2Login);
+            Messenger.Default.Register<string>(this, "settingMenu", SettingPage);
             
             _dashBoardViewModel.UserLoginButtonContent = "账号登录";
             _dashBoardViewModel.SettingButtonVisibility = Visibility.Collapsed;
@@ -70,6 +74,7 @@ namespace MyApp.SHIS.View.Windows
             Unloaded += (sender, e) => Messenger.Default.Unregister(this);
             // 创建数据库、表、项
             // SqlSugarCreate();
+
         }
 
         // 登录后窗口
@@ -82,6 +87,8 @@ namespace MyApp.SHIS.View.Windows
             Messenger.Default.Register<string>(this, "generateMenu", GenerateMenu);
             Messenger.Default.Register<string>(this, "openMenu", OpenMenu);
             Messenger.Default.Register<string>(this, "closeMenu", CloseMenu);
+            Messenger.Default.Register<string>(this, "dashBoard2Login", DashBOard2Login);
+            Messenger.Default.Register<string>(this, "settingMenu", SettingPage);
             
             _dashBoardViewModel.UserLoginButtonContent = "退出登录";
             _dashBoardViewModel.UserName = username;
@@ -93,6 +100,22 @@ namespace MyApp.SHIS.View.Windows
             Unloaded += (sender, e) => Messenger.Default.Unregister(this);
 
         }
+        
+        internal void SwitchPages(object sender)
+        {
+            var page = (Page)sender;
+
+            if (page != null)
+            {
+                ContentControl.Content = new Frame()
+                {
+                    Content = page
+                };
+            }
+
+        }
+
+        #region 接受消息执行的方法
 
         private void CloseWindow(string msg)
         {
@@ -115,50 +138,6 @@ namespace MyApp.SHIS.View.Windows
             }
         }
         
-
-        #region 初始化数据库
-        public async void SqlSugarCreate()
-        {
-            // 创建数据库
-            DbScoped.Sugar.DbMaintenance.CreateDatabase();
-            // 创建表
-            DbScoped.Sugar.CodeFirst.SetStringDefaultLength(200).InitTables
-            (
-                typeof(user),
-                typeof(norm_user),
-                typeof(pati_user),
-                typeof(staff_user),
-                typeof(doct_user)
-            );
-            // 生成管理员帐号
-            UserService userService = new UserService(new UserRepository());
-            await userService.CreateAsync(new user()
-            {
-                UserID = 1,
-                UserName = "root",
-                UserPwd = "123456",
-                UserType = 0
-            });
-            // 生成实体
-            // DbScoped.Sugar.DbFirst.IsCreateAttribute().CreateClassFile("D:\\C Sharp\\demo\\SHIS\\MyApp.SHIS\\Models", "Models");
-        }
-        #endregion
-        
-
-        internal void SwitchPages(object sender)
-        {
-            var page = (Page)sender;
-
-            if (page != null)
-            {
-                ContentControl.Content = new Frame()
-                {
-                    Content = page
-                };
-            }
-
-        }
-
         private void OpenMenu(string msg)
         {
             _dashBoardViewModel.ButtonOpenMenuVisibility = Visibility.Collapsed;
@@ -171,6 +150,59 @@ namespace MyApp.SHIS.View.Windows
             _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
         }
         
+        private void DashBOard2Login(string msg)
+        {
+            ViewManage.ChangeView(this, new LoginView());
+        }
+
+        private void SettingPage(string msg)
+        {
+            SwitchPages(new SettingPage(_dashBoardViewModel.UserName));
+        }
+
+        #endregion
+        
+
+        #region 初始化数据库
+        // public async void SqlSugarCreate()
+        // {
+        //     // 创建数据库
+        //     DbScoped.Sugar.DbMaintenance.CreateDatabase();
+        //     // 创建表
+        //     DbScoped.Sugar.CodeFirst.SetStringDefaultLength(200).InitTables
+        //     (
+        //         typeof(user),
+        //         typeof(norm_user),
+        //         typeof(pati_user),
+        //         typeof(staff_user),
+        //         typeof(doct_user)
+        //     );
+        //     // 生成管理员帐号
+        //     UserService userService = new UserService(new UserRepository());
+        //     await userService.CreateAsync(new user()
+        //     {
+        //         UserID = 1,
+        //         UserName = "root",
+        //         UserPwd = "123456",
+        //         UserType = 0
+        //     });
+        // }
+
+        // public void SqlSugarCreate()
+        // {
+        //     // 生成实体
+        //     DbScoped.Sugar.DbFirst.IsCreateAttribute()
+        //         .CreateClassFile("D:\\C Sharp\\demo\\SHIS\\MyApp.SHIS\\Models", "MyApp.SHIS.Models");
+        // }
+
+        #endregion
+        
+        
+        /// <summary>
+        /// 菜单滚轮滑动
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ScrollViewer_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
@@ -181,19 +213,14 @@ namespace MyApp.SHIS.View.Windows
             ScrollViewer.RaiseEvent(eventArg);
         }
         
+        /// <summary>
+        /// 窗口拖动
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GridTitle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
-        }
-
-        private void UserNameButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            ViewManage.ChangeView(this, new LoginView());
-        }
-
-        private void SettingButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            SwitchPages(new SettingPage());
         }
 
         #region 生成个人面板
@@ -381,9 +408,20 @@ namespace MyApp.SHIS.View.Windows
         public void GenerateRgstMenu()
         {
             var item0 = new ItemMenu("主页", new IndexPage(), PackIconKind.ViewDashboard);
+
+            var menuRegister = new List<SubItem>()
+            {
+                new SubItem("患者信息"),
+                new SubItem("挂号"),
+                new SubItem("退号"),
+                new SubItem("挂号信息管理")
+            };
+            var item1 = new ItemMenu("挂号", menuRegister, PackIconKind.Register);    
+            
             var item2 = new ItemMenu("反馈", new IndexPage(), PackIconKind.ShoppingBasket);
 
             Menu.Children.Add(new UserControlMenuItem(item0, this));
+            Menu.Children.Add(new UserControlMenuItem(item1, this));
             Menu.Children.Add(new UserControlMenuItem(item2, this));
         }
         #endregion

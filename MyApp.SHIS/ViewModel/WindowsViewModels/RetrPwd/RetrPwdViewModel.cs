@@ -27,9 +27,8 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.RetrPwd
         {
             get
             {
-                return _back2DashBoard ?? new RelayCommand(
-                    () => Messenger.Default.Send("", "retrievePassword2DashBoard")
-                );
+                return _back2DashBoard ?? (_back2DashBoard = new RelayCommand(
+                    () => Messenger.Default.Send("", "retrievePassword2DashBoard"))) ;
             }
             set => _back2DashBoard = value;
         }
@@ -39,9 +38,8 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.RetrPwd
         {
             get
             {
-                return _back2Login ?? new RelayCommand(
-                    () => Messenger.Default.Send("", "retrievePassword2Login")
-                );
+                return _back2Login ?? (_back2Login = new RelayCommand(
+                    () => Messenger.Default.Send("", "retrievePassword2Login")));
             }
             set => _back2Login = value;
         }
@@ -51,9 +49,8 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.RetrPwd
         {
             get
             {
-                return _retrievePwd ?? new RelayCommand(
-                    () => RetrPwd(_retrPwdModel.UserName)
-                );
+                return _retrievePwd ?? (_retrievePwd = new RelayCommand(
+                    () => RetrPwd(_retrPwdModel.UserName)));
             }
             set => _retrievePwd = value;
         }

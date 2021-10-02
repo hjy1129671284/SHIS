@@ -30,6 +30,14 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard
                 OnPropertyChanged(nameof(UserType));
             }
         }
+        
+        private ICommand _closeWindow;
+        private ICommand _openMenu;
+        private ICommand _closenMenu;
+        private ICommand _login;
+        private ICommand _setting;
+        
+        #region 属性
 
         public string UserName
         {
@@ -81,7 +89,11 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard
             }
         }
 
-        private ICommand _closeWindow;
+        #endregion
+
+
+        #region 命令
+
         public ICommand  CloseWindow
         {
             get
@@ -92,7 +104,6 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard
             set => _closeWindow = value;
         }
 
-        private ICommand _openMenu;
         public ICommand OpenMenu
         {
             get
@@ -103,7 +114,6 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard
             set => _openMenu = value;
         }
         
-        private ICommand _closenMenu;
         public ICommand CloseMenu
         {
             get
@@ -113,5 +123,26 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard
             }
             set => _closenMenu = value;
         }
+
+        public ICommand Login
+        {
+            get
+            {
+                return _login ?? (_login = new RelayCommand(
+                    () => { Messenger.Default.Send("", "dashBoard2Login"); }));
+            }
+        }
+        
+        public ICommand Setting
+        {
+            get
+            {
+                return _setting ?? (_setting = new RelayCommand(
+                    () => { Messenger.Default.Send("", "settingMenu"); }));
+            }
+        }
+
+        #endregion
+        
     }
 }
