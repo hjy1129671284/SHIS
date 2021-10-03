@@ -411,10 +411,10 @@ namespace MyApp.SHIS.View.Windows
 
             var menuRegister = new List<SubItem>()
             {
-                new SubItem("患者信息"),
-                new SubItem("挂号"),
-                new SubItem("退号"),
-                new SubItem("挂号信息管理")
+                new SubItem("患者信息", new PatiInfoPage()),
+                new SubItem("挂号", new RegisterPage()),
+                new SubItem("退号", new UnRegisterPage()),
+                new SubItem("挂号信息管理", new RegisterMangePage())
             };
             var item1 = new ItemMenu("挂号", menuRegister, PackIconKind.Register);    
             

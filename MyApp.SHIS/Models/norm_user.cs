@@ -49,7 +49,7 @@ namespace MyApp.SHIS.Models
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public int? IDCard {get;set;}
+           public string IDCard {get;set;}
 
            /// <summary>
            /// Desc:实名制认证状态

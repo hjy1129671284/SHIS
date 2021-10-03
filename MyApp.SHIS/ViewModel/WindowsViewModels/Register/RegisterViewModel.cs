@@ -90,7 +90,14 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Register
             }
             else
             {
-                if (pwd1 == pwd2)
+                if(string.IsNullOrEmpty(pwd1) || string.IsNullOrEmpty(pwd2))
+                {
+                    // 插入数据 若密码没填，则为默认密码123456
+                    await userService.CreateAsync(new user() { UserName = userName, UserType = 1});
+                    await normUserService.CreateAsync(new norm_user() {UserName = userName});
+                    MessageBox.Show("注册成功");
+                }
+                else if (pwd1 == pwd2)
                 {
                     // 插入数据
                     await userService.CreateAsync(new user() { UserName = userName, UserPwd = pwd1, UserType = 1});

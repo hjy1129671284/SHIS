@@ -312,6 +312,8 @@
     <Compile Include="Models\AppSetting.cs" />
     <Compile Include="Models\doct_user.cs" />
     <Compile Include="Models\norm_user.cs" />
+    <Compile Include="Models\pati_out_visit.cs" />
+    <Compile Include="Models\pati_out_visit_settle.cs" />
     <Compile Include="Models\pati_user.cs" />
     <Compile Include="Models\staff_user.cs" />
     <Compile Include="Models\user.cs" />
@@ -319,24 +321,32 @@
     <Compile Include="Repository\IRepository\IBaseRepository.cs" />
     <Compile Include="Repository\IRepository\IDoctUserRepository.cs" />
     <Compile Include="Repository\IRepository\INormUserRepository.cs" />
+    <Compile Include="Repository\IRepository\IPatiOutVisitRepository.cs" />
+    <Compile Include="Repository\IRepository\IPatiOutVisitSettleRepository.cs" />
     <Compile Include="Repository\IRepository\IPatiUserRepository.cs" />
     <Compile Include="Repository\IRepository\IStaffUserRepository.cs" />
     <Compile Include="Repository\IRepository\IUserRepository.cs" />
     <Compile Include="Repository\Repository\BaseRepository.cs" />
     <Compile Include="Repository\Repository\DoctUserRepository.cs" />
     <Compile Include="Repository\Repository\NormUserRepository.cs" />
+    <Compile Include="Repository\Repository\PatiOutVisitRepository.cs" />
+    <Compile Include="Repository\Repository\PatiOutVisitSettleRepository.cs" />
     <Compile Include="Repository\Repository\PatiUserRepository.cs" />
     <Compile Include="Repository\Repository\StaffUserRepository.cs" />
     <Compile Include="Repository\Repository\UserRepository.cs" />
     <Compile Include="Services\IServices\IBaseService.cs" />
     <Compile Include="Services\IServices\IDoctUserService.cs" />
     <Compile Include="Services\IServices\INromUserService.cs" />
+    <Compile Include="Services\IServices\IPatiOutVisitService.cs" />
+    <Compile Include="Services\IServices\IPatiOutVisitSettleService.cs" />
     <Compile Include="Services\IServices\IPatiUserService.cs" />
     <Compile Include="Services\IServices\IStaffUserService.cs" />
     <Compile Include="Services\IServices\IUserService.cs" />
     <Compile Include="Services\Services\BaseService.cs" />
     <Compile Include="Services\Services\DoctUserService.cs" />
     <Compile Include="Services\Services\NormUserService.cs" />
+    <Compile Include="Services\Services\PatiOutVisitService.cs" />
+    <Compile Include="Services\Services\PatiOutVisitSettleService.cs" />
     <Compile Include="Services\Services\PatiUserService.cs" />
     <Compile Include="Services\Services\StaffUserService.cs" />
     <Compile Include="Services\Services\UserService.cs" />
@@ -352,8 +362,16 @@
     <Compile Include="ViewModel\PagesViewModels\IndexPage\IndexPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\MyAccountPage\MyAccountPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\MyAccountPage\MyAccountPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\PatiInfoPage\PatiInfoPageModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\PatiInfoPage\PatiInfoPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\RegisterMangePage\RegisterMangePageModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\RegisterMangePage\RegisterMangePageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\RegisterPage\RegisterPageModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\RegisterPage\RegisterPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\SettingPage\SettingPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\SettingPage\SettingPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\UnRegisterPage\UnRegisterPageModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\UnRegisterPage\UnRegisterPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\VerifiedPage\VerifiedPageViewModel.cs" />
     <Compile Include="ViewModel\UserControlsViewModels\UserControlMenuItem\UserControlMenuItemViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -381,8 +399,20 @@
     <Compile Include="View\Pages\MyAccountPage.xaml.cs">
       <DependentUpon>MyAccountPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Pages\PatiInfoPage.xaml.cs">
+      <DependentUpon>PatiInfoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\RegisterMangePage.xaml.cs">
+      <DependentUpon>RegisterMangePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\RegisterPage.xaml.cs">
+      <DependentUpon>RegisterPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\UnRegisterPage.xaml.cs">
+      <DependentUpon>UnRegisterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\VerifiedPage.xaml.cs">
       <DependentUpon>VerifiedPage.xaml</DependentUpon>
@@ -429,7 +459,11 @@
     <Page Include="View\Pages\CheckUserPage.xaml" />
     <Page Include="View\Pages\IndexPage.xaml" />
     <Page Include="View\Pages\MyAccountPage.xaml" />
+    <Page Include="View\Pages\PatiInfoPage.xaml" />
+    <Page Include="View\Pages\RegisterMangePage.xaml" />
+    <Page Include="View\Pages\RegisterPage.xaml" />
     <Page Include="View\Pages\SettingPage.xaml" />
+    <Page Include="View\Pages\UnRegisterPage.xaml" />
     <Page Include="View\Pages\VerifiedPage.xaml" />
     <Page Include="View\UserControls\PasswordBoxUserControl.xaml" />
     <Page Include="View\UserControls\UserControlMenuItem.xaml" />

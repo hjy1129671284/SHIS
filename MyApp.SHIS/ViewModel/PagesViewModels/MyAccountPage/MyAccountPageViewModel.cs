@@ -150,7 +150,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
             }
         }
 
-        public int? IDCard
+        public string IDCard
         {
             get => _myAccountPageModel.IDCard;
             set
@@ -159,7 +159,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
                 OnPropertyChanged(nameof(IDCard));
             }
         }
-        public int? IDCardHint
+        public string IDCardHint
         {
             get => _myAccountPageModel.IDCardHint;
             set
@@ -672,24 +672,24 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditAge()
         {
-            {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-                var user = result[0];
-                        
-                int age = Convert.ToInt32(_myAccountPageModel.Age);
-                DateTime now = DateTime.Now;
-                int birthYear = now.Year - age;
-                DateTime birthDate = new DateTime(birthYear, now.Month, now.Day);
-                        
-                user.BirthDate = birthDate;
-                BirthDate = birthDate;
-                        
-                bool isEdit = await normUserService.EditAsync(user);
-                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
-                        
-                // MessageBox.Show($"Age:{Age}, _myAccountPageModel.Age:{_myAccountPageModel.Age}");
-            }
+            
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
+            var user = result[0];
+                    
+            int age = Convert.ToInt32(_myAccountPageModel.Age);
+            DateTime now = DateTime.Now;
+            int birthYear = now.Year - age;
+            DateTime birthDate = new DateTime(birthYear, now.Month, now.Day);
+                    
+            user.BirthDate = birthDate;
+            BirthDate = birthDate;
+                    
+            bool isEdit = await normUserService.EditAsync(user);
+            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+                    
+            // MessageBox.Show($"Age:{Age}, _myAccountPageModel.Age:{_myAccountPageModel.Age}");
+            
         }
 
         #endregion
@@ -704,9 +704,21 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
             string gender = _myAccountPageModel.Gender;
             user.SexName = gender;
-            if (gender == "  ") user.SexID = 0;
-            else if (gender == "男") user.SexID = 1;
-            else if (gender == "女") user.SexID = 2;
+            if (gender == "  ")
+            {
+                user.SexID = 0;
+                user.SexName = null;
+            }
+            else if (gender == "男")
+            {
+                user.SexID = 1;
+                user.SexName = "男";
+            }
+            else if (gender == "女")
+            {
+                user.SexID = 2;
+                user.SexName = "女";
+            }
             
             bool isEdit = await normUserService.EditAsync(user);
             MessageBox.Show(isEdit ? "修改成功" : "修改失败");
@@ -726,20 +738,20 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
                                   "其他证件类型" ? _myAccountPageModel.IDCardTypeText : _myAccountPageModel.IDCardType.Content.ToString();
             switch (user.IDCardTypeName)
             {
-                case "身份证": user.IDCardTypeID = 100001; break;
-                case "军人证": user.IDCardTypeID = 100002; break;
-                case "护照": user.IDCardTypeID = 100003; break;
-                case "户口本": user.IDCardTypeID = 100004; break;
-                case "外国人永久居留证": user.IDCardTypeID = 100005; break;
-                case "武警证": user.IDCardTypeID = 100006; break;
-                case "公章": user.IDCardTypeID = 100007; break;
-                case "工商营业执照": user.IDCardTypeID = 100008; break;
-                case "法人代码证": user.IDCardTypeID = 100009; break;
-                case "学生证": user.IDCardTypeID = 100010; break;
-                case "士兵证": user.IDCardTypeID = 100011; break;
-                case "港澳居民来往内地通行证": user.IDCardTypeID = 100016; break;
-                case "台湾居民来往大陆通行证": user.IDCardTypeID = 100017; break;
-                default: user.IDCardTypeID = 10018; break;
+                case "身份证": user.IDCardTypeID = 100001; user.IDCardTypeName = "身份证"; break;
+                case "军人证": user.IDCardTypeID = 100002; user.IDCardTypeName = "军人证"; break;
+                case "护照": user.IDCardTypeID = 100003; user.IDCardTypeName = "护照"; break;
+                case "户口本": user.IDCardTypeID = 100004; user.IDCardTypeName = "户口本"; break;
+                case "外国人永久居留证": user.IDCardTypeID = 100005; user.IDCardTypeName = "外国人永久居留证"; break;
+                case "武警证": user.IDCardTypeID = 100006; user.IDCardTypeName = "武警证"; break;
+                case "公章": user.IDCardTypeID = 100007; user.IDCardTypeName = "公章"; break;
+                case "工商营业执照": user.IDCardTypeID = 100008; user.IDCardTypeName = "工商营业执照"; break;
+                case "法人代码证": user.IDCardTypeID = 100009; user.IDCardTypeName = "法人代码证"; break;
+                case "学生证": user.IDCardTypeID = 100010; user.IDCardTypeName = "学生证"; break;
+                case "士兵证": user.IDCardTypeID = 100011; user.IDCardTypeName = "士兵证"; break;
+                case "港澳居民来往内地通行证": user.IDCardTypeID = 100016; user.IDCardTypeName = "港澳居民来往内地通行证"; break;
+                case "台湾居民来往大陆通行证": user.IDCardTypeID = 100017; user.IDCardTypeName = "台湾居民来往大陆通行证"; break;
+                default: user.IDCardTypeID = 10018; user.IDCardTypeName = "其他证件类型"; break;
             }
             
             bool isEdit = await normUserService.EditAsync(user);
@@ -852,7 +864,20 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
             var user = result[0];
 
             user.OccupationName = _myAccountPageModel.OccupationName.Content.ToString();
-            // OccupationID
+            switch (user.OccupationName)
+            {
+                case "国家机关、党群组织、企业、事业单位负责人": user.OccupationID = 10000; break;
+                case "专业技术人员": user.OccupationID = 20000; break;
+                case "办事人员和有关人员": user.OccupationID = 30000; break;
+                case "商业、服务业人员": user.OccupationID = 40000; break;
+                case "农、林、牧、渔、水利业生产人员": user.OccupationID = 50000; break;
+                case "生产、运输设备操作人员及有关人员": user.OccupationID = 60000; break;
+                case "军人": user.OccupationID = 70000; break;
+                case "无职业者分类及代码": user.OccupationID = 80000; break;
+                case "不便分类的其他人群": user.OccupationID = 90000; break;
+                case "不知道": user.OccupationID = -1; break;
+                
+            }
             
             bool isEdit = await normUserService.EditAsync(user);
             MessageBox.Show(isEdit ? "修改成功" : "修改失败");
@@ -964,7 +989,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
             var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
             var user = result[0];
 
-            switch (_myAccountPageModel.Nationality.Content.ToString())
+            user.NationalityName = _myAccountPageModel.Nationality.Content.ToString();
+            switch (user.NationalityName)
             {
                 case "汉族": user.NationalityID = 01; break;
                 case "蒙古族": user.NationalityID = 02; break;

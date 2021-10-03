@@ -70,6 +70,7 @@
                                 </i:Interaction.Triggers>
                             </TextBlock>
                             <ComboBox
+                                IsEditable="True"
                                 Margin="10,0"
                                 SelectedItem="{Binding IDCardType}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
@@ -149,6 +150,7 @@
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
+                                IsEditable="True"
                                 IsEnabled="False"
                                 Margin="10,0"
                                 SelectedItem="{Binding AuthMethod}"
@@ -243,6 +245,7 @@
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
+                                IsEditable="True"
                                 Margin="10,0"
                                 SelectedItem="{Binding OccupationName}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
@@ -287,6 +290,7 @@
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
+                                IsEditable="True"
                                 Margin="10,0"
                                 SelectedItem="{Binding Married}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
@@ -312,6 +316,7 @@
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
+                                IsEditable="True"
                                 Margin="10,0"
                                 SelectedItem="{Binding RetireType}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
@@ -349,6 +354,7 @@
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
+                                IsEditable="True"
                                 Margin="10,0"
                                 SelectedItem="{Binding Nationality}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
@@ -459,6 +465,7 @@
                                 VerticalAlignment="Center"
                                 Width="60" />
                             <ComboBox
+                                IsEditable="True"
                                 Margin="10,0"
                                 SelectedItem="{Binding BloodType}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"

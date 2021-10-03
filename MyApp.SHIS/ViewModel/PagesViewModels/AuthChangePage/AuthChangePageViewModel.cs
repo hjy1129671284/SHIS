@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -319,10 +318,21 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
             DoctDept = null;
             DoctPosn = null;
             
-            if (_authChangePageModel.UserName == null)
+            if (string.IsNullOrEmpty(_authChangePageModel.UserName))
                 MessageBox.Show("请输入用户名");
             else
             {
+                // 根据用户名查找 norm表，填写用户实名信息
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var normResult =
+                    await normUserService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
+                if (normResult != null && normResult.Count > 0)
+                {
+                    StaffAuthNameHint = normResult[0].UserAuthName;
+
+                }
+                
+                // 根据管理员选定的新权限，展示不同的界面信息
                 if (_authChangePageModel.UserType.Content.ToString() == "病人")
                 {
                     PatiVisibility = Visibility.Visible;
@@ -354,14 +364,13 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                     PatiVisibility = Visibility.Collapsed;
                     StaffVisibility = Visibility.Visible;
                     DoctVisibility = Visibility.Collapsed;
-                
+                    
                     StaffUserService staffUserService = new StaffUserService(new StaffUserRepository());
 
                     var result = await staffUserService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
                     if (result != null && result.Count > 0)
                     {
                         StaffUserIDHint = result[0].StaffID.ToString();
-                        StaffAuthNameHint = result[0].StafName;
                         _authChangePageModel.StaffIsExist = true;
                         switch (result[0].StafType)
                         {
@@ -519,16 +528,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                             normIsEdit = await normUserService.EditAsync(normUser);
 
                             // pati表 添加数据
-                            pati_user patiUser = new pati_user
-                                {
-                                    NormID = normUser.NormID,
-                                    UserName = normUser.UserName,
-                                    MedCardNum = (int) _authChangePageModel.MedCardNum,
-                                    SecretGradeID = grade
-                                };
-                            
                             PatiUserService patiUserService = new PatiUserService(new PatiUserRepository());
-                            patiIsEdit = await patiUserService.EditAsync(patiUser);
+                            patiIsEdit = await patiUserService.EditByNormAsynv(normUser, (int) _authChangePageModel.MedCardNum);
                         }
                         else
                         {
@@ -567,26 +568,57 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
             if (_authChangePageModel.UserType.Content.ToString() == "其他职工")
             {
                 // 置修改标记为 false
+                normIsEdit = false;
                 staffIsEdit = false;
-                
-                StaffUserService staffUserService = new StaffUserService(new StaffUserRepository());
-                
-                //判断管理员填写的职工编码是否与 staff表 中的记录重复
-                int staffID;
-                if (_authChangePageModel.StaffUserID == null)
+
+                #region norm表
+
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var normResult = await normUserService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
+                norm_user normUser;
+                // 判断 norm表 中是否有用户记录
+                if (normResult != null && normResult.Count > 0)
                 {
-                    int.TryParse(_authChangePageModel.StaffUserIDHint, out staffID) ;
+                    // 若 norm表 中有用户的记录，则根据管理员填写的职工姓名更新 norm表 中的实名信息
+                    normUser = normResult[0];
+                    if (!string.IsNullOrEmpty(_authChangePageModel.StaffAuthName))
+                    {
+                        normUser.UserAuthName = _authChangePageModel.StaffAuthName;
+                        normIsEdit = await normUserService.EditAsync(normUser);
+                    }
+                        
                 }
                 else
                 {
-                    staffID = (int) _authChangePageModel.StaffUserID;
+                    // 若 norm表 中没有用户的记录，则根据 user表 的记录和管理员填写的信息，添加数据
+                    if (string.IsNullOrEmpty(_authChangePageModel.StaffAuthName))
+                        MessageBox.Show("请填写职工姓名");
+                    else
+                    {
+                        normUser = new norm_user
+                        {
+                            UserName = user[0].UserName,
+                            UserAuthName = _authChangePageModel.StaffAuthName
+                        };
+                        normIsEdit = await normUserService.CreateAsync(normUser);
+                    }
                 }
+
+                #endregion
+
+
+                StaffUserService staffUserService = new StaffUserService(new StaffUserRepository());
+                
+                //判断管理员填写的职工编码是否与 staff表 中的记录重复
+                int staffID = _authChangePageModel.StaffUserID ?? -1;
                 var existResult =
                 await staffUserService.QueryAsync(it => it.StaffID == staffID);
                 if(existResult != null && existResult.Count > 0)
                     MessageBox.Show("职工编码已存在，请确认并重写填写");
                 else
                 {
+                    #region staff表
+
                     // 判断职工是否已有记录
                     if (_authChangePageModel.StaffIsExist)
                     {
@@ -597,7 +629,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
 
                         if (_authChangePageModel.StaffUserID != null)
                             staffUser.StaffID = (int) _authChangePageModel.StaffUserID;
-                        if (_authChangePageModel.StaffAuthName != null)
+                        if (!string.IsNullOrEmpty(_authChangePageModel.StaffAuthName))
                             staffUser.StafName = _authChangePageModel.StaffAuthName;
                         staffUser.StafType = _authChangePageModel.NewUserType;
 
@@ -613,7 +645,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                             {
                                 UserID = user[0].UserID,
                                 StaffID = (int)_authChangePageModel.StaffUserID,
-                                UserName = _authChangePageModel.UserName,
+                                UserName = user[0].UserName,
                                 StafName = _authChangePageModel.StaffAuthName,
                                 StafType = _authChangePageModel.NewUserType,
                                 StafWork = 1
@@ -626,8 +658,9 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                             MessageBox.Show("请输入职工编码");
                         }
                     }
+                    
+                    #endregion
                 }
-                
             }
             # endregion
 
@@ -636,22 +669,57 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
             if (_authChangePageModel.UserType.Content.ToString() == "医生")
             {
                 // 置修改标记为 false
+                normIsEdit = false;
                 staffIsEdit = false;
                 doctIsEdit = false;
 
-                StaffUserService staffUserService = new StaffUserService(new StaffUserRepository());
+                #region norm表
 
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var normResult = await normUserService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
+                norm_user normUser;
+                // 判断 norm表 中是否有用户记录
+                if (normResult != null && normResult.Count > 0)
+                {
+                    // 若 norm表 中有用户的记录，则根据管理员填写的职工姓名更新 norm表 中的实名信息
+                    normUser = normResult[0];
+                    if (!string.IsNullOrEmpty(_authChangePageModel.StaffAuthName))
+                    {
+                        normUser.UserAuthName = _authChangePageModel.StaffAuthName;
+                        normIsEdit = await normUserService.EditAsync(normUser);
+                    }
+                        
+                }
+                else
+                {
+                    // 若 norm表 中没有用户的记录，则根据 user表 的记录和管理员填写的信息，添加数据
+                    if (string.IsNullOrEmpty(_authChangePageModel.StaffAuthName))
+                        MessageBox.Show("请填写职工姓名");
+                    else
+                    {
+                        normUser = new norm_user
+                        {
+                            UserName = user[0].UserName,
+                            UserAuthName = _authChangePageModel.StaffAuthName
+                        };
+                        normIsEdit = await normUserService.CreateAsync(normUser);
+                    }
+                }
+
+                #endregion
+                
                 // 判断管理员填写的医生编码是否与 staff表 中的记录重复
-
+                StaffUserService staffUserService = new StaffUserService(new StaffUserRepository());
+                
                 int staffID = _authChangePageModel.StaffUserID ?? -1;
-
                 var existResult = await staffUserService.QueryAsync(it => it.StaffID == staffID);
                 if (existResult != null && existResult.Count > 0)
                     MessageBox.Show("医生编码已存在，请确认并重新填写");
                 else
                 {
-                    staff_user staffUser = null;
-
+                    #region staff表
+                    
+                    staff_user staffUser;
                     // 判断医生是否在 staff 表中有记录
                     var staffResult =
                         await staffUserService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
@@ -663,7 +731,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
 
                         if (_authChangePageModel.StaffUserID != null)
                             staffUser.StaffID = (int) _authChangePageModel.StaffUserID;
-                        if (_authChangePageModel.StaffAuthName != null)
+                        if (!string.IsNullOrEmpty(_authChangePageModel.StaffAuthName) )
                             staffUser.StafName = _authChangePageModel.StaffAuthName;
                         staffUser.StafType = 3;
                         
@@ -674,13 +742,13 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                         // 若医生在 staff表 中没有记录，则根据管理员填写的信息，创建 staff表记录，其中 staffID, staffName 不能为空
                         if (_authChangePageModel.StaffUserID != null)
                         {
-                            if (_authChangePageModel.StaffAuthName != null)
+                            if (!string.IsNullOrEmpty(_authChangePageModel.StaffAuthName))
                             {
                                 staffUser = new staff_user
                                 {
                                     UserID = user[0].UserID,
                                     StaffID = (int) _authChangePageModel.StaffUserID,
-                                    UserName = _authChangePageModel.UserName,
+                                    UserName = user[0].UserName,
                                     StafName = _authChangePageModel.StaffAuthName,
                                     StafType = 3,
                                     StafWork = 1
@@ -694,7 +762,10 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                         else
                             MessageBox.Show("请填写医生编码");
                     }
+
+                    #endregion
                     
+                    #region doct表
 
                     DoctUserService doctUserService = new DoctUserService(new DoctUserRepository());
                     // 判断医生是否在 doct表 中有记录
@@ -707,11 +778,11 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                         
                         if (_authChangePageModel.StaffUserID != null)
                             doctUser.DoctID = (int) _authChangePageModel.StaffUserID;
-                        if (_authChangePageModel.StaffAuthName != null)
+                        if (!string.IsNullOrEmpty(_authChangePageModel.StaffAuthName))
                             doctUser.DoctName = _authChangePageModel.StaffAuthName;
-                        if (_authChangePageModel.DoctDept != null)
+                        if (!string.IsNullOrEmpty(_authChangePageModel.DoctDept))
                             doctUser.DoctDept = _authChangePageModel.DoctDept;
-                        if (_authChangePageModel.DoctPosn != null)
+                        if (!string.IsNullOrEmpty(_authChangePageModel.DoctPosn))
                             doctUser.DoctPosn = _authChangePageModel.DoctPosn;
                         
                         doctIsEdit = await doctUserService.EditAsync(doctUser);
@@ -725,7 +796,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
 
                         if (_authChangePageModel.DoctDept != null)
                         {
-                            if (_authChangePageModel.DoctPosn != null)
+                            if (!string.IsNullOrEmpty(_authChangePageModel.DoctPosn))
                             {
                                 doct_user doctUser = new doct_user
                                 {
@@ -746,7 +817,12 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                         else
                             MessageBox.Show("请填写医生科室");
                     }
+
+                    #endregion
+                    
                 }
+                
+                
             }
 
             #endregion

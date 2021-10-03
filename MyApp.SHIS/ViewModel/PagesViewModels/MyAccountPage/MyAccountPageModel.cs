@@ -17,8 +17,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         public ComboBoxItem IDCardType { get; set; }
         public string IDCardTypeText { get; set; }
         public string IDCardTypeHint { get; set; }
-        public int? IDCard { get; set; }
-        public int? IDCardHint { get; set; }
+        public string IDCard { get; set; }
+        public string IDCardHint { get; set; }
         public string AuthType { get; set; }
         public string AuthTypeText { get; set; }
         public bool IsAuth { get; set; }

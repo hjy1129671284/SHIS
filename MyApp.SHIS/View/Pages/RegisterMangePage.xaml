@@ -1,0 +1,15 @@
+﻿<Page
+    Height="450"
+    Title="RegisterMangePage"
+    Width="800"
+    mc:Ignorable="d"
+    x:Class="MyApp.SHIS.View.Pages.RegisterMangePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyApp.SHIS.View.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <TextBox Text="挂号信息管理" />
+    </Grid>
+</Page>
