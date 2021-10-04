@@ -529,7 +529,15 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
 
                             // pati表 添加数据
                             PatiUserService patiUserService = new PatiUserService(new PatiUserRepository());
-                            patiIsEdit = await patiUserService.EditByNormAsynv(normUser, (int) _authChangePageModel.MedCardNum);
+                            pati_user patiUser = new pati_user
+                            {
+                                NormID = normUser.NormID,
+                                UserName = normUser.UserName,
+                                MedCardNum = (int) _authChangePageModel.MedCardNum,
+                                SecretGradeID = grade,
+                                UserAuthName = normUser.UserAuthName
+                            };
+                            patiIsEdit = await patiUserService.CreateAsync(patiUser);
                         }
                         else
                         {
@@ -548,6 +556,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                             {
                                 NormID = normResult[0].NormID,
                                 UserName = normResult[0].UserName,
+                                UserAuthName = normResult[0].UserAuthName,
                                 MedCardNum = (int) _authChangePageModel.MedCardNum,
                                 SecretGradeID = grade
                             };

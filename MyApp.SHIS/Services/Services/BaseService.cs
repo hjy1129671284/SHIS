@@ -13,7 +13,7 @@ namespace MyApp.SHIS.Services.Services
         // 从子类的构造函数中传入
         protected IBaseRepository<TEntity> _iBaseRepository;
 
-        public  async Task<bool> CreateAsync(TEntity entity)
+        public async Task<bool> CreateAsync(TEntity entity)
         {
             return await _iBaseRepository.CreateAsync(entity);
         }

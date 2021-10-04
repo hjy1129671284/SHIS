@@ -13,5 +13,6 @@ namespace MyApp.SHIS.Services.Services
             base._iBaseRepository = iStaffUserRepository;
             _iStaffUserRepository = iStaffUserRepository;
         }
+        
     }
 }

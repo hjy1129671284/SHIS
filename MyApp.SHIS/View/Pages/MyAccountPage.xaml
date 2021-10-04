@@ -82,7 +82,7 @@
                                         <i:InvokeCommandAction Command="{Binding IDCardTypeSelectChange}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-
+                                <ComboBoxItem Content="" />
                                 <ComboBoxItem Content="身份证" />
                                 <ComboBoxItem Content="军人证" />
                                 <ComboBoxItem Content="护照" />
@@ -104,7 +104,7 @@
                                 Text="{Binding IDCardTypeText}"
                                 Visibility="{Binding IDCardTextBoxVisibility}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="其他证件类型" />
+                                materialDesign:HintAssist.Hint="{Binding IDCardTypeTextHint}" />
                             <Button
                                 Command="{Binding IDCardTypeCommand}"
                                 Content="确认修改"

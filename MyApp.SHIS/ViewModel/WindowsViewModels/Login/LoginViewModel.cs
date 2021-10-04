@@ -8,13 +8,23 @@ using MyApp.SHIS.Models;
 using MyApp.SHIS.Repository.Repository;
 using MyApp.SHIS.Services.Services;
 using MyApp.SHIS.ViewModel.Common;
+using MyApp.SHIS.Commom;
 
 namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
 {
     public class LoginViewModel: NotificationObject
     {
         private readonly LoginModel _loginModel = new LoginModel();
+        
 
+        private ICommand _noLogin;
+        private ICommand _login;
+        private ICommand _register;
+        private ICommand _retrievePassword;
+        private ICommand _switchUserType;
+
+        
+        # region 属性
         public string UserName
         {
             get => _loginModel.UserName;
@@ -44,8 +54,9 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
                 OnPropertyChanged(nameof(UserType));
             }
         }
+        
+        #endregion
 
-        private ICommand _noLogin;
         public ICommand NoLogin
         {
             get
@@ -60,7 +71,9 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
             set => _noLogin = value;
         }
 
-        private ICommand _login;
+
+        #region 命令
+
         public ICommand Login
         {
             get
@@ -70,12 +83,11 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
                     {
                         LoginAdjust(_loginModel.UserName, _loginModel.UserType.Content.ToString());
                     }
-                    ));
+                ));
             }
             set => _login = value;
         }
 
-        private ICommand _register;
         public ICommand Register
         {
             get
@@ -90,7 +102,6 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
             set => _register = value;
         }
         
-        private ICommand _retrievePassword;
         public ICommand RetrievePassword
         {
             get
@@ -104,6 +115,20 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
             }
             set => _retrievePassword = value;
         }
+
+        public ICommand SwitchUserType
+        {
+            get => _switchUserType ?? (_switchUserType = new RelayCommand(
+                () =>
+                {
+                    _loginModel.UserType.Focus();
+                }
+            ));
+            set => _switchUserType = value;
+        }
+
+        #endregion
+        
         
         
         
@@ -113,12 +138,13 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
         {
             UserService userService = new UserService(new UserRepository());
             StaffUserService staffUserService = new StaffUserService(new StaffUserRepository());
-            int type = 1;
+            int type = -1;
             
             switch (userType)
             {
                 case "管理员": type = 0; break;
-                case "病人": type = 2; break;
+                case "普通用户": type = 1; break;
+                case "患者": type = 2; break;
                 case "职工":
                     var staff = await staffUserService.QueryAsync(it => it.UserName == userName);
                     type = staff[0].StafType;
@@ -135,6 +161,7 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
                     {
                         MessageBox.Show($"登录成功，欢迎{userType} {userName}");
                         Messenger.Default.Send($"{userName}, {type}", "login");
+                        RemindPwd.UpdateSettingString("userName", userName);
                     }
                     else
                     {

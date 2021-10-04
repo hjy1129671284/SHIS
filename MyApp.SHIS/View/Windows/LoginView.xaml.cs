@@ -31,7 +31,7 @@ namespace MyApp.SHIS.View.Windows
         {
             if (msg == "")
             {
-                ViewManage.ChangeView(this, new DashBoardView());
+                ViewManage.ChangeView(this, new DashBoardView("", -1));
             }
             else
             {

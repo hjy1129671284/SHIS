@@ -20,8 +20,22 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding Login}" Key="Enter" />
+        <KeyBinding
+            Command="{Binding SwitchUserType}"
+            Key="Left"
+            Modifiers="Alt" />
+        <KeyBinding
+            Command="{Binding SwitchUserType}"
+            Key="Right"
+            Modifiers="Alt" />
+        <KeyBinding
+            Command="{Binding SwitchUserType}"
+            Key="T"
+            Modifiers="Alt" />
+    </Window.InputBindings>
     <Grid>
-
         <Rectangle Height="235" VerticalAlignment="Top">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -61,16 +75,10 @@
                 Width="360" />
             <StackPanel Margin="0,35,0,-5" Name="StackPanel">
                 <TextBox
+                    Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                     Width="250"
                     materialDesign:HintAssist.HelperText="请输入您的用户名"
-                    materialDesign:HintAssist.Hint="UserName">
-                    <TextBox.Text>
-                        <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" />
-                    </TextBox.Text>
-                    <TextBox.InputBindings>
-                        <KeyBinding Command="{Binding Login}" Key="Enter" />
-                    </TextBox.InputBindings>
-                </TextBox>
+                    materialDesign:HintAssist.Hint="UserName" />
                 <Rectangle Height="25" />
                 <PasswordBox
                     Width="250"
@@ -78,11 +86,7 @@
                     commom:PasswordBoxHelper.Password="{Binding Path=PassWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     materialDesign:HintAssist.HelperText="请输入您的密码"
                     materialDesign:HintAssist.Hint="PassWord"
-                    materialDesign:TextFieldAssist.HasClearButton="True">
-                    <PasswordBox.InputBindings>
-                        <KeyBinding Command="{Binding Login}" Key="Enter" />
-                    </PasswordBox.InputBindings>
-                </PasswordBox>
+                    materialDesign:TextFieldAssist.HasClearButton="True" />
                 <Rectangle Height="20" />
 
             </StackPanel>

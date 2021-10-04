@@ -16,7 +16,7 @@ namespace MyApp.SHIS.View.Windows
             Messenger.Default.Register<string>(this, "register2Login", s =>  
                 ViewManage.ChangeView(this, new LoginView()));
             Messenger.Default.Register<string>(this, "register2DashBoard", s => 
-                ViewManage.ChangeView(this, new DashBoardView()));
+                ViewManage.ChangeView(this, new DashBoardView("", -1)));
             
             InitializeComponent();
             this.DataContext = _registerViewModel;

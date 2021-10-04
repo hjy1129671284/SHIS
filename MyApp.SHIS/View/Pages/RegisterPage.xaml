@@ -7,9 +7,163 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyApp.SHIS.View.Pages"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-        <TextBox Text="挂号" />
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="520" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <GroupBox Background="White">
+                    <GroupBox.Header>
+                        <WrapPanel>
+                            <TextBlock FontSize="16" Text="患者信息" />
+                            <Button
+                                Background="LightGray"
+                                Command="{Binding Register}"
+                                Content="挂号"
+                                Margin="300,0,0,0"
+                                Width="100" />
+                        </WrapPanel>
+                    </GroupBox.Header>
+                    <WrapPanel
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,10"
+                        VerticalAlignment="Center">
+                        <TextBlock Text="就诊卡号" VerticalAlignment="Center" />
+                        <TextBox
+                            IsEnabled="{Binding PatiMedCardNumIsEnable}"
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding PatiMedCardNum, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="120" />
+                        <TextBlock Text="姓名" VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding PatiAuthName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="80" />
+                        <TextBlock Text="性别" VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding PatiGender}"
+                            Width="50" />
+                        <TextBlock Text="年龄" VerticalAlignment="Center" />
+                        <TextBox
+                            IsEnabled="False"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding PatiAge}"
+                            Width="50" />
+                    </WrapPanel>
+                </GroupBox>
+
+                <GroupBox Grid.Column="2" Grid.Row="0">
+                    <GroupBox.Header>
+                        <WrapPanel>
+                            <TextBlock FontSize="16" Text="号源信息" />
+                        </WrapPanel>
+                    </GroupBox.Header>
+                    <StackPanel Grid.Column="2" Grid.Row="1">
+                        <WrapPanel VerticalAlignment="Center">
+                            <TextBlock
+                                Text="挂号序号"
+                                VerticalAlignment="Center"
+                                Width="50" />
+                            <TextBox
+                                IsEnabled="False"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding QueueNo}"
+                                Width="50" />
+                            <TextBlock
+                                IsEnabled="False"
+                                Margin="10,0"
+                                Text="日期"
+                                VerticalAlignment="Center" />
+                            <DatePicker
+                                DisplayDate="{Binding RegDate}"
+                                Style="{StaticResource MaterialDesignFilledDatePicker}"
+                                Width="100" />
+                        </WrapPanel>
+                        <Rectangle Height="10" />
+                        <WrapPanel>
+                            <TextBlock
+                                Text="流水号"
+                                VerticalAlignment="Center"
+                                Width="50" />
+                            <TextBox
+                                IsEnabled="False"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding SerialNumber}"
+                                Width="200" />
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+
+            <GroupBox Background="White">
+                <GroupBox.Header>
+                    <TextBlock FontSize="16" Text="挂号信息" />
+                </GroupBox.Header>
+                <StackPanel>
+                    <WrapPanel VerticalAlignment="Center">
+                        <TextBlock
+                            Margin="10,0"
+                            Text="预约日期"
+                            VerticalAlignment="Center" />
+                        <DatePicker
+                            SelectedDate="{Binding ValidDate}"
+                            Style="{StaticResource MaterialDesignFilledDatePicker}"
+                            Width="120" />
+                        <Rectangle Width="10" />
+                        <TextBlock
+                            Margin="10,0"
+                            Text="科室"
+                            VerticalAlignment="Center" />
+                        <ComboBox
+                            ItemsSource="{Binding DoctDepts}"
+                            SelectedValue="{Binding DoctDept}"
+                            Style="{StaticResource MaterialDesignFilledComboBox}"
+                            Width="150" />
+                        <TextBlock
+                            Margin="10,0"
+                            Text="医生"
+                            VerticalAlignment="Center" />
+                        <ComboBox
+                            ItemsSource="{Binding DoctNames}"
+                            SelectedValue="{Binding DoctName}"
+                            Style="{StaticResource MaterialDesignFilledComboBox}"
+                            Width="150" />
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Background="White">
+                <GroupBox.Header>
+                    <TextBlock FontSize="16" Text="支付信息" />
+                </GroupBox.Header>
+                <StackPanel>
+                    <WrapPanel VerticalAlignment="Center">
+                        <TextBlock
+                            Margin="10,0"
+                            Text="合计费用"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding Totalpay}"
+                            Width="120" />
+                        <Rectangle Width="10" />
+
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+
+        </StackPanel>
     </Grid>
 </Page>

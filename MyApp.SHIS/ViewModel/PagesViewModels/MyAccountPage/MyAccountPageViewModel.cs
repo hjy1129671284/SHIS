@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -139,6 +141,17 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
                 OnPropertyChanged(nameof(IDCardTypeText));
             }
         }
+
+        public string IDCardTypeTextHint
+        {
+            get => _myAccountPageModel.IDCardTypeTextHint;
+            set
+            {
+                _myAccountPageModel.IDCardTypeTextHint = value;
+                OnPropertyChanged(nameof(IDCardTypeTextHint));
+            }
+        }
+
 
         public string IDCardTypeHint
         {
@@ -672,23 +685,25 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditAge()
         {
-            
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
+            if (_myAccountPageModel.Age == null)
+                MessageBox.Show("请填写年龄");
+            else
+            {
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
                     
-            int age = Convert.ToInt32(_myAccountPageModel.Age);
-            DateTime now = DateTime.Now;
-            int birthYear = now.Year - age;
-            DateTime birthDate = new DateTime(birthYear, now.Month, now.Day);
+                int age = (int)_myAccountPageModel.Age;
+                DateTime now = DateTime.Now;
+                int birthYear = now.Year - age;
+                DateTime birthDate = new DateTime(birthYear, now.Month, now.Day);
                     
-            user.BirthDate = birthDate;
-            BirthDate = birthDate;
+                user.BirthDate = birthDate;
+                BirthDate = birthDate;
                     
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
-                    
-            // MessageBox.Show($"Age:{Age}, _myAccountPageModel.Age:{_myAccountPageModel.Age}");
+                bool isEdit = await normUserService.EditAsync(user);
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            }
             
         }
 
@@ -698,30 +713,20 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditGender()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
+            if (string.IsNullOrEmpty(_myAccountPageModel.Gender))
+                MessageBox.Show("请选择性别");
+            else
+            {
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
 
-            string gender = _myAccountPageModel.Gender;
-            user.SexName = gender;
-            if (gender == "  ")
-            {
-                user.SexID = 0;
-                user.SexName = null;
+                string genderName = _myAccountPageModel.Gender;
+                bool isEdit = await normUserService.EditGenderAsync(user, genderName);
+
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+                
             }
-            else if (gender == "男")
-            {
-                user.SexID = 1;
-                user.SexName = "男";
-            }
-            else if (gender == "女")
-            {
-                user.SexID = 2;
-                user.SexName = "女";
-            }
-            
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
         }
 
         #endregion
@@ -730,32 +735,19 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditIDCardType()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
-            
-            user.IDCardTypeName = _myAccountPageModel.IDCardType.Content.ToString() == 
-                                  "其他证件类型" ? _myAccountPageModel.IDCardTypeText : _myAccountPageModel.IDCardType.Content.ToString();
-            switch (user.IDCardTypeName)
+            if (_myAccountPageModel.IDCardType == null && string.IsNullOrEmpty(_myAccountPageModel.IDCardTypeText))
+                MessageBox.Show("请选择证件类型");
+            else
             {
-                case "身份证": user.IDCardTypeID = 100001; user.IDCardTypeName = "身份证"; break;
-                case "军人证": user.IDCardTypeID = 100002; user.IDCardTypeName = "军人证"; break;
-                case "护照": user.IDCardTypeID = 100003; user.IDCardTypeName = "护照"; break;
-                case "户口本": user.IDCardTypeID = 100004; user.IDCardTypeName = "户口本"; break;
-                case "外国人永久居留证": user.IDCardTypeID = 100005; user.IDCardTypeName = "外国人永久居留证"; break;
-                case "武警证": user.IDCardTypeID = 100006; user.IDCardTypeName = "武警证"; break;
-                case "公章": user.IDCardTypeID = 100007; user.IDCardTypeName = "公章"; break;
-                case "工商营业执照": user.IDCardTypeID = 100008; user.IDCardTypeName = "工商营业执照"; break;
-                case "法人代码证": user.IDCardTypeID = 100009; user.IDCardTypeName = "法人代码证"; break;
-                case "学生证": user.IDCardTypeID = 100010; user.IDCardTypeName = "学生证"; break;
-                case "士兵证": user.IDCardTypeID = 100011; user.IDCardTypeName = "士兵证"; break;
-                case "港澳居民来往内地通行证": user.IDCardTypeID = 100016; user.IDCardTypeName = "港澳居民来往内地通行证"; break;
-                case "台湾居民来往大陆通行证": user.IDCardTypeID = 100017; user.IDCardTypeName = "台湾居民来往大陆通行证"; break;
-                default: user.IDCardTypeID = 10018; user.IDCardTypeName = "其他证件类型"; break;
-            }
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
             
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+                bool isEdit = await normUserService.EditIDCardAsync(user, _myAccountPageModel.IDCardType.Content.ToString(),
+                    _myAccountPageModel.IDCardTypeText);
+            
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            }
         }
 
         #endregion
@@ -764,19 +756,19 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditIDCard()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
-
-            if(_myAccountPageModel.IDCard != null)
-                user.IDCard = _myAccountPageModel.IDCard;
+            if(string.IsNullOrEmpty(_myAccountPageModel.IDCard))
+                MessageBox.Show("请填写正确的证件号");
             else
             {
-                MessageBox.Show("请填写正确的证件号");
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
+
+                user.IDCard = _myAccountPageModel.IDCard;
+                bool isEdit = await normUserService.EditAsync(user);
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
-            
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+
         }
 
         #endregion
@@ -786,7 +778,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         public async void EditAuth()
         {
             NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
             var user = result[0];
 
             user.IDAuther = 0;
@@ -806,13 +798,14 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditBirthDate()
         {
-            
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
-
-            if (_myAccountPageModel.BirthDate != null)
+            if (_myAccountPageModel.BirthDate == null)
+                MessageBox.Show("请选择您的出生日期");
+            else
             {
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
+                
                 user.BirthDate = (DateTime)_myAccountPageModel.BirthDate;
                 Age = DateTime.Now.Year - ((DateTime)_myAccountPageModel.BirthDate).Year;
 
@@ -827,14 +820,21 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditMobileNum()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
+            if (string.IsNullOrEmpty(_myAccountPageModel.MobileNum))
+                MessageBox.Show("请填写您的手机号码");
+            else
+            {
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
 
-            user.MobileNum = _myAccountPageModel.MobileNum;
+                user.MobileNum = _myAccountPageModel.MobileNum;
             
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+                bool isEdit = await normUserService.EditAsync(user);
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            }
+            
+            
         }
 
         #endregion
@@ -843,14 +843,19 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditUserEmail()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
+            if (string.IsNullOrEmpty(_myAccountPageModel.UserEmail))
+                MessageBox.Show("请填写您的电子邮箱");
+            else
+            {
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
 
-            user.UserEmail = _myAccountPageModel.UserEmail;
+                user.UserEmail = _myAccountPageModel.UserEmail;
             
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+                bool isEdit = await normUserService.EditAsync(user);
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            }
         }
 
         #endregion
@@ -859,28 +864,18 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditOccupation()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
-
-            user.OccupationName = _myAccountPageModel.OccupationName.Content.ToString();
-            switch (user.OccupationName)
+            if (string.IsNullOrEmpty(_myAccountPageModel.OccupationName.Content.ToString()))
+                MessageBox.Show("请选择您的职业");
+            else
             {
-                case "国家机关、党群组织、企业、事业单位负责人": user.OccupationID = 10000; break;
-                case "专业技术人员": user.OccupationID = 20000; break;
-                case "办事人员和有关人员": user.OccupationID = 30000; break;
-                case "商业、服务业人员": user.OccupationID = 40000; break;
-                case "农、林、牧、渔、水利业生产人员": user.OccupationID = 50000; break;
-                case "生产、运输设备操作人员及有关人员": user.OccupationID = 60000; break;
-                case "军人": user.OccupationID = 70000; break;
-                case "无职业者分类及代码": user.OccupationID = 80000; break;
-                case "不便分类的其他人群": user.OccupationID = 90000; break;
-                case "不知道": user.OccupationID = -1; break;
-                
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
+
+                bool isEdit = await normUserService.EditOccupation(user, _myAccountPageModel.OccupationName.Content.ToString());
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
-            
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+                
         }
 
         #endregion
@@ -889,28 +884,18 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditRegiLoc()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
-
-            user.OccupationName = _myAccountPageModel.OccupationName.Content.ToString();
-
-            switch (_myAccountPageModel.OccupationName.Content.ToString())
+            if (string.IsNullOrEmpty(_myAccountPageModel.RegiLoc))
+                MessageBox.Show("请选择户口地");
+            else
             {
-                case "国家机关、党群组织、企业、事业单位负责人": user.OccupationID = 10000; break;
-                case "专业技术人员": user.OccupationID = 20000; break;
-                case "办事人员和有关人员": user.OccupationID = 30000; break;
-                case "商业、服务业人员": user.OccupationID = 40000; break;
-                case "农、林、牧、渔、水利业生产人员": user.OccupationID = 50000; break;
-                case "生产、运输设备操作人员及有关人员": user.OccupationID = 60000; break;
-                case "军人": user.OccupationID = 70000; break;
-                case "无职业者分类及代码": user.OccupationID = 80000; break;
-                case "不便分类的其他人群": user.OccupationID = 90000; break;
-                case "不知道": user.OccupationID = -1; break;
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
+            
+                bool isEdit = await normUserService.EditAsync(user);
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
             
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
         }
 
         #endregion
@@ -920,7 +905,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         public async void EditMarried()
         {
             NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
             var user = result[0];
 
             string marriedType = _myAccountPageModel.Married.Content.ToString();
@@ -928,12 +913,12 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
             switch (marriedType)
             {
                 case "未婚": user.MarriedID = 10; break;
-                case "已婚": user.MarriedID = 10; break;
-                case "已婚-初婚": user.MarriedID = 10; break;
-                case "已婚-再婚": user.MarriedID = 10; break;
-                case "已婚-复婚": user.MarriedID = 10; break;
-                case "丧偶": user.MarriedID = 10; break;
-                case "离婚": user.MarriedID = 10; break;
+                case "已婚": user.MarriedID = 20; break;
+                case "已婚-初婚": user.MarriedID = 21; break;
+                case "已婚-再婚": user.MarriedID = 22; break;
+                case "已婚-复婚": user.MarriedID = 23; break;
+                case "丧偶": user.MarriedID = 30; break;
+                case "离婚": user.MarriedID = 40; break;
                 default: user.MarriedID = 0; break;
             }
             
@@ -948,7 +933,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         public async void EditRetireType()
         {
             NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
             var user = result[0];
 
             switch (_myAccountPageModel.RetireType.Content.ToString())
@@ -968,15 +953,18 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditCountry()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
+            if (string.IsNullOrEmpty(_myAccountPageModel.Country))
+                MessageBox.Show("请选择您的国籍");
+            else
+            {
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
 
-            user.CountryName = _myAccountPageModel.Country;
-            // countryID
+                bool isEdit = await normUserService.EditCountryAsync(user, _myAccountPageModel.Country);
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            }
             
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
         }
 
         #endregion
@@ -985,76 +973,19 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditNationality()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
-
-            user.NationalityName = _myAccountPageModel.Nationality.Content.ToString();
-            switch (user.NationalityName)
+            if (string.IsNullOrEmpty(_myAccountPageModel.Nationality.Content.ToString()))
+                MessageBox.Show("请选择您的民族");
+            else
             {
-                case "汉族": user.NationalityID = 01; break;
-                case "蒙古族": user.NationalityID = 02; break;
-                case "回族": user.NationalityID = 03; break;
-                case "藏族": user.NationalityID = 04; break;
-                case "维吾尔族": user.NationalityID = 05; break;
-                case "苗族": user.NationalityID = 06; break;
-                case "彝族": user.NationalityID = 07; break;
-                case "壮族": user.NationalityID = 08; break;
-                case "布依族": user.NationalityID = 09; break;
-                case "朝鲜族": user.NationalityID = 10; break;
-                case "满族": user.NationalityID = 11; break;
-                case "侗族": user.NationalityID = 12; break;
-                case "瑶族": user.NationalityID = 13; break;
-                case "白族": user.NationalityID = 14; break;
-                case "土家族": user.NationalityID = 15; break;
-                case "哈尼族": user.NationalityID = 16; break;
-                case "哈萨克族": user.NationalityID = 17; break;
-                case "傣族": user.NationalityID = 18; break;
-                case "黎族": user.NationalityID = 19; break;
-                case "傈僳族": user.NationalityID = 20; break;
-                case "佤族": user.NationalityID = 21; break;
-                case "畲族": user.NationalityID = 22; break;
-                case "高山族": user.NationalityID = 23; break;
-                case "拉祜族": user.NationalityID = 24; break;
-                case "水族": user.NationalityID = 25; break;
-                case "东乡族": user.NationalityID = 26; break;
-                case "纳西族": user.NationalityID = 27; break;
-                case "景颇族": user.NationalityID = 28; break;
-                case "柯尔克孜族": user.NationalityID = 29; break;
-                case "土族": user.NationalityID = 30; break;
-                case "达斡尔族": user.NationalityID = 31; break;
-                case "仫佬族": user.NationalityID = 32; break;
-                case "羌族": user.NationalityID = 33; break;
-                case "布朗族": user.NationalityID = 34; break;
-                case "撒拉族": user.NationalityID = 35; break;
-                case "毛难族": user.NationalityID = 36; break;
-                case "仡佬族": user.NationalityID = 37; break;
-                case "锡伯族": user.NationalityID = 38; break;
-                case "阿昌族": user.NationalityID = 39; break;
-                case "普米族": user.NationalityID = 40; break;
-                case "塔吉克族": user.NationalityID = 41; break;
-                case "怒族": user.NationalityID = 42; break;
-                case "乌孜别克族": user.NationalityID = 43; break;
-                case "俄罗斯族": user.NationalityID = 44; break;
-                case "鄂温克族": user.NationalityID = 45; break;
-                case "崩龙族": user.NationalityID = 46; break;
-                case "保安族": user.NationalityID = 47; break;
-                case "裕固族": user.NationalityID = 48; break;
-                case "京族": user.NationalityID = 49; break;
-                case "塔塔尔族": user.NationalityID = 50; break;
-                case "独龙族": user.NationalityID = 51; break;
-                case "鄂伦春族": user.NationalityID = 52; break;
-                case "赫哲族": user.NationalityID = 53; break;
-                case "门巴族": user.NationalityID = 54; break;
-                case "珞巴族": user.NationalityID = 55; break;
-                case "基诺族": user.NationalityID = 56; break;
-                case "其他": user.NationalityID = 97; break;
-                case "外国血统": user.NationalityID = 98; break;
-                default: user.NationalityID = null; break;
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
+
+                bool isEdit = await normUserService.EditNationalityAsync(user, _myAccountPageModel.Nationality.Content.ToString());
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
             
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            
         }
 
         #endregion
@@ -1063,15 +994,19 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditNativePlace()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
+            if (string.IsNullOrEmpty(_myAccountPageModel.NativePlace))
+                MessageBox.Show("请选择您的籍贯地");
+            else
+            {
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
 
-            user.NativePlaceName = _myAccountPageModel.NativePlace;
-            // nativeplaceID
+                bool isEdit = await normUserService.EditNationalityAsync(user, _myAccountPageModel.NativePlace);
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            }
             
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            
         }
 
         #endregion
@@ -1080,14 +1015,21 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditRegiLocPostCode()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
+            if (string.IsNullOrEmpty(_myAccountPageModel.RegiLocPostCode))
+                MessageBox.Show("请填写您的邮编");
+            else
+            {
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
 
-            user.RegiLocPostCode = _myAccountPageModel.RegiLocPostCode;
+                user.RegiLocPostCode = _myAccountPageModel.RegiLocPostCode;
             
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+                bool isEdit = await normUserService.EditAsync(user);
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            }
+
+            
         }
 
         #endregion
@@ -1096,40 +1038,59 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditBloodType()
         {
-            NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName).Result;
-            var user = result[0];
+            if (string.IsNullOrEmpty(_myAccountPageModel.BloodType.Content.ToString()))
+                MessageBox.Show("请选择你的血型");
+            else
+            {
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+                var user = result[0];
 
-            user.BloodType = _myAccountPageModel.BloodType.Content.ToString();
+                user.BloodType = _myAccountPageModel.BloodType.Content.ToString();
             
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+                bool isEdit = await normUserService.EditAsync(user);
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            }
         }
 
         #endregion
 
         #endregion
 
-        public void GenerateHint(string userName)
+        public async void GenerateHint(string userName)
         {
             NormUserService normUserService = new NormUserService(new NormUserRepository());
-            var result = normUserService.QueryAsync(it => it.UserName == userName).Result;
+            var result = await normUserService.QueryAsync(it => it.UserName == userName);
             
+            // 查找到用户
             if (result != null && result.Count > 0)
             {
                 var user = result[0];
-                _myAccountPageModel.GenderHint = user.SexName;
-                _myAccountPageModel.IDCardTypeHint = user.IDCardTypeName;
-                _myAccountPageModel.AuthNameHint = user.UserAuthName;
-                _myAccountPageModel.MobileNumHint = user.MobileNum;
-                _myAccountPageModel.UserEmailHint = user.UserEmail;
-                _myAccountPageModel.OccupationNameHint = user.OccupationName;
-                _myAccountPageModel.RegiLocHint = user.RegiLocName;
-                _myAccountPageModel.CountryHint = user.CountryName;
-                _myAccountPageModel.NationalityHint = user.NationalityName;
-                _myAccountPageModel.NativePlaceHint = user.NativePlaceName;
-                _myAccountPageModel.RegiLocPostCodeHint = user.RegiLocPostCode;
-                _myAccountPageModel.BloodTypeHint = user.BloodType;
+                _myAccountPageModel.GenderHint = user.SexName;  // 性别
+                _myAccountPageModel.AuthNameHint = user.UserAuthName; // 实名
+                _myAccountPageModel.MobileNumHint = user.MobileNum; // 联系方式
+                _myAccountPageModel.UserEmailHint = user.UserEmail;  // 电子邮箱
+                _myAccountPageModel.OccupationNameHint = user.OccupationName; // 职业
+                _myAccountPageModel.RegiLocHint = user.RegiLocName;  // 户口
+                _myAccountPageModel.CountryHint = user.CountryName;  // 国家
+                _myAccountPageModel.NationalityHint = user.NationalityName;  // 民族
+                _myAccountPageModel.NativePlaceHint = user.NativePlaceName;  // 籍贯
+                _myAccountPageModel.RegiLocPostCodeHint = user.RegiLocPostCode;  // 邮编
+                _myAccountPageModel.BloodTypeHint = user.BloodType;  // 血型
+
+                // 证件类型
+                string[] IDCardTypeList = {
+                    "身份证", "军人证", "护照", "户口本", "外国人永久居留证", "武警证", "公章", "工商营业执照",
+                    "法人代码证", "学生证", "士兵证", "港澳居民来往内地通行证", "台湾居民来往大陆通行证"
+                };
+                if (!IDCardTypeList.Contains(user.IDCardTypeName))
+                {
+                    _myAccountPageModel.IDCardTypeHint = "其他证件类型";
+                    _myAccountPageModel.IDCardTypeTextHint = user.IDCardTypeName;
+                }
+                else
+                    _myAccountPageModel.IDCardTypeHint = user.IDCardTypeName;
+
                 if (user.IDCard != null) _myAccountPageModel.IDCardHint = user.IDCard;
                 if (user.BirthDate != null) _myAccountPageModel.BirthDateHint = (DateTime) user.BirthDate;
                 if (user.RetireTypeID != null) _myAccountPageModel.RetireTypeHint = user.RetireTypeID;
@@ -1166,7 +1127,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
                     switch (user.MarriedID)
                     {
                         case 10: _myAccountPageModel.MarriedHint = "未婚"; break;
-                        case 20: _myAccountPageModel.MarriedHint =  "已婚"; break;
+                        case 20: _myAccountPageModel.MarriedHint = "已婚"; break;
                         case 21: _myAccountPageModel.MarriedHint = "已婚-初婚"; break;
                         case 22: _myAccountPageModel.MarriedHint = "已婚-再婚"; break;
                         case 23: _myAccountPageModel.MarriedHint = "已婚-复婚"; break;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,6 +10,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
     {
         
         public int? PatiUserMedCardNum{ get; set; }
+        public bool PatiMedCardNumIsEnable { get; set; }
         public string PatiIDCardNum{ get; set; }
         public string PatiAuthName{ get; set; }
         public string PatiMobileNum{ get; set; }

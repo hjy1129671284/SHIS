@@ -11,7 +11,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid Margin="10">
+    <Grid>
         <StackPanel>
             <GroupBox Background="White">
                 <GroupBox.Header>
@@ -21,13 +21,26 @@
                             Background="LightGray"
                             Command="{Binding PatiInfoCommand}"
                             Content="查看信息"
-                            Margin="400,0,0,0"
+                            Margin="300,0,0,0"
                             Width="100" />
                         <Button
                             Background="LightGray"
+                            Command="{Binding PatiInfoChangeCommand}"
                             Content="修改信息"
-                            Margin="20,0,0,0"
+                            Margin="10,0,0,0"
                             Width="100" />
+                        <Button
+                            Background="LightGray"
+                            Command="{Binding ChangePati}"
+                            Content="切换病人"
+                            Margin="10,0,0,0"
+                            Width="100" />
+                        <Button
+                            Background="LightGray"
+                            Command="{Binding Register}"
+                            Content="挂号"
+                            Margin="10,0,0,0"
+                            Width="80" />
                     </WrapPanel>
                 </GroupBox.Header>
             </GroupBox>
@@ -35,9 +48,10 @@
                 <WrapPanel HorizontalAlignment="Stretch" Margin="0,10">
                     <TextBlock Text="就诊卡号" VerticalAlignment="Center" />
                     <TextBox
+                        IsEnabled="{Binding PatiMedCardNumIsEnable}"
                         Margin="10,0"
                         Style="{StaticResource MaterialDesignFilledTextBox}"
-                        Text="{Binding PatiUserMedCardNum}"
+                        Text="{Binding PatiUserMedCardNum, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         Width="120"
                         materialDesign:HintAssist.Hint="{Binding PatiUserMedCardNumHint}">
                         <TextBox.InputBindings>
@@ -271,8 +285,9 @@
             <GroupBox Background="White">
                 <GroupBox.Header>
                     <TextBlock FontSize="16" Text="联系人信息" />
-                </GroupBox.Header>
 
+                </GroupBox.Header>
+                <DataGrid />
             </GroupBox>
         </StackPanel>
 

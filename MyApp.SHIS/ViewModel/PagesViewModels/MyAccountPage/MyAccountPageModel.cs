@@ -16,6 +16,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         public Brush IDCardTextColor { get; set; }
         public ComboBoxItem IDCardType { get; set; }
         public string IDCardTypeText { get; set; }
+        public string IDCardTypeTextHint { get; set; }
         public string IDCardTypeHint { get; set; }
         public string IDCard { get; set; }
         public string IDCardHint { get; set; }

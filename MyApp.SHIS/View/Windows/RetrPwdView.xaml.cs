@@ -15,8 +15,12 @@ namespace MyApp.SHIS.View.Windows
         public RetrPwdView()
         {
             
-            Messenger.Default.Register<string>(this, "retrievePassword2DashBoard", s => ViewManage.ChangeView(this, new DashBoardView()));
-            Messenger.Default.Register<string>(this, "retrievePassword2Login", s => ViewManage.ChangeView(this, new LoginView()));
+            Messenger.Default.Register<string>(this, "retrievePassword2DashBoard",
+                s => ViewManage.ChangeView(this, new DashBoardView("", -1))
+                );
+            Messenger.Default.Register<string>(this, "retrievePassword2Login",
+                s => ViewManage.ChangeView(this, new LoginView())
+                );
             
             InitializeComponent();
             this.DataContext = _retrPwdViewModel;

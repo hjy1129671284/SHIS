@@ -25,12 +25,12 @@
 | 02   | UserName        | 用户名         | varchar  | 20   | False      | FK，引用user表的UserName                                     |        |
 | 03   | IDCardTypeID    | 证件类型编码   | int      |      |            | 查看[证件编码](https://www.cnblogs.com/liuhongfeng/p/4981472.html) | NULL   |
 | 04   | IDCardTypeName  | 证件类型名称   | nvarchar | 15   |            |                                                              | NULL   |
-| 05   | IDCard          | 证件号         | int      |      |            |                                                              | NULL   |
+| 05   | IDCard          | 证件号         | nvarchar | 20   |            |                                                              | NULL   |
 | 06   | IDAuther        | 实名制认证状态 | int      |      |            | 未认证(0) / 已认证(1)                                        | 0      |
 | 07   | IDAutherMethod  | 实名制认证方式 | nvarchar | 10   |            | 1    HIS 认证<br />2    医院挂号网站认证<br />3    12320认证<br />4     ICBC认证<br />5     APP认证<br />6     卫计委保健局认证 | NULL   |
 | 08   | UserAuthName    | 用户姓名       | nvarchar | 50   |            |                                                              |        |
 | 09   | SexID           | 性别编码       | int      |      |            | 0/ 1 / 2                                                     | 0      |
-| 10   | SexName         | 性别名称       | nvarchar | 10   |            | NULL(0)/男(1) /女(2)                                         | NULL   |
+| 10   | SexName         | 性别名称       | nvarchar | 10   |            | NULL(NULL)/男(1) /女(2)                                      | NULL   |
 | 11   | BirthDate       | 出生日期       | datetime |      |            | YYYY-MM-DD                                                   | NULL   |
 | 12   | MobileNum       | 手机号码       | string   | 15   |            |                                                              | NULL   |
 | 13   | PersonEmail     | 用户Email      | nvarchar | 50   |            |                                                              | NULL   |
@@ -257,11 +257,9 @@
 - [ ] 实名认证页面(IDAutherView) 制作
 - [ ] 我的账号页面(MyAccountPage) viewmodel中 户籍地修改、 国籍修改 、 籍贯地、 邮编  编码太多，没想好办法
 - [ ] 仪表盘(DashBoardView) 左侧控件选择多个的聚焦优化
+- [ ] 登录界面(LoginView) 记住密码功能
 - [ ] 管理员的权限设置界面(AuthChangePage) 中的确认信息按钮的命令设计
 - [x] （初步完成）准备切换成MVVM架构
-- [ ] MVVM架构下的问题
-  1. 如何在将 view 的窗口传递到 vm 中，使切换页面能在 vm 中实现
-  2. 尝试使用 vm 传递参数，使 dashboard 的构造函数变为一个(目前是登录后的构造函数需要用到用户名和用户类型的参数)
 - [ ] 挂号系统设计
   1. 挂号员查看病人信息
   2. 挂号员挂号

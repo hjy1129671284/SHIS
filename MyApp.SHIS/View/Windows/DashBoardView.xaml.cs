@@ -22,8 +22,8 @@ namespace MyApp.SHIS.View.Windows
         public string UserName { get; set; }
         private readonly DashBoardViewModel _dashBoardViewModel = new DashBoardViewModel();
         
-        // 未登录窗口
-        public DashBoardView()
+        
+        public DashBoardView(string username, int userType)
         {
             // 读取 AppSetting.json 
             StreamReader streamReader = new StreamReader("AppSetting.json");
@@ -51,37 +51,11 @@ namespace MyApp.SHIS.View.Windows
                 MessageBox.Show("请在AppSetting.json文件中确认ConnectionString是否正确");
             }
 
-            #endregion 
+            #endregion
             
-            this.DataContext = _dashBoardViewModel;
-            
-            //注册消息
-            Messenger.Default.Register<string>(this,"closeWindow", CloseWindow);
-            Messenger.Default.Register<string>(this, "generateMenu",GenerateMenu);
-            Messenger.Default.Register<string>(this, "openMenu", OpenMenu);
-            Messenger.Default.Register<string>(this, "closeMenu", CloseMenu);
-            Messenger.Default.Register<string>(this, "dashBoard2Login", DashBOard2Login);
-            Messenger.Default.Register<string>(this, "settingMenu", SettingPage);
-            
-            _dashBoardViewModel.UserLoginButtonContent = "账号登录";
-            _dashBoardViewModel.SettingButtonVisibility = Visibility.Collapsed;
-            _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
-
-            InitializeComponent();
-            GenerateNoLoginMenu();
-            
-            // 移除消息
-            Unloaded += (sender, e) => Messenger.Default.Unregister(this);
-            // 创建数据库、表、项
-            // SqlSugarCreate();
-
-        }
-
-        // 登录后窗口
-        public DashBoardView(string username, int userType)
-        {
             InitializeComponent();
             this.DataContext = _dashBoardViewModel;
+            
             //注册消息
             Messenger.Default.Register<string>(this,"closeWindow", CloseWindow);
             Messenger.Default.Register<string>(this, "generateMenu", GenerateMenu);
@@ -89,15 +63,31 @@ namespace MyApp.SHIS.View.Windows
             Messenger.Default.Register<string>(this, "closeMenu", CloseMenu);
             Messenger.Default.Register<string>(this, "dashBoard2Login", DashBOard2Login);
             Messenger.Default.Register<string>(this, "settingMenu", SettingPage);
-            
-            _dashBoardViewModel.UserLoginButtonContent = "退出登录";
-            _dashBoardViewModel.UserName = username;
-            _dashBoardViewModel.SettingButtonVisibility = Visibility.Visible;
-            _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
-            _dashBoardViewModel.UserType = userType.ToString();
-            
+
+            if (string.IsNullOrEmpty(username))
+            {
+                // 未登录界面
+                GenerateNoLoginMenu();
+
+                _dashBoardViewModel.UserLoginButtonContent = "账号登录";
+                _dashBoardViewModel.SettingButtonVisibility = Visibility.Collapsed;
+                _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
+
+            }
+            else
+            {
+                // 登录后窗口
+                _dashBoardViewModel.UserLoginButtonContent = "退出登录";
+                _dashBoardViewModel.UserName = username;
+                _dashBoardViewModel.SettingButtonVisibility = Visibility.Visible;
+                _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
+                _dashBoardViewModel.UserType = userType.ToString();
+            }
             //移除消息
             Unloaded += (sender, e) => Messenger.Default.Unregister(this);
+            
+            // 创建数据库、表、项
+            // SqlSugarCreate();
 
         }
         
@@ -122,22 +112,6 @@ namespace MyApp.SHIS.View.Windows
             Application.Current.Shutdown();
         }
 
-        public void GenerateMenu(string msg)
-        {
-            switch (msg)
-            {
-                case "管理员": GenerateAdminMenu(); break;
-                case "用户": GenerateNormMenu(); break;
-                case "患者": GeneratePatiMenu(); break;
-                case "医生": GenerateDoctMenu(); break;
-                case "药师": GeneratePhstMenu(); break;
-                case "挂号员": GenerateRgstMenu(); break;
-                case "收费员": GenerateTollMenu(); break;
-                case "护士": GenerateNurseMenu(); break;
-                default: GenerateNoLoginMenu(); break;
-            }
-        }
-        
         private void OpenMenu(string msg)
         {
             _dashBoardViewModel.ButtonOpenMenuVisibility = Visibility.Collapsed;
@@ -159,6 +133,8 @@ namespace MyApp.SHIS.View.Windows
         {
             SwitchPages(new SettingPage(_dashBoardViewModel.UserName));
         }
+        
+        
 
         #endregion
         
@@ -188,12 +164,12 @@ namespace MyApp.SHIS.View.Windows
         //     });
         // }
 
-        // public void SqlSugarCreate()
-        // {
-        //     // 生成实体
-        //     DbScoped.Sugar.DbFirst.IsCreateAttribute()
-        //         .CreateClassFile("D:\\C Sharp\\demo\\SHIS\\MyApp.SHIS\\Models", "MyApp.SHIS.Models");
-        // }
+        public void SqlSugarCreate()
+        {
+            // 生成实体
+            DbScoped.Sugar.DbFirst.IsCreateAttribute()
+                .CreateClassFile("D:\\C Sharp\\demo\\SHIS\\MyApp.SHIS\\Models", "MyApp.SHIS.Models");
+        }
 
         #endregion
         
@@ -224,6 +200,23 @@ namespace MyApp.SHIS.View.Windows
         }
 
         #region 生成个人面板
+        
+        public void GenerateMenu(string msg)
+        {
+            switch (msg)
+            {
+                case "管理员": GenerateAdminMenu(); break;
+                case "用户": GenerateNormMenu(); break;
+                case "患者": GeneratePatiMenu(); break;
+                case "医生": GenerateDoctMenu(); break;
+                case "药师": GeneratePhstMenu(); break;
+                case "挂号员": GenerateRgstMenu(); break;
+                case "收费员": GenerateTollMenu(); break;
+                case "护士": GenerateNurseMenu(); break;
+                default: GenerateNoLoginMenu(); break;
+            }
+        }
+        
         #region 生成管理员的个人面板
         public void GenerateAdminMenu()
         {
@@ -411,7 +404,7 @@ namespace MyApp.SHIS.View.Windows
 
             var menuRegister = new List<SubItem>()
             {
-                new SubItem("患者信息", new PatiInfoPage()),
+                new SubItem("患者信息", new PatiInfoPage(this)),
                 new SubItem("挂号", new RegisterPage()),
                 new SubItem("退号", new UnRegisterPage()),
                 new SubItem("挂号信息管理", new RegisterMangePage())

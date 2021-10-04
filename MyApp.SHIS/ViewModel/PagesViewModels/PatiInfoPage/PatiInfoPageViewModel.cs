@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using MyApp.SHIS.Repository.Repository;
 using MyApp.SHIS.Services.Services;
 using MyApp.SHIS.ViewModel.Common;
@@ -16,8 +17,15 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
 
         private ICommand _patiInfoCommand;
         private ICommand _patiInfoChangeCommand;
+        private ICommand _changePati;
+        private ICommand _register;
         private ICommand _idCardTypeSelectChange;
         private ICommand _idCardTypeSelect;
+
+        public PatiInfoPageViewModel()
+        {
+            PatiMedCardNumIsEnable = _patiInfoPageModel.PatiUserMedCardNum == null;
+        }
         
         #region 属性
 
@@ -30,6 +38,17 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
                 OnPropertyChanged(nameof(PatiUserMedCardNum));
             }
         }
+
+        public bool PatiMedCardNumIsEnable
+        {
+            get => _patiInfoPageModel.PatiMedCardNumIsEnable;
+            set
+            {
+                _patiInfoPageModel.PatiMedCardNumIsEnable = value;
+                OnPropertyChanged(nameof(PatiMedCardNumIsEnable));
+            }
+        }
+
         public string PatiIDCardNum
         { 
             get => _patiInfoPageModel.PatiIDCardNum;
@@ -314,16 +333,32 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
 
         public ICommand PatiInfoCommand
         {
-            get =>  _patiInfoCommand ?? (_patiInfoCommand = new RelayCommand(GetInfo));
+            get => _patiInfoCommand ?? (_patiInfoCommand = new RelayCommand(GetInfo));
             set => _patiInfoCommand = value;
         }
 
         public ICommand PatiInfoChangeCommand
         {
-            get =>  _patiInfoChangeCommand ?? (_patiInfoChangeCommand = new RelayCommand(SetInfo));
+            get => _patiInfoChangeCommand ?? (_patiInfoChangeCommand = new RelayCommand(SetInfo));
             set => _patiInfoChangeCommand = value;
         }
 
+        public ICommand ChangePati
+        {
+            get => _changePati ?? (_changePati = new RelayCommand(ChangePatiInfo));
+            set => _changePati = value;
+        }
+
+        public ICommand Register
+        {
+            get => _register ?? (_register = new RelayCommand(
+                () =>
+                {
+                    if(_patiInfoPageModel.PatiUserMedCardNum != null)
+                        Messenger.Default.Send<int>((int) _patiInfoPageModel.PatiUserMedCardNum, "patiInfo2Register");
+                }));
+            set => _register = value;
+        }
         
         public ICommand IDCardTypeSelectChange
         {
@@ -374,13 +409,35 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
             // 检测就诊卡号是否填写
             if(_patiInfoPageModel.PatiUserMedCardNum != null)
             {
-                PatiUserService patiUserService = new PatiUserService(new PatiUserRepository());
+               NormUserService normUserService = new NormUserService(new NormUserRepository());
 
-                var patiResult = await patiUserService.QueryAsync(it => it.MedCardNum == _patiInfoPageModel.PatiUserMedCardNum);
+                var patiResult = await normUserService.QueryAsync(it => it.MedCardNum == _patiInfoPageModel.PatiUserMedCardNum);
                 if (patiResult != null && patiResult.Count > 0)
                 {
                     var patiUser = patiResult[0];
                     PatiAuthNameHint = patiUser.UserAuthName;
+                    PatiGenderHint = patiUser.SexName;
+                    PatiBirthDateHint = patiUser.BirthDate.ToString();
+                    PatiIdCardTypeHint = patiUser.IDCardTypeName;
+                    PatiIDCardNumHint = patiUser.IDCard;
+                    PatiMobileNumHint = patiUser.MobileNum;
+                    switch (patiUser.MarriedID)
+                    {
+                        case 10: PatiMarriedTypeHint = "未婚"; break;
+                        case 20: PatiMarriedTypeHint = "已婚"; break;
+                        case 21: PatiMarriedTypeHint = "已婚-初婚"; break;
+                        case 22: PatiMarriedTypeHint = "已婚-再婚"; break;
+                        case 23: PatiMarriedTypeHint = "已婚-复婚"; break;
+                        case 30: PatiMarriedTypeHint = "丧偶"; break;
+                        case 40: PatiMarriedTypeHint = "离婚"; break;
+                        default: PatiMarriedTypeHint = ""; break;
+                    }
+                    PatiCountryHint = patiUser.CountryName;
+                    PatiNationalityHint = patiUser.NationalityName;
+                    PatiOccupationHint = patiUser.OccupationName;
+
+                    PatiMedCardNumIsEnable = false;
+
                 }
                 else
                     MessageBox.Show("没能查询到该医疗卡信息");
@@ -394,9 +451,127 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
         // 根据挂号员填写内容修改病人信息
         public async void SetInfo()
         {
+            int totalNum = 0;
+            int editNum = 0;
             
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var normResult =
+                await normUserService.QueryAsync(it => it.MedCardNum == _patiInfoPageModel.PatiUserMedCardNum);
+            var normUser = normResult[0];
+            // 实名信息
+            if (!string.IsNullOrEmpty(_patiInfoPageModel.PatiAuthName))
+            {
+                totalNum += 1;
+                normUser.UserAuthName = _patiInfoPageModel.PatiAuthName;
+                editNum += await normUserService.EditAsync(normUser) ? 1 : 0;
+            }
+            // 性别
+            if (_patiInfoPageModel.PatiGender != null)
+            {
+                totalNum += 1;
+                editNum += await normUserService.EditGenderAsync(normUser, _patiInfoPageModel.PatiGender.Content.ToString()) ? 1 : 0;
+            }
+            // 出生日期
+            if (_patiInfoPageModel.PatiBirthDate != null)
+            {
+                totalNum += 1;
+                normUser.BirthDate = _patiInfoPageModel.PatiBirthDate;
+                editNum += await normUserService.EditAsync(normUser) ? 1 : 0;
+            }
+            // 证件类型
+            if (_patiInfoPageModel.PatiIdCardType != null)
+            {
+                totalNum += 1;
+                editNum += await normUserService.EditIDCardAsync
+                (normUser, _patiInfoPageModel.PatiIdCardType.Content.ToString(), _patiInfoPageModel.IDCardText) ? 1 : 0;
+            }
+            // 证件号
+            if (!string.IsNullOrEmpty(_patiInfoPageModel.PatiIDCardNum))
+            {
+                totalNum += 1;
+                normUser.IDCard = _patiInfoPageModel.PatiIDCardNum;
+                editNum += await normUserService.EditAsync(normUser) ? 1 : 0;
+            }
+            // 手机号码
+            if (!string.IsNullOrEmpty(_patiInfoPageModel.PatiMobileNum))
+            {
+                totalNum += 1;
+                normUser.MobileNum = _patiInfoPageModel.PatiMobileNum;
+                editNum += await normUserService.EditAsync(normUser) ? 1 : 0;
+            }
+            // 婚姻状态
+            if (_patiInfoPageModel.PatiMarriedType != null)
+            {
+                totalNum += 1;
+                switch (_patiInfoPageModel.PatiMarriedType.Content.ToString())
+                {
+                    case "未婚": normUser.MarriedID = 10; break;
+                    case "已婚": normUser.MarriedID = 20; break;
+                    case "已婚-初婚": normUser.MarriedID = 21; break;
+                    case "已婚-再婚": normUser.MarriedID = 22; break;
+                    case "已婚-复婚": normUser.MarriedID = 23; break;
+                    case "丧偶": normUser.MarriedID = 30; break;
+                    case "离婚": normUser.MarriedID = 40; break;
+                    default: normUser.MarriedID = 0; break;
+                }
+                editNum += await normUserService.EditAsync(normUser) ? 1 : 0;
+            }
+            // 国籍
+            if (_patiInfoPageModel.PatiCountry != null)
+            {
+                totalNum += 1;
+                editNum += await normUserService.EditCountryAsync(normUser, _patiInfoPageModel.PatiCountry.Content.ToString()) ? 1 : 0;
+            }
+            // 民族
+            if (_patiInfoPageModel.PatiNationality != null)
+            {
+                totalNum += 1;
+                editNum += await normUserService.EditNationalityAsync(normUser, _patiInfoPageModel.PatiNationality.Content.ToString()) ? 1 : 0;
+            }
+            // 职业
+            if (_patiInfoPageModel.PatiOccupation != null)
+            {
+                totalNum += 1;
+                editNum += await normUserService.EditNationalityAsync(normUser, _patiInfoPageModel.PatiOccupation.Content.ToString()) ? 1 : 0;
+            }
+
+
+            MessageBox.Show($"一共修改 {totalNum} 项, 其中成功修改 {editNum} 项");
         }
-        
+
+        // 切换下一个病人，医疗卡号hint显示为上一个病人，其他值均置空
+        public void ChangePatiInfo()
+        { 
+            PatiUserMedCardNumHint = PatiUserMedCardNum.ToString();
+            
+            // hint
+            PatiAuthNameHint = null;
+            PatiGenderHint = null;
+            PatiBirthDateHint = null;
+            PatiIdCardTypeHint = null;
+            PatiIDCardNumHint = null;
+            PatiMobileNumHint = null;
+            PatiMarriedTypeHint = null;
+            PatiCountryHint = null;
+            PatiNationalityHint = null;
+            PatiOccupationHint = null;
+
+            // 填写内容
+            PatiUserMedCardNum = null;
+            PatiAuthName = null;
+            PatiGender = null;
+            PatiBirthDate = null;
+            PatiIdCardType = null;
+            PatiIDCardNum = null;
+            PatiMobileNum = null;
+            PatiMarriedType = null;
+            PatiCountry = null;
+            PatiNationality = null;
+            PatiOccupation = null;
+
+            // 查询病人按钮
+            PatiMedCardNumIsEnable = true;
+        }
 
         #endregion
     }

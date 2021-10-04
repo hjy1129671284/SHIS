@@ -18,6 +18,9 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding Register}" Key="Enter" />
+    </Window.InputBindings>
     <Grid>
         <Rectangle Height="270" VerticalAlignment="Top">
             <Rectangle.Fill>

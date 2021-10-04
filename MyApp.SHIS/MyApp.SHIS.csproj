@@ -307,6 +307,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commom\RemindPwd.cs" />
     <Compile Include="Commom\PasswordBoxHelper.cs" />
     <Compile Include="Commom\ViewManage.cs" />
     <Compile Include="Models\AppSetting.cs" />
