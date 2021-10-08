@@ -96,6 +96,15 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
                 OnPropertyChanged(nameof(PatiIDCardText));
             }
         }
+        public string PatiCountry
+        { 
+            get => _patiInfoPageModel.PatiCountry;
+            set
+            {
+                _patiInfoPageModel.PatiCountry = value;
+                OnPropertyChanged(nameof(PatiCountry));
+            }
+        }
         public ComboBoxItem PatiGender
         { 
             get => _patiInfoPageModel.PatiGender;
@@ -130,15 +139,6 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
             {
                 _patiInfoPageModel.PatiNationality = value;
                 OnPropertyChanged(nameof(PatiNationality));
-            }
-        }
-        public ComboBoxItem PatiCountry
-        { 
-            get => _patiInfoPageModel.PatiCountry;
-            set
-            {
-                _patiInfoPageModel.PatiCountry = value;
-                OnPropertyChanged(nameof(PatiCountry));
             }
         }
         public ComboBoxItem PatiOccupation
@@ -354,8 +354,10 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
             get => _register ?? (_register = new RelayCommand(
                 () =>
                 {
-                    if(_patiInfoPageModel.PatiUserMedCardNum != null)
+                    if (_patiInfoPageModel.PatiUserMedCardNum != null)
                         Messenger.Default.Send<int>((int) _patiInfoPageModel.PatiUserMedCardNum, "patiInfo2Register");
+                    else
+                        MessageBox.Show("请输入医疗卡号");
                 }));
             set => _register = value;
         }
@@ -517,10 +519,10 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
                 editNum += await normUserService.EditAsync(normUser) ? 1 : 0;
             }
             // 国籍
-            if (_patiInfoPageModel.PatiCountry != null)
+            if (string.IsNullOrEmpty(_patiInfoPageModel.PatiCountry))
             {
                 totalNum += 1;
-                editNum += await normUserService.EditCountryAsync(normUser, _patiInfoPageModel.PatiCountry.Content.ToString()) ? 1 : 0;
+                editNum += await normUserService.EditCountryAsync(normUser, _patiInfoPageModel.PatiCountry) ? 1 : 0;
             }
             // 民族
             if (_patiInfoPageModel.PatiNationality != null)

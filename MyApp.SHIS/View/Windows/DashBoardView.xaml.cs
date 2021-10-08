@@ -10,6 +10,7 @@ using MyApp.SHIS.Models;
 using MyApp.SHIS.Repository.Repository;
 using MyApp.SHIS.Services.Services;
 using MyApp.SHIS.View.Pages;
+using MyApp.SHIS.View.UserControls;
 using MyApp.SHIS.ViewModel.UserControlsViewModels.UserControlMenuItem;
 using MyApp.SHIS.ViewModel.WindowsViewModels.DashBoard;
 using Newtonsoft.Json;

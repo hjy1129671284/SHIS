@@ -16,11 +16,11 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
         public string PatiMobileNum{ get; set; }
         public string IDCardText{ get; set; }
         public string PatiIDCardText{ get; set; }
+        public string PatiCountry{ get; set; }
         public ComboBoxItem PatiGender{ get; set; }
         public ComboBoxItem PatiIdCardType{ get; set; }
         public ComboBoxItem PatiMarriedType{ get; set; }
         public ComboBoxItem PatiNationality{ get; set; }
-        public ComboBoxItem PatiCountry{ get; set; }
         public ComboBoxItem PatiOccupation{ get; set; }
         public ComboBoxItem PatiNativePlace{ get; set; }
         public DateTime? PatiBirthDate{ get; set; }

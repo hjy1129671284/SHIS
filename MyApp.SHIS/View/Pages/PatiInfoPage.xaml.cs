@@ -23,9 +23,6 @@ namespace MyApp.SHIS.View.Pages
             _patiInfoPageViewModel.IDCardTextColor = new SolidColorBrush(Colors.Black);
             
             Messenger.Default.Register<int>(this, "patiInfo2Register", PatiRegisterPage);
-
-            Unloaded += (sender, e) => Messenger.Default.Unregister(this);
-
         }
         
         private void PatiRegisterPage(int medCardNum)
