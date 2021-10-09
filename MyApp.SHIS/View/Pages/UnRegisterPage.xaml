@@ -7,9 +7,180 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyApp.SHIS.View.Pages"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Page.InputBindings>
+        <KeyBinding Key="Enter" />
+    </Page.InputBindings>
     <Grid>
-        <TextBox Text="退号" />
+        <StackPanel>
+            <GroupBox>
+                <GroupBox.Header>
+                    <WrapPanel>
+                        <TextBlock FontSize="16" Text="退号" />
+                        <Button
+                            Background="LightGray"
+                            Command="{Binding Refresh}"
+                            Content="刷新"
+                            Margin="400,0,0,0"
+                            Width="100" />
+                        <Button
+                            Background="LightGray"
+                            Command="{Binding Unregister}"
+                            Content="退号"
+                            Margin="10,0,0,0"
+                            Width="100" />
+                        <Button
+                            Background="LightGray"
+                            Content="清空"
+                            Margin="10,0,0,0"
+                            Width="100" />
+                    </WrapPanel>
+                </GroupBox.Header>
+                <StackPanel>
+                    <WrapPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <TextBlock
+                            Margin="10,0"
+                            Text="流水号"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding SerialNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="120"
+                            materialDesign:HintAssist.Hint="{Binding SerialNumberHint}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding QueryBySerialNumber}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <TextBlock
+                            Margin="10,0"
+                            Text="医疗卡号"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding MedCardNum, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="120"
+                            materialDesign:HintAssist.Hint="{Binding MedCardNumHint}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding QueryByMedCardNum}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <TextBlock
+                            Margin="10,0"
+                            Text="患者姓名"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding PatiAuthName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="80"
+                            materialDesign:HintAssist.Hint="{Binding PatiAuthNameHint}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding QueryByPatiAuthName}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <TextBlock
+                            Margin="10,0"
+                            Text="医生姓名"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding DoctAuthName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="80"
+                            materialDesign:HintAssist.Hint="{Binding DoctAuthNameHint}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding QueryByDoctAuthName}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                    </WrapPanel>
+                    <TextBlock
+                        FontSize="20"
+                        HorizontalAlignment="Center"
+                        Margin="0,20"
+                        Text="挂号信息" />
+                    <DataGrid
+                        CanUserAddRows="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding RegisterInfo}"
+                        SelectedItem="{Binding SelectedPatiOutVisit}"
+                        SelectionMode="Extended"
+                        SelectionUnit="FullRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Path=SerialNumber}" Header="流水号" />
+                            <DataGridTextColumn Binding="{Binding Path=QueueNo}" Header="序号" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox>
+                <GroupBox.Header>
+                    <WrapPanel>
+                        <TextBlock FontSize="16" Text="退款信息" />
+                        <Button
+                            Background="LightGray"
+                            Content="退款"
+                            Margin="500,0,0,0"
+                            Width="100" />
+                        <Button
+                            Background="LightGray"
+                            Content="清空"
+                            Margin="10,0,0,0"
+                            Width="100" />
+                    </WrapPanel>
+                </GroupBox.Header>
+                <StackPanel>
+                    <WrapPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <TextBlock
+                            Margin="10,0"
+                            Text="总金额"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding TotalPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="120"
+                            materialDesign:HintAssist.Hint="{Binding TotalPayHint}" />
+                        <TextBlock
+                            Margin="10,0"
+                            Text="退款方式"
+                            VerticalAlignment="Center" />
+                        <ComboBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledComboBox}"
+                            Text="{Binding PatiMedCardNum, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="120">
+                            <ComboBoxItem Content="现金" />
+                            <ComboBoxItem Content="银联" />
+                            <ComboBoxItem Content="微信" />
+                            <ComboBoxItem Content="支付宝" />
+                        </ComboBox>
+                        <TextBlock
+                            Margin="10,0"
+                            Text="退款"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding RefundPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="120"
+                            materialDesign:HintAssist.Hint="{Binding RefundPayHint}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+
+                    </WrapPanel>
+
+                </StackPanel>
+
+            </GroupBox>
+
+
+        </StackPanel>
     </Grid>
 </Page>

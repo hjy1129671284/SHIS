@@ -1,14 +1,13 @@
 ﻿using System.Windows.Controls;
-using GalaSoft.MvvmLight.Messaging;
 using MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage;
 
 namespace MyApp.SHIS.View.Pages
 {
     public partial class RegisterPage : Page
     {
-        public RegisterPage(int? patiMedCardNum = null)
+        public RegisterPage(string userName,int? patiMedCardNum = null)
         {
-            var registerPageViewModel = new RegisterPageViewModel(patiMedCardNum);
+            var registerPageViewModel = new RegisterPageViewModel(userName, patiMedCardNum);
             InitializeComponent();
             this.DataContext = registerPageViewModel;
             

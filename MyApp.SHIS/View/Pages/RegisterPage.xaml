@@ -11,6 +11,9 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Page.InputBindings>
+        <KeyBinding Command="{Binding Register}" Key="Enter" />
+    </Page.InputBindings>
     <Grid>
         <StackPanel>
             <Grid>
@@ -37,12 +40,7 @@
                                 Width="100" />
                         </WrapPanel>
                     </GroupBox.Header>
-                    <WrapPanel
-                        Grid.Column="0"
-                        Grid.Row="1"
-                        HorizontalAlignment="Stretch"
-                        Margin="0,10"
-                        VerticalAlignment="Center">
+                    <WrapPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
                         <TextBlock Text="就诊卡号" VerticalAlignment="Center" />
                         <TextBox
                             IsEnabled="{Binding PatiMedCardNumIsEnable}"
@@ -115,10 +113,10 @@
                         <Rectangle Height="10" />
                         <WrapPanel>
                             <TextBlock Text="挂号日期" VerticalAlignment="Center" />
-                            <DatePicker
+                            <TextBox
                                 IsEnabled="False"
-                                SelectedDate="{Binding RegDate}"
-                                Style="{StaticResource MaterialDesignFilledDatePicker}"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding RegDate, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"
                                 Width="200" />
                         </WrapPanel>
                     </StackPanel>

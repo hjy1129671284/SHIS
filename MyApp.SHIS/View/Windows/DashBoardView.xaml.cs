@@ -20,8 +20,8 @@ namespace MyApp.SHIS.View.Windows
 {
     public partial class DashBoardView
     {
-        public string UserName { get; set; }
         private readonly DashBoardViewModel _dashBoardViewModel = new DashBoardViewModel();
+        private readonly string _userName;
         
         
         public DashBoardView(string username, int userType)
@@ -56,6 +56,7 @@ namespace MyApp.SHIS.View.Windows
             
             InitializeComponent();
             this.DataContext = _dashBoardViewModel;
+            _userName = username;
             
             //注册消息
             Messenger.Default.Register<string>(this,"closeWindow", CloseWindow);
@@ -69,7 +70,6 @@ namespace MyApp.SHIS.View.Windows
             {
                 // 未登录界面
                 GenerateNoLoginMenu();
-
                 _dashBoardViewModel.UserLoginButtonContent = "账号登录";
                 _dashBoardViewModel.SettingButtonVisibility = Visibility.Collapsed;
                 _dashBoardViewModel.ButtonCloseMenuVisibility = Visibility.Collapsed;
@@ -88,7 +88,7 @@ namespace MyApp.SHIS.View.Windows
             Unloaded += (sender, e) => Messenger.Default.Unregister(this);
             
             // 创建数据库、表、项
-            // SqlSugarCreate();
+            SqlSugarCreate();
 
         }
         
@@ -405,8 +405,8 @@ namespace MyApp.SHIS.View.Windows
 
             var menuRegister = new List<SubItem>()
             {
-                new SubItem("患者信息", new PatiInfoPage(this)),
-                new SubItem("挂号", new RegisterPage()),
+                new SubItem("患者信息", new PatiInfoPage(this, _userName)),
+                new SubItem("挂号", new RegisterPage(_userName)),
                 new SubItem("退号", new UnRegisterPage()),
                 new SubItem("挂号信息管理", new RegisterMangePage())
             };

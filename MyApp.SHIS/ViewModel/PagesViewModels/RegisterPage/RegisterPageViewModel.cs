@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.CommandWpf;
+using MyApp.SHIS.Models;
 using MyApp.SHIS.Repository.Repository;
 using MyApp.SHIS.Services.Services;
 using MyApp.SHIS.ViewModel.Common;
@@ -14,9 +16,11 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
     public class RegisterPageViewModel : NotificationObject
     {
         private readonly RegisterPageModel _registerPageModel = new RegisterPageModel();
+        private string _userName;
 
-        public RegisterPageViewModel(int? patiMedCardNum)
-        {                
+        public RegisterPageViewModel(string userName, int? patiMedCardNum)
+        {
+            _userName = userName;
             // 初始化挂号流水号
             SerialNumbers = new ObservableCollection<string>();
             // 初始化科室信息
@@ -285,10 +289,76 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
         #region 命令方法
 
         // 挂号
-        public void PatiRegister()
+        public async void PatiRegister()
         {
-            
-            
+            if (_registerPageModel.PatiMedCardNum == null)
+                MessageBox.Show("挂号失败，请输入医疗卡号");
+            else if (_registerPageModel.SerialNumber == null)
+                MessageBox.Show("挂号失败，请确认号源信息");
+            else if(_registerPageModel.DoctDept == null)
+                MessageBox.Show("挂号失败，请选择挂号科室");
+            else
+            {
+                int.TryParse(_registerPageModel.SerialNumber, out int serialNum);
+                
+                // 根据填写的 流水号 ，判断该挂号记录是否是新添加的
+                PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
+                var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.SerialNumber == serialNum);
+                pati_out_visit patiOutVisit;
+                bool isEdit;
+
+                if (patiOutVisitResult != null && patiOutVisitResult.Count > 0)
+                {
+                    patiOutVisit = patiOutVisitResult[0];
+
+                    isEdit = await patiOutVisitService.EditAsync(patiOutVisit);
+                    MessageBox.Show(isEdit ? "挂号成功" : "挂号失败");
+                }
+                else
+                {
+                    // 如果没有选择号源日期，则自动填充当前时间
+                    if(_registerPageModel.ValidDate == null)
+                        ValidDate = DateTime.Now;
+                    
+                    // 如果没有选择医生，则根据用户填写的科室自动获取一个对应科室的医生信息
+                    if (_registerPageModel.DoctName == null)
+                        DoctName = _registerPageModel.DoctNames.First();
+                    
+                    // 根据医疗卡号，得到病人信息
+                    PatiUserService patiUserService = new PatiUserService(new PatiUserRepository());
+                    var patiResult = await patiUserService.QueryAsync(it => it.MedCardNum == _registerPageModel.PatiMedCardNum);
+                    
+                    // 根据医生姓名，得到挂号的医生信息
+                    DoctUserService doctUserService = new DoctUserService(new DoctUserRepository());
+                    var doctResult = await doctUserService.QueryAsync(it => it.DoctName == _registerPageModel.DoctName);
+                    
+                    // 根据用户名得到挂号员的 ID等信息
+                    StaffUserService staffUserService = new StaffUserService(new StaffUserRepository());
+                    var registerResult = await staffUserService.QueryAsync(it => it.UserName == _userName);
+                    
+                    Debug.Assert(_registerPageModel.RegDate != null, "_registerPageModel.RegDate != null");
+                    Debug.Assert(_registerPageModel.ValidDate != null, "_registerPageModel.ValidDate != null");
+                    patiOutVisit = new pati_out_visit
+                    {
+                        SerialNumber = serialNum,
+                        QueueNo = _registerPageModel.QueueNo,
+                        PatiID = patiResult[0].PatiID,
+                        MedCardNum = patiResult[0].MedCardNum,
+                        PatiName = patiResult[0].UserAuthName,
+                        RegDate = (DateTime)_registerPageModel.RegDate,
+                        VaildDate = (DateTime)_registerPageModel.ValidDate,
+                        DoctDept = doctResult[0].DoctDept,
+                        DoctID = doctResult[0].DoctID,
+                        RegtID = registerResult[0].StaffID,
+                        OutStatus = 0
+                        
+                    };
+                    
+                    isEdit = await patiOutVisitService.CreateAsync(patiOutVisit);
+                    MessageBox.Show(isEdit ? "挂号成功" : "挂号失败");
+                }
+            }
+
         }
         // 清空所有信息
         public void CleanMessage()
@@ -302,6 +372,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
             PatiAge = null;
             ValidDate = null;
             RegDate = null;
+            QueueNo = null;
             TotalFee = 0;
             RecvFee = 0;
             
@@ -310,16 +381,24 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
         // 根据选择的科室生成对应医生信息
         public async void GenerateDoct()
         {
-            DoctNames.Clear();
-            DoctUserService doctUserService = new DoctUserService(new DoctUserRepository());
-            var doctResult = await doctUserService.QueryAsync(it => it.DoctDept == _registerPageModel.DoctDept);
-            if (doctResult != null && doctResult.Count > 0)
+            if (DoctDept != null)
             {
-                foreach (var doct in doctResult)
-                    DoctNames.Add(doct.DoctName);
+                DoctNames.Clear();
+                DoctUserService doctUserService = new DoctUserService(new DoctUserRepository());
+                var doctResult = await doctUserService.QueryAsync(it => it.DoctDept == _registerPageModel.DoctDept);
+                if (doctResult != null && doctResult.Count > 0)
+                {
+                    foreach (var doct in doctResult)
+                        DoctNames.Add(doct.DoctName);
+                }
+                else
+                {
+                    MessageBox.Show("选择科室失败，该科室没有医生值班");
+                    DoctDept = null;
+                }
             }
-            else
-                MessageBox.Show("该科室没有医生值班");
+            
+                
             
         }
         // 根据填写的医疗卡号 生成流水号信息
@@ -327,7 +406,6 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
         {
             PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
             
-            MessageBox.Show(_registerPageModel.SerialNumber);
             if (int.TryParse(_registerPageModel.SerialNumber, out var serialNumber))
             {
                 var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.SerialNumber == serialNumber);
@@ -339,10 +417,14 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                 }
                 else
                 {
-                    RegDate = DateTime.Now.Date;
-                    
+                    RegDate = DateTime.Now;
+                    var patiResult = await patiOutVisitService.QueryAsync(it => it.RegDate.Date == DateTime.Now.Date);
+                    QueueNo = 0;
+                    foreach (var pati in patiResult)
+                        QueueNo = pati.QueueNo > QueueNo ? pati.QueueNo : QueueNo;
+
+                    QueueNo += 1;
                 }
-                
             }
             else
             {
@@ -366,7 +448,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                     var newSerialNumber = patiOutVisits[patiOutVisits.Count - 1].SerialNumber + 1;
                     SerialNumbers.Add(newSerialNumber.ToString());
                     SerialNumbers.Add("返回选择");
-                    
+                    SerialNumber = newSerialNumber.ToString();
                 }
             }
             
@@ -375,9 +457,13 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
 
         #endregion
         
+        /// <summary>
+        /// 初始化病人信息
+        /// </summary>
+        /// <param name="patiMedCardNum"></param>
         public async void InitionalizeMessage(int? patiMedCardNum)
         {
-            // 初始化病人信息
+            
             NormUserService normUserService = new NormUserService(new NormUserRepository());
             var normResult = await normUserService.QueryAsync(it => it.MedCardNum == patiMedCardNum);
             if (normResult != null && normResult.Count > 0)
@@ -400,7 +486,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
 
                 foreach (var patiOutVisit in patiOutVisitResult)
                     SerialNumbers.Add(patiOutVisit.SerialNumber.ToString());
-                
+                        
                 SerialNumbers.Add("添加新记录");
                 
                 PatiMedCardNumIsEnable = false;

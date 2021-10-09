@@ -16,7 +16,7 @@ namespace MyApp.SHIS.Models
 
            }
            /// <summary>
-           /// Desc:PK
+           /// Desc:PK  门诊流水号
            /// Default:
            /// Nullable:False
            /// </summary>           
@@ -24,105 +24,105 @@ namespace MyApp.SHIS.Models
            public int SerialNumber {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:挂号序号
            /// Default:
            /// Nullable:True
            /// </summary>           
            public int? QueueNo {get;set;}
 
            /// <summary>
-           /// Desc:FK，引用pati表的PatiID
+           /// Desc:FK，引用pati表的PatiID  患者编码
            /// Default:
            /// Nullable:False
            /// </summary>           
            public int PatiID {get;set;}
 
            /// <summary>
-           /// Desc:FK，引用pati表的MedCardNum
+           /// Desc:FK，引用pati表的MedCardNum  就诊卡号
            /// Default:
            /// Nullable:False
            /// </summary>           
            public int MedCardNum {get;set;}
 
            /// <summary>
-           /// Desc:FK，引用pati表的PatiName
+           /// Desc:FK，引用pati表的PatiName  患者姓名
            /// Default:
            /// Nullable:True
            /// </summary>           
            public string PatiName {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:医保类型
            /// Default:
            /// Nullable:True
            /// </summary>           
            public string YBType {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:挂号日期
            /// Default:
-           /// Nullable:True
+           /// Nullable:False
            /// </summary>           
-           public DateTime? RegDate {get;set;}
+           public DateTime RegDate {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:号源日期
            /// Default:
-           /// Nullable:True
+           /// Nullable:False
            /// </summary>           
-           public DateTime? VaildDate {get;set;}
+           public DateTime VaildDate {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:就诊日期
            /// Default:
            /// Nullable:True
            /// </summary>           
            public DateTime? VisitDate {get;set;}
 
            /// <summary>
-           /// Desc:FK，引用doct表的DoctDept
+           /// Desc:FK，引用doct表的DoctDept  就诊科室号
            /// Default:
            /// Nullable:False
            /// </summary>           
            public string DoctDept {get;set;}
 
            /// <summary>
-           /// Desc:FK，引用doct表的DoctID
+           /// Desc:FK，引用doct表的DoctID  医生编号
            /// Default:
            /// Nullable:False
            /// </summary>           
            public int DoctID {get;set;}
 
            /// <summary>
-           /// Desc:FK，引用staff表的staffID
+           /// Desc:FK，引用staff表的staffID  挂号员工号
            /// Default:
            /// Nullable:False
            /// </summary>           
            public int RegtID {get;set;}
 
            /// <summary>
-           /// Desc:0 未就诊    	1 已就诊
+           /// Desc:0 未就诊    	1 已就诊    	门诊状态
            /// Default:
            /// Nullable:False
            /// </summary>           
            public int OutStatus {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:总金额
            /// Default:
            /// Nullable:True
            /// </summary>           
            public decimal? TotalFee {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:实付金额
            /// Default:
            /// Nullable:True
            /// </summary>           
            public decimal? ReceiveFee {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:支付方式
            /// Default:
            /// Nullable:True
            /// </summary>           

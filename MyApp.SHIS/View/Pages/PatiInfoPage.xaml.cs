@@ -11,9 +11,11 @@ namespace MyApp.SHIS.View.Pages
     {
         private readonly DashBoardView _dashBoardView;
         private readonly PatiInfoPageViewModel _patiInfoPageViewModel = new PatiInfoPageViewModel();
-        public PatiInfoPage(DashBoardView dashBoardView)
+        private readonly string _userName;
+        public PatiInfoPage(DashBoardView dashBoardView, string userName)
         {
             _dashBoardView = dashBoardView;
+            _userName = userName;
             InitializeComponent();
             this.DataContext = _patiInfoPageViewModel;
             
@@ -27,7 +29,7 @@ namespace MyApp.SHIS.View.Pages
         
         private void PatiRegisterPage(int medCardNum)
         {
-            _dashBoardView.SwitchPages(new RegisterPage(medCardNum));
+            _dashBoardView.SwitchPages(new RegisterPage(_userName, medCardNum));
         }
     }
 }

@@ -39,8 +39,7 @@
                 Foreground="White"
                 ItemsSource="{Binding Path=SubItems}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                SelectionChanged="ListViewMenu_SelectionChanged"
-                x:Name="ListViewMenu">
+                SelectionChanged="ListViewMenu_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Padding="20,5" Text="{Binding Path=Name}" />
