@@ -10,7 +10,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         public string UserName { get; set; }
         public int? Age { get; set; }
         public int? AgeHint { get; set; }
-        public string Gender { get; set; }
+        public ComboBoxItem Gender { get; set; }
         public string GenderHint { get; set; }
         public string IDCardText { get; set; }
         public Brush IDCardTextColor { get; set; }

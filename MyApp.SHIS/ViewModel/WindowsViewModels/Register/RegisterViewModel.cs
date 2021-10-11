@@ -85,9 +85,7 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Register
             var result = userService.QueryAsync(it => it.UserName == userName).Result;
 
             if (result != null && result.Count > 0)
-            {
                 MessageBox.Show("帐号已存在，注册失败");
-            }
             else
             {
                 if(string.IsNullOrEmpty(pwd1) || string.IsNullOrEmpty(pwd2))
@@ -105,10 +103,7 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Register
                     MessageBox.Show("注册成功");
                 }
                 else
-                {
                     MessageBox.Show("两次输入密码不同，注册失败");
-                }
-                
             }
         }
     }

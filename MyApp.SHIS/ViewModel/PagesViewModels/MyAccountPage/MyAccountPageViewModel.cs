@@ -83,7 +83,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         }
 
 
-        public string Gender
+        public ComboBoxItem Gender
         {
             get => _myAccountPageModel.Gender;
             set
@@ -713,7 +713,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         public async void EditGender()
         {
-            if (string.IsNullOrEmpty(_myAccountPageModel.Gender))
+            if (_myAccountPageModel.Gender == null)
                 MessageBox.Show("请选择性别");
             else
             {
@@ -721,7 +721,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
                 var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
                 var user = result[0];
 
-                string genderName = _myAccountPageModel.Gender;
+                string genderName = _myAccountPageModel.Gender.Content.ToString();
                 bool isEdit = await normUserService.EditGenderAsync(user, genderName);
 
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");

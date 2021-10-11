@@ -139,7 +139,7 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
             UserService userService = new UserService(new UserRepository());
             StaffUserService staffUserService = new StaffUserService(new StaffUserRepository());
             int type = -1;
-            
+
             switch (userType)
             {
                 case "管理员": type = 0; break;
@@ -147,7 +147,8 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
                 case "患者": type = 2; break;
                 case "职工":
                     var staff = await staffUserService.QueryAsync(it => it.UserName == userName);
-                    type = staff[0].StafType;
+                    if (staff != null && staff.Count > 0)
+                        type = staff[0].StafType;
                     break;
             }
 
@@ -156,7 +157,7 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
             {
                 if (users[0].UserPwd == _loginModel.PassWord)
                 {
-                    var loginFlag = AuthAdjust(users, type);
+                    bool loginFlag = AuthAdjust(users, type);
                     if (loginFlag)
                     {
                         MessageBox.Show($"登录成功，欢迎{userType} {userName}");
@@ -164,9 +165,7 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
                         RemindPwd.UpdateSettingString("userName", userName);
                     }
                     else
-                    {
                         MessageBox.Show($"登录失败，您的账号并不是{userType}，请切换账号类型或者输入正确的帐号密码");
-                    }
                 }
                 else
                 {

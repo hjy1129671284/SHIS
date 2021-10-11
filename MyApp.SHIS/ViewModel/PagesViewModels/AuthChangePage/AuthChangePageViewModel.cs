@@ -296,15 +296,16 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
         public async void Find()
         {
             _authChangePageModel.UserList.Clear();
-            UserService userService = new UserService(new UserRepository());
-            var result = await userService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
-            if (result != null && result.Count > 0)
-            {
-                _authChangePageModel.UserList.Add(result[0]);
-            }
+            if (string.IsNullOrEmpty(_authChangePageModel.UserName))
+                MessageBox.Show("请填写用户名");
             else
             {
-                MessageBox.Show($"没找到{_authChangePageModel.UserName}");
+                UserService userService = new UserService(new UserRepository());
+                var result = await userService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
+                if (result != null && result.Count > 0)
+                    _authChangePageModel.UserList.Add(result[0]);
+                else
+                    MessageBox.Show($"没找到{_authChangePageModel.UserName}");
             }
         }
         

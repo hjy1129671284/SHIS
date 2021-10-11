@@ -108,12 +108,7 @@
                         ItemsSource="{Binding RegisterInfo}"
                         SelectedItem="{Binding SelectedPatiOutVisit}"
                         SelectionMode="Extended"
-                        SelectionUnit="FullRow">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Path=SerialNumber}" Header="流水号" />
-                            <DataGridTextColumn Binding="{Binding Path=QueueNo}" Header="序号" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                        SelectionUnit="FullRow" />
                 </StackPanel>
             </GroupBox>
 
@@ -123,8 +118,14 @@
                         <TextBlock FontSize="16" Text="退款信息" />
                         <Button
                             Background="LightGray"
+                            Command="{Binding UpdatePayMessage}"
+                            Content="获取信息"
+                            Margin="360,0,0,0"
+                            Width="100" />
+                        <Button
+                            Background="LightGray"
                             Content="退款"
-                            Margin="500,0,0,0"
+                            Margin="10,0,0,0"
                             Width="100" />
                         <Button
                             Background="LightGray"
@@ -140,20 +141,21 @@
                             Text="总金额"
                             VerticalAlignment="Center" />
                         <TextBox
+                            IsEnabled="False"
                             Margin="10,0"
                             Style="{StaticResource MaterialDesignFilledTextBox}"
-                            Text="{Binding TotalPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            Width="120"
-                            materialDesign:HintAssist.Hint="{Binding TotalPayHint}" />
+                            Text="{Binding PayAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="120" />
                         <TextBlock
                             Margin="10,0"
                             Text="退款方式"
                             VerticalAlignment="Center" />
                         <ComboBox
                             Margin="10,0"
+                            SelectedItem="{Binding RefundType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             Style="{StaticResource MaterialDesignFilledComboBox}"
-                            Text="{Binding PatiMedCardNum, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            Width="120">
+                            Width="120"
+                            materialDesign:HintAssist.Hint="{Binding RefundTypeHint}">
                             <ComboBoxItem Content="现金" />
                             <ComboBoxItem Content="银联" />
                             <ComboBoxItem Content="微信" />
@@ -167,8 +169,7 @@
                             Margin="10,0"
                             Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding RefundPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            Width="120"
-                            materialDesign:HintAssist.Hint="{Binding RefundPayHint}">
+                            Width="120">
                             <TextBox.InputBindings>
                                 <KeyBinding Command="" Key="Enter" />
                             </TextBox.InputBindings>

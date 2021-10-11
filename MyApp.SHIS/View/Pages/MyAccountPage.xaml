@@ -30,7 +30,11 @@
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Text="{Binding Age, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="{Binding AgeHint}" />
+                                materialDesign:HintAssist.Hint="{Binding AgeHint}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding AgeCommand}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
                             <Button
                                 Command="{Binding AgeCommand}"
                                 Content="确认修改"
@@ -43,7 +47,7 @@
                                 Width="60" />
                             <ComboBox
                                 Margin="10,0"
-                                SelectedItem="{Binding Gender}"
+                                SelectedValue="{Binding Gender}"
                                 Style="{StaticResource MaterialDesignFilledComboBox}"
                                 Width="140"
                                 materialDesign:HintAssist.Hint="{Binding GenderHint}">
@@ -104,7 +108,11 @@
                                 Text="{Binding IDCardTypeText}"
                                 Visibility="{Binding IDCardTextBoxVisibility}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="{Binding IDCardTypeTextHint}" />
+                                materialDesign:HintAssist.Hint="{Binding IDCardTypeTextHint}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding IDCardTypeCommand}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
                             <Button
                                 Command="{Binding IDCardTypeCommand}"
                                 Content="确认修改"
@@ -120,7 +128,11 @@
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Text="{Binding IDCard}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="{Binding IDCardHint}" />
+                                materialDesign:HintAssist.Hint="{Binding IDCardHint}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding IDCardCommand}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
                             <Button
                                 Command="{Binding IDCardCommand}"
                                 Content="确认修改"
@@ -216,7 +228,11 @@
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Text="{Binding MobileNum}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="{Binding MobileNumHint}" />
+                                materialDesign:HintAssist.Hint="{Binding MobileNumHint}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding MobileNumCommand}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
                             <Button
                                 Command="{Binding MobileNumCommand}"
                                 Content="确认修改"
@@ -232,7 +248,11 @@
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Text="{Binding UserEmail}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="{Binding UserEmailHint}" />
+                                materialDesign:HintAssist.Hint="{Binding UserEmailHint}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding UserEmailCommand}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
                             <Button
                                 Command="{Binding UserEmailCommand}"
                                 Content="确认修改"
@@ -277,7 +297,11 @@
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Text="{Binding RegiLoc}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="{Binding RegiLocHint}" />
+                                materialDesign:HintAssist.Hint="{Binding RegiLocHint}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding RegiLocCommand}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
                             <Button
                                 Command="{Binding RegiLocCommand}"
                                 Content="确认修改"
@@ -342,7 +366,11 @@
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Text="{Binding Country}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="{Binding CountryHint}" />
+                                materialDesign:HintAssist.Hint="{Binding CountryHint}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding CountryCommand}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
                             <Button
                                 Command="{Binding CountryCommand}"
                                 Content="确认修改"
@@ -436,7 +464,11 @@
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Text="{Binding NativePlace}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="{Binding NativePlaceHint}" />
+                                materialDesign:HintAssist.Hint="{Binding NativePlaceHint}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding NativePlaceCommand}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
                             <Button
                                 Command="{Binding NativePlaceCommand}"
                                 Content="确认修改"
@@ -452,7 +484,11 @@
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Text="{Binding RegiLocPostCode}"
                                 Width="140"
-                                materialDesign:HintAssist.Hint="{Binding RegiLocPostCodeHint}" />
+                                materialDesign:HintAssist.Hint="{Binding RegiLocPostCodeHint}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding RegiLocPostCodeCommand}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
                             <Button
                                 Command="{Binding RegiLocPostCodeCommand}"
                                 Content="确认修改"
