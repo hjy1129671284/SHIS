@@ -1,0 +1,119 @@
+﻿<Page
+    Height="450"
+    Title="DiagnosisPage"
+    Width="800"
+    mc:Ignorable="d"
+    x:Class="MyApp.SHIS.View.Pages.DiagnosisPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyApp.SHIS.View.Pages"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <GroupBox Background="White" Margin="10">
+                    <GroupBox.Header>
+                        <WrapPanel>
+                            <TextBlock Foreground="White" Text="诊断病历" />
+                            <Rectangle Width="500" />
+                            <Button
+                                Background="LightGray"
+                                Command="{Binding PatiMessage}"
+                                Content="查询" />
+                        </WrapPanel>
+
+                    </GroupBox.Header>
+                    <StackPanel HorizontalAlignment="Center">
+                        <WrapPanel>
+                            <TextBlock
+                                Margin="10,0"
+                                Text="流水号"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                IsEnabled="{Binding SerialNumberIsEnable}"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding SerialNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                Width="100">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding PatiMessage}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <TextBlock
+                                Margin="10,0"
+                                Text="医疗卡号"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                IsEnabled="False"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding MedCardNum}"
+                                Width="100" />
+
+                            <TextBlock
+                                Margin="10,0"
+                                Text="姓名"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                IsEnabled="False"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding PatiAuthName}"
+                                Width="100" />
+
+                            <TextBlock
+                                Margin="10,0"
+                                Text="年龄"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                IsEnabled="False"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding PatiAge}"
+                                Width="100" />
+                        </WrapPanel>
+                        <TextBlock
+                            FontSize="26"
+                            HorizontalAlignment="Center"
+                            Margin="0,20"
+                            Text="门诊病历" />
+                        <TextBox
+                            AcceptsReturn="True"
+                            Height="150"
+                            MinWidth="280"
+                            SpellCheck.IsEnabled="True"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding MedRecord, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            TextWrapping="Wrap"
+                            VerticalAlignment="Stretch"
+                            VerticalScrollBarVisibility="Auto"
+                            materialDesign:HintAssist.Hint="诊断依据">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding UploadRecord}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,10">
+                            <TextBlock
+                                Margin="10,0"
+                                Text="门诊诊断"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding DoctDiagnosis}"
+                                Width="400" />
+                            <Button
+                                Command="{Binding UploadRecord}"
+                                Content="提交病历"
+                                Margin="10,0"
+                                Width="100" />
+                        </WrapPanel>
+
+                        <Button
+                            Command="{Binding Order}"
+                            Content="书写医嘱"
+                            Width="100" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>

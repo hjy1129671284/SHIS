@@ -160,6 +160,17 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
                     bool loginFlag = AuthAdjust(users, type);
                     if (loginFlag)
                     {
+                        switch (type)
+                        {
+                            case 0: userType = "管理员"; break;
+                            case 1: userType = "普通用户"; break;
+                            case 2: userType = "患者"; break;
+                            case 3: userType = "医生"; break;
+                            case 4: userType = "药师"; break;
+                            case 5: userType = "挂号员"; break;
+                            case 6: userType = "收费员"; break;
+                            case 7: userType = "护士"; break;
+                        }
                         MessageBox.Show($"登录成功，欢迎{userType} {userName}");
                         Messenger.Default.Send($"{userName}, {type}", "login");
                         RemindPwd.UpdateSettingString("userName", userName);

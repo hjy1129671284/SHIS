@@ -8,62 +8,76 @@ namespace MyApp.SHIS.Models
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("pati_out_visit_settle")]
-    public partial class pati_out_visit_settle
+    [SugarTable("order")]
+    public partial class order
     {
-           public pati_out_visit_settle(){
+           public order(){
 
 
            }
            /// <summary>
-           /// Desc:PK
+           /// Desc:
            /// Default:
            /// Nullable:False
            /// </summary>           
            [SugarColumn(IsPrimaryKey=true,IsIdentity=true)]
-           public int SettleID {get;set;}
+           public int OrderID {get;set;}
 
            /// <summary>
            /// Desc:
-           /// Default:
-           /// Nullable:False
-           /// </summary>           
-           public DateTime SettleDate {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:False
-           /// </summary>           
-           public decimal PayAmount {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public decimal? PaidAmount {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public decimal? ChangeAmount {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:False
-           /// </summary>           
-           public int StaffID {get;set;}
-
-           /// <summary>
-           /// Desc:FK，引用Pati_Out_Visit表的SerialNumber
            /// Default:
            /// Nullable:False
            /// </summary>           
            public int SerialNumber {get;set;}
+
+           /// <summary>
+           /// Desc:
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public int PatiID {get;set;}
+
+           /// <summary>
+           /// Desc:
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public int DoctID {get;set;}
+
+           /// <summary>
+           /// Desc:
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public DateTime OrderTime {get;set;}
+
+           /// <summary>
+           /// Desc:
+           /// Default:
+           /// Nullable:True
+           /// </summary>           
+           public int? MedicineID {get;set;}
+
+           /// <summary>
+           /// Desc:
+           /// Default:
+           /// Nullable:True
+           /// </summary>           
+           public int? MedicineAmount {get;set;}
+
+           /// <summary>
+           /// Desc:
+           /// Default:
+           /// Nullable:True
+           /// </summary>           
+           public decimal? TotalPay {get;set;}
+
+           /// <summary>
+           /// Desc:
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public int OrderType {get;set;}
 
     }
 }

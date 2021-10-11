@@ -102,24 +102,24 @@ namespace MyApp.SHIS.Models
 
            /// <summary>
            /// Desc:0 未就诊    	1 已就诊    	门诊状态
-           /// Default:
+           /// Default:0
            /// Nullable:False
            /// </summary>           
            public int OutStatus {get;set;}
 
            /// <summary>
-           /// Desc:总金额
+           /// Desc:应付金额
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public decimal? TotalFee {get;set;}
+           public decimal? PayAmount {get;set;}
 
            /// <summary>
            /// Desc:实付金额
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public decimal? ReceiveFee {get;set;}
+           public decimal? PaidAmount {get;set;}
 
            /// <summary>
            /// Desc:支付方式

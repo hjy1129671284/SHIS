@@ -88,12 +88,13 @@ namespace MyApp.SHIS.View.Windows
             Unloaded += (sender, e) => Messenger.Default.Unregister(this);
             
             // 创建数据库、表、项
-            SqlSugarCreate();
+            // SqlSugarCreate();
 
         }
         
         internal void SwitchPages(object sender)
         {
+            
             var page = (Page)sender;
 
             if (page != null)
@@ -369,9 +370,19 @@ namespace MyApp.SHIS.View.Windows
         public void GenerateDoctMenu()
         {
             var item0 = new ItemMenu("主页", new IndexPage(), PackIconKind.ViewDashboard);
+            
+            var menuDoctor = new List<SubItem>()
+            {
+                new SubItem("科室患者", new PatiAdmissionPage(this, _userName)),
+                new SubItem("诊断病历", new DiagnosisPage(this, _userName)),
+                new SubItem("医院医嘱", new OrderWritePage(_userName)),
+            };
+            var item1 = new ItemMenu("工作站", menuDoctor, PackIconKind.Work);
+            
             var item2 = new ItemMenu("反馈", new IndexPage(), PackIconKind.ShoppingBasket);
 
             Menu.Children.Add(new UserControlMenuItem(item0, this));
+            Menu.Children.Add(new UserControlMenuItem(item1, this));
             Menu.Children.Add(new UserControlMenuItem(item2, this));
         }
         #endregion
@@ -408,7 +419,6 @@ namespace MyApp.SHIS.View.Windows
                 new SubItem("患者信息", new PatiInfoPage(this, _userName)),
                 new SubItem("挂号", new RegisterPage(_userName)),
                 new SubItem("退号", new UnRegisterPage()),
-                new SubItem("挂号信息管理", new RegisterMangePage())
             };
             var item1 = new ItemMenu("挂号", menuRegister, PackIconKind.Register);    
             

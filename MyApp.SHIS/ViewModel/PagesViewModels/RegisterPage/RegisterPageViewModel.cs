@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,7 +17,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
     public class RegisterPageViewModel : NotificationObject
     {
         private readonly RegisterPageModel _registerPageModel = new RegisterPageModel();
-        private string _userName;
+        private readonly string _userName;
 
         public RegisterPageViewModel(string userName, int? patiMedCardNum)
         {
@@ -163,22 +164,22 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                 OnPropertyChanged(nameof(ValidDate));
             }
         }
-        public decimal TotalFee
+        public decimal PayAmount
         { 
-            get => _registerPageModel.TotalFee;
+            get => _registerPageModel.PayAmount;
             set
             {
-                _registerPageModel.TotalFee = value;
-                OnPropertyChanged(nameof(TotalFee));
+                _registerPageModel.PayAmount = value;
+                OnPropertyChanged(nameof(PayAmount));
             }
         }
-        public decimal RecvFee
+        public decimal PaidAmount
         { 
-            get => _registerPageModel.RecvFee;
+            get => _registerPageModel.PaidAmount;
             set
             {
-                _registerPageModel.RecvFee = value;
-                OnPropertyChanged(nameof(RecvFee));
+                _registerPageModel.PaidAmount = value;
+                OnPropertyChanged(nameof(PaidAmount));
             }
         }
         public ComboBoxItem PayType
@@ -235,6 +236,24 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
             {
                 _registerPageModel.DoctIDHint = value;
                 OnPropertyChanged(nameof(DoctIDHint));
+            }
+        }
+        public string PayAmountHint
+        {
+            get => _registerPageModel.PayAmountHint;
+            set
+            {
+                _registerPageModel.PayAmountHint = value;
+                OnPropertyChanged(nameof(PayAmountHint));
+            }
+        }
+        public string PaidAmountHint
+        {
+            get => _registerPageModel.PaidAmountHint;
+            set
+            {
+                _registerPageModel.PaidAmountHint = value;
+                OnPropertyChanged(nameof(PaidAmountHint));
             }
         }
         public string PayTypeHint
@@ -310,9 +329,27 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                 if (patiOutVisitResult != null && patiOutVisitResult.Count > 0)
                 {
                     patiOutVisit = patiOutVisitResult[0];
-
+                    if (_registerPageModel.ValidDate != null)
+                        patiOutVisit.VaildDate = (DateTime)_registerPageModel.ValidDate;
+                    if (string.IsNullOrEmpty(_registerPageModel.DoctDept))
+                        patiOutVisit.DoctDept = _registerPageModel.DoctDept;
+                    if (string.IsNullOrEmpty(_registerPageModel.DoctName))
+                    {
+                        DoctUserService doctUserService = new DoctUserService(new DoctUserRepository());
+                        var doctResult =
+                            await doctUserService.QueryAsync(it => it.DoctName == _registerPageModel.DoctName);
+                        patiOutVisit.DoctID = doctResult[0].DoctID;
+                    }
+                    StaffUserService staffUserService = new StaffUserService(new StaffUserRepository());
+                    var registerResult = await staffUserService.QueryAsync(it => it.UserName == _userName);
+                    patiOutVisit.RegtID = registerResult[0].StaffID;
+                    patiOutVisit.PayAmount = _registerPageModel.PayAmount;
+                    patiOutVisit.PaidAmount = _registerPageModel.PaidAmount;
+                    if (_registerPageModel.PayType != null)
+                        patiOutVisit.PayType = _registerPageModel.PayType.Content.ToString();
+                    
                     isEdit = await patiOutVisitService.EditAsync(patiOutVisit);
-                    MessageBox.Show(isEdit ? "挂号成功" : "挂号失败");
+                    MessageBox.Show(isEdit ? "修改挂号信息成功" : "修改挂号信息失败");
                 }
                 else
                 {
@@ -350,8 +387,9 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                         DoctDept = doctResult[0].DoctDept,
                         DoctID = doctResult[0].DoctID,
                         RegtID = registerResult[0].StaffID,
-                        OutStatus = 0
-                        
+                        OutStatus = 0,
+                        PayAmount = _registerPageModel.PayAmount,
+                        PaidAmount = _registerPageModel.PaidAmount
                     };
                     
                     isEdit = await patiOutVisitService.CreateAsync(patiOutVisit);
@@ -373,8 +411,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
             ValidDate = null;
             RegDate = null;
             QueueNo = null;
-            TotalFee = 0;
-            RecvFee = 0;
+            PayAmount = 0;
+            PaidAmount = 0;
             
             PatiMedCardNumIsEnable = true;
         }
@@ -414,6 +452,15 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                 {
                     QueueNo = patiOutVisitResult[0].QueueNo;
                     RegDate = patiOutVisitResult[0].RegDate;
+                    VaildDateHint = patiOutVisitResult[0].RegDate.ToString(CultureInfo.InvariantCulture);
+                    DoctDeptHint = patiOutVisitResult[0].DoctDept;
+
+                    DoctUserService doctUserService = new DoctUserService(new DoctUserRepository());
+                    var doctResult = await doctUserService.QueryAsync(it => it.DoctID == patiOutVisitResult[0].DoctID);
+                    DoctIDHint = doctResult[0].DoctName;
+                    PayAmount = patiOutVisitResult[0].PayAmount ?? 0;
+                    PaidAmount = patiOutVisitResult[0].PaidAmount ?? 0;
+                    PayTypeHint = patiOutVisitResult[0].PayType;
                 }
                 else
                 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.CommandWpf;
 using MyApp.SHIS.Models;
@@ -25,6 +26,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
         private ICommand _queryByMedCardNum;
         private ICommand _queryByPatiAuthName;
         private ICommand _queryByDoctAuthName;
+        private ICommand _updatePayMessage;
         
 
         #region 属性
@@ -65,13 +67,13 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
                 OnPropertyChanged(nameof(DoctAuthName));
             }
         }
-        public decimal TotalPay
+        public decimal PayAmount
         { 
-            get => _unRegisterPageModel.TotalPay;
+            get => _unRegisterPageModel.PayAmount;
             set
             {
-                _unRegisterPageModel.TotalPay = value;
-                OnPropertyChanged(nameof(TotalPay));
+                _unRegisterPageModel.PayAmount = value;
+                OnPropertyChanged(nameof(PayAmount));
             }
         }
         public decimal RefundPay
@@ -83,6 +85,16 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
                 OnPropertyChanged(nameof(RefundPay));
             }
         }
+        public ComboBoxItem RefundType
+        {
+            get => _unRegisterPageModel.RefundType;
+            set
+            {
+                _unRegisterPageModel.RefundType = value;
+                OnPropertyChanged(nameof(RefundType));
+            }
+        }
+
         public ObservableCollection<pati_out_visit> RegisterInfo
         { 
             get => _unRegisterPageModel.RegisterInfo;
@@ -139,22 +151,13 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
                 OnPropertyChanged(nameof(DoctAuthNameHint));
             }
         }
-        public string TotalPayHint
-        { 
-            get => _unRegisterPageModel.TotalPayHint;
+        public string RefundTypeHint
+        {
+            get => _unRegisterPageModel.RefundTypeHint;
             set
             {
-                _unRegisterPageModel.TotalPayHint = value;
-                OnPropertyChanged(nameof(TotalPayHint));
-            }
-        }
-        public string RefundPayHint
-        { 
-            get => _unRegisterPageModel.RefundPayHint;
-            set
-            {
-                _unRegisterPageModel.RefundPayHint = value;
-                OnPropertyChanged(nameof(RefundPayHint));
+                _unRegisterPageModel.RefundTypeHint = value;
+                OnPropertyChanged(nameof(RefundTypeHint));
             }
         }
 
@@ -199,7 +202,14 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
             set => _queryByDoctAuthName = value;
         }
 
-        #endregion。。
+        public ICommand UpdatePayMessage
+        {
+            get => _updatePayMessage ?? (_updatePayMessage = new RelayCommand(UpdatePay));
+            set => _updatePayMessage = value;
+        }
+
+
+        #endregion
 
         #region 命令方法
 
@@ -214,7 +224,16 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
         // 退款
         public void RefundPays()
         {
-            
+            if (_unRegisterPageModel.PayAmount == 0)
+                MessageBox.Show("请获取总金额信息");
+            else if (_unRegisterPageModel.RefundPay == 0)
+                MessageBox.Show("请输入退款金额");
+            else if (_unRegisterPageModel.RefundPay > _unRegisterPageModel.PayAmount)
+                MessageBox.Show("请保证退款金额不超过总金额");
+            else
+            {
+                MessageBox.Show("退款成功");
+            }
         }
         // 根据流水号查询
         public async void UpdateDataGridBySerialNumber()
@@ -306,10 +325,16 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
             else
                 MessageBox.Show("请输入医生姓名");
         }
+        // 根据选择的数据框实体， 更新收费信息
+        public void UpdatePay()
+        {
+            PayAmount = SelectedPatiOutVisit.PayAmount ?? 0;
+            RefundTypeHint = SelectedPatiOutVisit.PayType;
+        }
         
-
         #endregion
 
+        // 初始化数据框信息
         public async void InitionalizePatiOutVisitInfo()
         {
             RegisterInfo.Clear();

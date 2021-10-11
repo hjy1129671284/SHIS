@@ -312,8 +312,11 @@
     <Compile Include="Commom\PasswordBoxHelper.cs" />
     <Compile Include="Commom\ViewManage.cs" />
     <Compile Include="Models\AppSetting.cs" />
+    <Compile Include="Models\diagnosis.cs" />
     <Compile Include="Models\doct_user.cs" />
+    <Compile Include="Models\medicine.cs" />
     <Compile Include="Models\norm_user.cs" />
+    <Compile Include="Models\order.cs" />
     <Compile Include="Models\pati_out_visit.cs" />
     <Compile Include="Models\pati_out_visit_settle.cs" />
     <Compile Include="Models\pati_user.cs" />
@@ -321,32 +324,44 @@
     <Compile Include="Models\user.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repository\IRepository\IBaseRepository.cs" />
+    <Compile Include="Repository\IRepository\IDiagnosisRepository.cs" />
     <Compile Include="Repository\IRepository\IDoctUserRepository.cs" />
+    <Compile Include="Repository\IRepository\IMedicineRepository.cs" />
     <Compile Include="Repository\IRepository\INormUserRepository.cs" />
+    <Compile Include="Repository\IRepository\IOrderRepository.cs" />
     <Compile Include="Repository\IRepository\IPatiOutVisitRepository.cs" />
     <Compile Include="Repository\IRepository\IPatiOutVisitSettleRepository.cs" />
     <Compile Include="Repository\IRepository\IPatiUserRepository.cs" />
     <Compile Include="Repository\IRepository\IStaffUserRepository.cs" />
     <Compile Include="Repository\IRepository\IUserRepository.cs" />
     <Compile Include="Repository\Repository\BaseRepository.cs" />
+    <Compile Include="Repository\Repository\DiagnosisRepository.cs" />
     <Compile Include="Repository\Repository\DoctUserRepository.cs" />
+    <Compile Include="Repository\Repository\MedicineRepository.cs" />
     <Compile Include="Repository\Repository\NormUserRepository.cs" />
+    <Compile Include="Repository\Repository\OrderRepository.cs" />
     <Compile Include="Repository\Repository\PatiOutVisitRepository.cs" />
     <Compile Include="Repository\Repository\PatiOutVisitSettleRepository.cs" />
     <Compile Include="Repository\Repository\PatiUserRepository.cs" />
     <Compile Include="Repository\Repository\StaffUserRepository.cs" />
     <Compile Include="Repository\Repository\UserRepository.cs" />
     <Compile Include="Services\IServices\IBaseService.cs" />
+    <Compile Include="Services\IServices\IDiagnosisService.cs" />
     <Compile Include="Services\IServices\IDoctUserService.cs" />
+    <Compile Include="Services\IServices\IMedicineService.cs" />
     <Compile Include="Services\IServices\INromUserService.cs" />
     <Compile Include="Services\IServices\IPatiOutVisitService.cs" />
     <Compile Include="Services\IServices\IPatiOutVisitSettleService.cs" />
     <Compile Include="Services\IServices\IPatiUserService.cs" />
     <Compile Include="Services\IServices\IStaffUserService.cs" />
     <Compile Include="Services\IServices\IUserService.cs" />
+    <Compile Include="Services\IServices\IOrderService.cs" />
     <Compile Include="Services\Services\BaseService.cs" />
+    <Compile Include="Services\Services\DiagnosisService.cs" />
     <Compile Include="Services\Services\DoctUserService.cs" />
+    <Compile Include="Services\Services\MedicineService.cs" />
     <Compile Include="Services\Services\NormUserService.cs" />
+    <Compile Include="Services\Services\OrderService.cs" />
     <Compile Include="Services\Services\PatiOutVisitService.cs" />
     <Compile Include="Services\Services\PatiOutVisitSettleService.cs" />
     <Compile Include="Services\Services\PatiUserService.cs" />
@@ -360,10 +375,16 @@
     <Compile Include="ViewModel\PagesViewModels\BlankPage\BlankPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\CheckUserPage\CheckUserPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\CheckUserPage\CheckUserPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\DiagnosisPage\DiagnosisPageModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\DiagnosisPage\DiagnosisPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\IndexPage\IndexPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\IndexPage\IndexPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\MyAccountPage\MyAccountPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\MyAccountPage\MyAccountPageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\OrderWritePage\OrderWritePageModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\OrderWritePage\OrderWritePageViewModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\PatiAdmissionPage\PatiAdmissionPageModel.cs" />
+    <Compile Include="ViewModel\PagesViewModels\PatiAdmissionPage\PatiAdmissionPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\PatiInfoPage\PatiInfoPageModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\PatiInfoPage\PatiInfoPageViewModel.cs" />
     <Compile Include="ViewModel\PagesViewModels\RegisterMangePage\RegisterMangePageModel.cs" />
@@ -395,11 +416,20 @@
     <Compile Include="View\Pages\CheckUserPage.xaml.cs">
       <DependentUpon>CheckUserPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Pages\DiagnosisPage.xaml.cs">
+      <DependentUpon>DiagnosisPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Pages\IndexPage.xaml.cs">
       <DependentUpon>IndexPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\MyAccountPage.xaml.cs">
       <DependentUpon>MyAccountPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\OrderWritePage.xaml.cs">
+      <DependentUpon>OrderWritePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\PatiAdmissionPage.xaml.cs">
+      <DependentUpon>PatiAdmissionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\PatiInfoPage.xaml.cs">
       <DependentUpon>PatiInfoPage.xaml</DependentUpon>
@@ -459,8 +489,11 @@
     <Page Include="View\Pages\AuthChangePage.xaml" />
     <Page Include="View\Pages\BlankPage.xaml" />
     <Page Include="View\Pages\CheckUserPage.xaml" />
+    <Page Include="View\Pages\DiagnosisPage.xaml" />
     <Page Include="View\Pages\IndexPage.xaml" />
     <Page Include="View\Pages\MyAccountPage.xaml" />
+    <Page Include="View\Pages\OrderWritePage.xaml" />
+    <Page Include="View\Pages\PatiAdmissionPage.xaml" />
     <Page Include="View\Pages\PatiInfoPage.xaml" />
     <Page Include="View\Pages\RegisterMangePage.xaml" />
     <Page Include="View\Pages\RegisterPage.xaml" />

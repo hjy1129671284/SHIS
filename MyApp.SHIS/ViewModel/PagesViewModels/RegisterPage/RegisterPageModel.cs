@@ -20,8 +20,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
         public string DoctName{ get; set; }
         public DateTime? RegDate{ get; set; }
         public DateTime? ValidDate{ get; set; }
-        public decimal TotalFee{ get; set; }
-        public decimal RecvFee{ get; set; }
+        public decimal PayAmount{ get; set; }
+        public decimal PaidAmount{ get; set; }
         public ComboBoxItem PayType { get; set; }
 
         // Hint
@@ -29,6 +29,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
         public string DoctDeptHint{ get; set; }
         public string VaildDateHint{ get; set; }
         public string DoctIDHint{ get; set; }
+        public string PayAmountHint{ get; set; }
+        public string PaidAmountHint{ get; set; }
         public string PayTypeHint { get; set; }
 
     }

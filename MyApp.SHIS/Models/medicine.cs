@@ -8,62 +8,48 @@ namespace MyApp.SHIS.Models
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("pati_out_visit_settle")]
-    public partial class pati_out_visit_settle
+    [SugarTable("medicine")]
+    public partial class medicine
     {
-           public pati_out_visit_settle(){
+           public medicine(){
 
 
            }
            /// <summary>
-           /// Desc:PK
+           /// Desc:
            /// Default:
            /// Nullable:False
            /// </summary>           
            [SugarColumn(IsPrimaryKey=true,IsIdentity=true)]
-           public int SettleID {get;set;}
+           public int MedicineID {get;set;}
 
            /// <summary>
            /// Desc:
            /// Default:
            /// Nullable:False
            /// </summary>           
-           public DateTime SettleDate {get;set;}
+           public string MedicineName {get;set;}
 
            /// <summary>
            /// Desc:
            /// Default:
            /// Nullable:False
            /// </summary>           
-           public decimal PayAmount {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public decimal? PaidAmount {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public decimal? ChangeAmount {get;set;}
+           public string MedicineSpec {get;set;}
 
            /// <summary>
            /// Desc:
            /// Default:
            /// Nullable:False
            /// </summary>           
-           public int StaffID {get;set;}
+           public string MedicineUser {get;set;}
 
            /// <summary>
-           /// Desc:FK，引用Pati_Out_Visit表的SerialNumber
+           /// Desc:
            /// Default:
            /// Nullable:False
            /// </summary>           
-           public int SerialNumber {get;set;}
+           public decimal MedicinePrice {get;set;}
 
     }
 }

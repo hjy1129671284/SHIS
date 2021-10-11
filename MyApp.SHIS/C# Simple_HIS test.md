@@ -186,7 +186,7 @@
 | 11   | DoctID       | 专家号     | int      |      | False      | FK，引用doct表的DoctID       |        |
 | 12   | RegtID       | 挂号员工号 | int      |      | False      | FK，引用staff表的staffID     |        |
 | 13   | OutStatus    | 门诊状态   | int      |      | False      | 0 未就诊<br />1 已就诊       |        |
-| 14   | TotalFee     | 总金额     | decimal  | 10,2 |            |                              |        |
+| 14   | TotalFee     | 总金额     | decimal  | 10,2 | False      |                              |        |
 | 15   | ReceiveFee   | 实付金额   | decimal  | 10,2 |            |                              |        |
 | 16   | PayType      | 支付方式   | nvarchar | 10   |            |                              |        |
 
@@ -198,21 +198,55 @@
 | ---- | ------------ | ---------- | -------- | ---- | ---------- | -------------------------------------- | ------ |
 | 01   | SettleID     | 结算号     | int      |      | False      | PK                                     |        |
 | 02   | SettleDate   | 结算日期   | datetime |      | False      |                                        |        |
-| 03   | SettleAmount | 结算金额   | decimal  | 10,2 | False      |                                        |        |
-| 04   | StaffID      | 收费员编号 | int      |      | False      | FK，引用staff表的staffID               |        |
-| 05   | SerialNumber | 门诊流水号 | int      |      | False      | FK，引用Pati_Out_Visit表的SerialNumber |        |
+| 03   | PayAmount    | 应付金额   | decimal  | 10,2 | False      |                                        |        |
+| 04   | PaidAmount   | 实付金额   | decimal  | 10,2 |            |                                        |        |
+| 05   | ChangeAmount | 找零       | decimal  | 10,2 |            |                                        |        |
+| 06   | StaffID      | 收费员编号 | int      |      | False      | FK，引用staff表的staffID               |        |
+| 07   | SerialNumber | 门诊流水号 | int      |      | False      | FK，引用Pati_Out_Visit表的SerialNumber |        |
 
 
 
 ##### 医生操作
 
-诊断信息表
+诊断信息表 -- > Diagnosis
+
+| 序号 | 字段名       | 字段描述 | 数据类型 | 长度 | 是否能为空 | 注释                                   | 默认值   |
+| ---- | ------------ | -------- | -------- | ---- | ---------- | -------------------------------------- | -------- |
+| 01   | DiagID       | 诊断编号 | int      |      | False      | PK                                     |          |
+| 02   | SerialNumber | 流水号   | int      |      | False      | FK，引用Pati_Out_Visit表的SerialNumber |          |
+| 03   | PatiID       | 患者编号 | int      |      | False      | FK，引用Pati_Out_Visit表的PatiID       |          |
+| 04   | DoctID       | 医生编号 | int      |      | False      | FK，引用Pati_Out_Visit表的DoctID       |          |
+| 05   | Diagnosis    | 诊断信息 | text     |      | False      |                                        |          |
+| 06   | Record       | 病历信息 | text     |      | False      |                                        |          |
+| 07   | DiagTime     | 诊断时间 | datetime |      | False      |                                        | 当前时间 |
 
 
 
-处方信息表
+药品信息表 -- > Medicine
+
+| 序号 | 字段名        | 字段描述 | 数据类型 | 长度 | 是否能为空 | 注释 | 默认值 |
+| ---- | ------------- | -------- | -------- | ---- | ---------- | ---- | ------ |
+| 01   | MedicineID    | 药品编号 | int      |      | False      |      |        |
+| 02   | MedicineName  | 药品名称 | nvarchar | 50   | False      |      |        |
+| 03   | MedicineSpec  | 药品规格 | nvarchar | 50   | False      |      |        |
+| 04   | MedicineUser  | 药品用法 | nvarchar | 50   | False      |      |        |
+| 05   | MedicinePrice | 药品单价 | decimal  | 10,2 | False      |      |        |
 
 
+
+处方信息表  -- > Order
+
+| 序号 | 字段名         | 字段描述 | 数据类型 | 长度  | 是否能为空 | 注释                                   | 默认值   |
+| ---- | -------------- | -------- | -------- | ----- | ---------- | -------------------------------------- | -------- |
+| 01   | OrderID        | 医嘱编码 | int      |       | False      | PK                                     |          |
+| 02   | SerialNumber   | 流水号   | int      |       | False      | FK，引用Pati_Out_Visit表的SerialNumber |          |
+| 03   | PatiID         | 患者编号 | int      |       | False      | FK，引用Pati_Out_Visit表的PatiID       |          |
+| 04   | DoctID         | 医生编号 | int      |       | False      |                                        |          |
+| 05   | OrderTime      | 医嘱时间 | datetime |       | False      |                                        | 当前时间 |
+| 06   | MedicineID     | 药品编号 | int      |       |            | FK，引用Medicine表的MedicineID         |          |
+| 07   | MedicineAmount | 药品数量 | int      |       |            |                                        |          |
+| 08   | TotalPay       | 总金额   | decimal  | 10, 2 |            | 药品单价 * 药瓶数量                    |          |
+| 09   | OrderType      | 医嘱状态 | int      |       | False      | 0：未执行 1：已执行                    | 0        |
 
 
 
@@ -294,11 +328,11 @@
 - [ ] 挂号系统设计
   1. 挂号员查看病人信息
   2. 挂号员挂号
-  3. (可能)挂号员退号
+  3. 挂号员退号
   4. 患者缴费、收费员收费
-  5. (可能)患者申请退款、收费员退费
-- [ ] 挂号系统问题
-  1. 获取数据库当天的记录，以生成新的 挂号序号(QueueNo)  
+  5. 患者申请退款、收费员退费
+- [ ] 挂号系统的退款逻辑
+- [ ] 收费系统设计
 
 
 

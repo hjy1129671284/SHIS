@@ -20,10 +20,10 @@ namespace MyApp.SHIS.ViewModel.UserControlsViewModels.UserControlMenuItem
             Icon = icon;
         }
 
-        public string Header { get; private set; }
-        public PackIconKind Icon { get; private set; }
-        public List<SubItem> SubItems { get; private set; }
-        public Page NewPage { get; private set; }
+        public string Header { get; set; }
+        public PackIconKind Icon { get; set; }
+        public List<SubItem> SubItems { get; set; }
+        public Page NewPage { get; set; }
     }
     
     public class SubItem
@@ -34,8 +34,8 @@ namespace MyApp.SHIS.ViewModel.UserControlsViewModels.UserControlMenuItem
                 NewPage = newPage;
                 Icon = icon;
             }
-            public string Name { get; private set; }
-            public Page NewPage { get; private set; }
-            public PackIconKind Icon { get; private set; }
+            public string Name { get; set; }
+            public Page NewPage { get; set; }
+            public PackIconKind Icon { get; set; }
         }
 }

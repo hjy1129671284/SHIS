@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using MyApp.SHIS.Models;
 
 namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
@@ -14,8 +15,9 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
         public int? MedCardNum{ get; set; }
         public string PatiAuthName{ get; set; }
         public string DoctAuthName{ get; set; }
-        public decimal TotalPay{ get; set; }
+        public decimal PayAmount{ get; set; }
         public decimal RefundPay{ get; set; }
+        public ComboBoxItem RefundType { get; set; }
         public ObservableCollection<pati_out_visit> RegisterInfo{ get; set; }
         public pati_out_visit SelectedPatiOutVisit { get; set; }
         
@@ -24,7 +26,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
         public string MedCardNumHint{ get; set; }
         public string PatiAuthNameHint{ get; set; }
         public string DoctAuthNameHint{ get; set; }
-        public string TotalPayHint{ get; set; }
-        public string RefundPayHint{ get; set; }
+        public string RefundTypeHint { get; set; }
+
     }
 }

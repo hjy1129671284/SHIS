@@ -136,7 +136,8 @@
                         <DatePicker
                             SelectedDate="{Binding ValidDate}"
                             Style="{StaticResource MaterialDesignFilledDatePicker}"
-                            Width="120" />
+                            Width="120"
+                            materialDesign:HintAssist.Hint="{Binding VaildDateHint}" />
                         <Rectangle Width="10" />
                         <TextBlock
                             Margin="10,0"
@@ -146,7 +147,8 @@
                             ItemsSource="{Binding DoctDepts}"
                             SelectedValue="{Binding DoctDept}"
                             Style="{StaticResource MaterialDesignFilledComboBox}"
-                            Width="150">
+                            Width="150"
+                            materialDesign:HintAssist.Hint="{Binding DoctDeptHint}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding DeptSelectChange}" />
@@ -161,14 +163,17 @@
                             ItemsSource="{Binding DoctNames}"
                             SelectedValue="{Binding DoctName}"
                             Style="{StaticResource MaterialDesignFilledComboBox}"
-                            Width="150" />
+                            Width="150"
+                            materialDesign:HintAssist.Hint="{Binding DoctIDHint}" />
                     </WrapPanel>
                 </StackPanel>
             </GroupBox>
 
             <GroupBox Background="White">
                 <GroupBox.Header>
-                    <TextBlock FontSize="16" Text="支付信息" />
+                    <WrapPanel VerticalAlignment="Center">
+                        <TextBlock FontSize="16" Text="支付信息" />
+                    </WrapPanel>
                 </GroupBox.Header>
                 <StackPanel>
                     <WrapPanel VerticalAlignment="Center">
@@ -178,8 +183,9 @@
                             VerticalAlignment="Center" />
                         <TextBox
                             Style="{StaticResource MaterialDesignFilledTextBox}"
-                            Text="{Binding TotalFee}"
-                            Width="120" />
+                            Text="{Binding PayAmount}"
+                            Width="120"
+                            materialDesign:HintAssist.Hint="{Binding PayAmountHint}" />
                         <Rectangle Width="10" />
                         <TextBlock
                             Margin="10,0"
@@ -188,7 +194,8 @@
                         <ComboBox
                             ItemsSource="{Binding PayType}"
                             Style="{StaticResource MaterialDesignFilledComboBox}"
-                            Width="100">
+                            Width="100"
+                            materialDesign:HintAssist.Hint="{Binding PayTypeHint}">
                             <ComboBoxItem Content="现金" />
                             <ComboBoxItem Content="微信" />
                             <ComboBoxItem Content="支付宝" />
@@ -201,8 +208,9 @@
                             VerticalAlignment="Center" />
                         <TextBox
                             Style="{StaticResource MaterialDesignFilledTextBox}"
-                            Text="{Binding RecvFee}"
-                            Width="120" />
+                            Text="{Binding PaidAmount}"
+                            Width="120"
+                            materialDesign:HintAssist.Hint="{Binding PaidAmountHint}" />
                         <Rectangle Width="10" />
 
                     </WrapPanel>

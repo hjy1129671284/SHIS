@@ -1,0 +1,158 @@
+﻿<Page
+    Height="450"
+    Title="OrderWritePage"
+    Width="800"
+    mc:Ignorable="d"
+    x:Class="MyApp.SHIS.View.Pages.OrderWritePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyApp.SHIS.View.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <GroupBox Background="White">
+                    <GroupBox.Header>
+                        <WrapPanel>
+                            <TextBlock Foreground="White" Text="医嘱书写" />
+                            <Rectangle Width="500" />
+                            <Button
+                                Background="LightGray"
+                                Command="{Binding PatiMessage}"
+                                Content="查询" />
+                        </WrapPanel>
+                    </GroupBox.Header>
+                    <WrapPanel>
+                        <TextBlock
+                            Margin="10,0"
+                            Text="流水号"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            IsEnabled="{Binding SerialNumberIsEnable}"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding SerialNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="100">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding PatiMessage}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <TextBlock
+                            Margin="10,0"
+                            Text="医疗卡号"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            IsEnabled="False"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding MedCardNum}"
+                            Width="100" />
+
+                        <TextBlock
+                            Margin="10,0"
+                            Text="姓名"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            IsEnabled="False"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding PatiAuthName}"
+                            Width="100" />
+
+                        <TextBlock
+                            Margin="10,0"
+                            Text="年龄"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            IsEnabled="False"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding PatiAge}"
+                            Width="100" />
+                    </WrapPanel>
+                </GroupBox>
+
+                <GroupBox Background="White">
+                    <GroupBox.Header>
+                        <WrapPanel>
+                            <TextBlock Foreground="White" Text="药品信息" />
+                            <Rectangle Width="500" />
+                            <Button
+                                Background="LightGray"
+                                Command="{Binding}"
+                                Content="得到信息" />
+                            <Rectangle Width="10" />
+                            <Button
+                                Background="LightGray"
+                                Command="{Binding}"
+                                Content="确认添加" />
+                        </WrapPanel>
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <WrapPanel>
+                            <TextBlock
+                                Margin="10,0"
+                                Text="药品名称"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding MedicineName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                Width="100">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding}" Key="Enter" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <TextBlock
+                                IsEnabled="False"
+                                Margin="10,0"
+                                Text="药品规格"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding MedicineSpec}"
+                                Width="100" />
+
+                            <TextBlock
+                                Margin="10,0"
+                                Text="药品用法"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                IsEnabled="False"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding MedicineUse}"
+                                Width="100" />
+
+                            <TextBlock
+                                Margin="10,0"
+                                Text="药品单价"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                IsEnabled="False"
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding MedicinePrice}"
+                                Width="60" />
+
+                            <TextBlock
+                                Margin="10,0"
+                                Text="药品数量"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding MedicineAmount}"
+                                Width="60" />
+                        </WrapPanel>
+                        <Rectangle Height="10" />
+                        <WrapPanel HorizontalAlignment="Right">
+                            <TextBlock
+                                Margin="10,0"
+                                Text="总金额"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                Style="{StaticResource MaterialDesignFilledTextBox}"
+                                Text="{Binding TotalPay}"
+                                Width="100" />
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>

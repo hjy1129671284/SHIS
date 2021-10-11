@@ -8,62 +8,62 @@ namespace MyApp.SHIS.Models
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("pati_out_visit_settle")]
-    public partial class pati_out_visit_settle
+    [SugarTable("diagnosis")]
+    public partial class diagnosis
     {
-           public pati_out_visit_settle(){
+           public diagnosis(){
 
 
            }
            /// <summary>
-           /// Desc:PK
+           /// Desc:诊断编号
            /// Default:
            /// Nullable:False
            /// </summary>           
            [SugarColumn(IsPrimaryKey=true,IsIdentity=true)]
-           public int SettleID {get;set;}
+           public int DiagID {get;set;}
 
            /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:False
-           /// </summary>           
-           public DateTime SettleDate {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:False
-           /// </summary>           
-           public decimal PayAmount {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public decimal? PaidAmount {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public decimal? ChangeAmount {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:False
-           /// </summary>           
-           public int StaffID {get;set;}
-
-           /// <summary>
-           /// Desc:FK，引用Pati_Out_Visit表的SerialNumber
+           /// Desc:流水号
            /// Default:
            /// Nullable:False
            /// </summary>           
            public int SerialNumber {get;set;}
+
+           /// <summary>
+           /// Desc:患者编号
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public int PatiID {get;set;}
+
+           /// <summary>
+           /// Desc:医生编号
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public int DoctID {get;set;}
+
+           /// <summary>
+           /// Desc:诊断信息
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public string Diagnosis {get;set;}
+
+           /// <summary>
+           /// Desc:病历信息
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public string Record {get;set;}
+
+           /// <summary>
+           /// Desc:诊断时间
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public DateTime DiagTime {get;set;}
 
     }
 }
