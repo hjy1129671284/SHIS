@@ -391,9 +391,16 @@ namespace MyApp.SHIS.View.Windows
         public void GeneratePhstMenu()
         {
             var item0 = new ItemMenu("主页", new IndexPage(), PackIconKind.ViewDashboard);
-            var item2 = new ItemMenu("反馈", new IndexPage(), PackIconKind.ShoppingBasket);
+            var menuPhst = new List<SubItem>()
+            {
+                new SubItem("医嘱列表", new OrderListPage()),
+                new SubItem("医嘱信息", new OrderInformationPage())
+            };
+            var item1 = new ItemMenu("用药管理", menuPhst, PackIconKind.Work);
+            var item2 = new ItemMenu("反馈", new IndexPage(), PackIconKind.Medicine);
 
             Menu.Children.Add(new UserControlMenuItem(item0, this));
+            Menu.Children.Add(new UserControlMenuItem(item1, this));
             Menu.Children.Add(new UserControlMenuItem(item2, this));
         }
         #endregion

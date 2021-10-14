@@ -1,0 +1,54 @@
+﻿<Page
+    Height="450"
+    Title="OrderListPage"
+    Width="800"
+    mc:Ignorable="d"
+    x:Class="MyApp.SHIS.View.Pages.OrderListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MyApp.SHIS.View.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <StackPanel>
+            <GroupBox Background="White">
+                <GroupBox.Header>
+                    <WrapPanel>
+                        <TextBlock FontSize="16" Text="医嘱列表" />
+                        <Button
+                            Background="LightGray"
+                            Command="{Binding PatiInfoCommand}"
+                            Content="查看医嘱"
+                            Margin="500,0,0,0"
+                            Width="100" />
+                        <Button
+                            Background="LightGray"
+                            Command="{Binding ChangePati}"
+                            Content="切换医嘱"
+                            Margin="10,0,0,0"
+                            Width="100" />
+                    </WrapPanel>
+                </GroupBox.Header>
+                <StackPanel>
+                    <WrapPanel>
+                        <TextBlock Text="医疗卡号" VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding}"
+                            Width="140" />
+                        <Button Content="查找医嘱" />
+                        <Rectangle Width="10" />
+                        <TextBlock Text="科室" VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding}"
+                            Width="140" />
+                        <Button Content="查找医嘱" />
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</Page>

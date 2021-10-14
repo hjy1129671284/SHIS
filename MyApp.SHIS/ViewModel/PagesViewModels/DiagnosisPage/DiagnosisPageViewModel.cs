@@ -141,7 +141,11 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.DiagnosisPage
                     SerialNumberIsEnable = false;
                 }
                 else
+                {
                     MessageBox.Show("查询结果为空，请确认流水号是否正确");
+                    SerialNumberIsEnable = true;
+                }
+                    
             }
             else
                 SerialNumberIsEnable = true;
@@ -181,7 +185,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.DiagnosisPage
         // 切换到医嘱书写
         public void Switch2Order()
         {
-            Messenger.Default.Send(_diagnosisPageModel.SerialNumber, "diagnosis2OrderWrite");
+            if (_diagnosisPageModel.SerialNumber != null)
+                Messenger.Default.Send((int) _diagnosisPageModel.SerialNumber, "diagnosis2OrderWrite");
         }
 
         #endregion

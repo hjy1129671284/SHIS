@@ -16,7 +16,7 @@ namespace MyApp.SHIS.Models
 
            }
            /// <summary>
-           /// Desc:
+           /// Desc:医嘱编号 ，PK
            /// Default:
            /// Nullable:False
            /// </summary>           
@@ -24,56 +24,56 @@ namespace MyApp.SHIS.Models
            public int OrderID {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:流水号， FK，引用Pati_Out_Visit表的SerialNumber
            /// Default:
            /// Nullable:False
            /// </summary>           
            public int SerialNumber {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:患者编号， FK，引用Pati_Out_Visit表的PatiID
            /// Default:
            /// Nullable:False
            /// </summary>           
            public int PatiID {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:医生编号
            /// Default:
            /// Nullable:False
            /// </summary>           
            public int DoctID {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:医嘱时间
            /// Default:
            /// Nullable:False
            /// </summary>           
            public DateTime OrderTime {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:药品编号， FK，引用Medicine表的MedicineID
            /// Default:
            /// Nullable:True
            /// </summary>           
            public int? MedicineID {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:药品数量
            /// Default:
            /// Nullable:True
            /// </summary>           
            public int? MedicineAmount {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:总金额
            /// Default:
            /// Nullable:True
            /// </summary>           
            public decimal? TotalPay {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:医嘱状态， 0：未执行 1：已执行
            /// Default:
            /// Nullable:False
            /// </summary>           

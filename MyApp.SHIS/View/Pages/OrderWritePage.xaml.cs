@@ -11,6 +11,8 @@ namespace MyApp.SHIS.View.Pages
             _orderWritePageViewModel = new OrderWritePageViewModel(userName, serialNumber);
             InitializeComponent();
             this.DataContext = _orderWritePageViewModel;
+            
+            
         }
     }
 }

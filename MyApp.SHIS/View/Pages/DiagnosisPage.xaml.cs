@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using GalaSoft.MvvmLight.Messaging;
 using MyApp.SHIS.View.Windows;
 using MyApp.SHIS.ViewModel.PagesViewModels.DiagnosisPage;

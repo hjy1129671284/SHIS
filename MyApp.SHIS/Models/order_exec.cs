@@ -8,48 +8,48 @@ namespace MyApp.SHIS.Models
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("medicine")]
-    public partial class medicine
+    [SugarTable("order_exec")]
+    public partial class order_exec
     {
-           public medicine(){
+           public order_exec(){
 
 
            }
            /// <summary>
-           /// Desc:
+           /// Desc:执行编号, PK
            /// Default:
            /// Nullable:False
            /// </summary>           
-           [SugarColumn(IsPrimaryKey=true,IsIdentity=true)]
-           public int MedicineID {get;set;}
+           [SugarColumn(IsPrimaryKey=true)]
+           public int ExecID {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:医嘱编号, FK， 引用Order表的OrderID
            /// Default:
            /// Nullable:False
            /// </summary>           
-           public string MedicineName {get;set;}
+           public int OrderID {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:药师编号, FK， 引用staff表的StaffId
            /// Default:
            /// Nullable:False
            /// </summary>           
-           public string MedicineSpec {get;set;}
+           public int StaffID {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:执行时间, 当前时间
            /// Default:
            /// Nullable:False
            /// </summary>           
-           public string MedicineUse {get;set;}
+           public DateTime ExecTime {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:备注
            /// Default:
-           /// Nullable:False
+           /// Nullable:True
            /// </summary>           
-           public decimal MedicinePrice {get;set;}
+           public string Note {get;set;}
 
     }
 }
