@@ -23,30 +23,64 @@
                             Width="100" />
                         <Button
                             Background="LightGray"
-                            Command="{Binding ChangePati}"
-                            Content="切换医嘱"
+                            Command="{Binding ClearPatiCommand}"
+                            Content="刷新医嘱"
                             Margin="10,0,0,0"
                             Width="100" />
                     </WrapPanel>
                 </GroupBox.Header>
                 <StackPanel>
-                    <WrapPanel>
+                    <WrapPanel HorizontalAlignment="Center">
                         <TextBlock Text="医疗卡号" VerticalAlignment="Center" />
                         <TextBox
                             Margin="10,0"
                             Style="{StaticResource MaterialDesignFilledTextBox}"
-                            Text="{Binding}"
-                            Width="140" />
-                        <Button Content="查找医嘱" />
+                            Text="{Binding MedCardNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Width="140">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding MedCardNumCommand}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
                         <Rectangle Width="10" />
                         <TextBlock Text="科室" VerticalAlignment="Center" />
                         <TextBox
                             Margin="10,0"
                             Style="{StaticResource MaterialDesignFilledTextBox}"
-                            Text="{Binding}"
-                            Width="140" />
-                        <Button Content="查找医嘱" />
+                            Text="{Binding DoctDept, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Width="80">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding DoctDeptCommand}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Rectangle Width="10" />
+                        <TextBlock Text="医生姓名" VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding DoctName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Width="140">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding DoctNameCommand}" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
                     </WrapPanel>
+                    <Rectangle Height="20" />
+
+                    <TextBlock
+                        FontSize="26"
+                        HorizontalAlignment="Center"
+                        Text="医嘱信息" />
+                    <DataGrid
+                        CanUserAddRows="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Orders}"
+                        SelectedItem="{Binding SelectedOrder}"
+                        SelectionMode="Extended"
+                        SelectionUnit="FullRow">
+                        <DataGrid.InputBindings>
+                            <MouseBinding Command="{Binding DoubleClick}" MouseAction="LeftDoubleClick" />
+                        </DataGrid.InputBindings>
+                    </DataGrid>
                 </StackPanel>
             </GroupBox>
         </StackPanel>

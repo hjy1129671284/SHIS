@@ -73,7 +73,7 @@ namespace MyApp.SHIS.Models
            public decimal? TotalPay {get;set;}
 
            /// <summary>
-           /// Desc:医嘱状态， 0：未执行 1：已执行
+           /// Desc:医嘱状态    	 0：未收费未执行    	1：已收费未执行    	2：已收费已执行
            /// Default:
            /// Nullable:False
            /// </summary>           

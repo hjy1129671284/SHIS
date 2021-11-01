@@ -314,7 +314,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                 MessageBox.Show("挂号失败，请输入医疗卡号");
             else if (_registerPageModel.SerialNumber == null)
                 MessageBox.Show("挂号失败，请确认号源信息");
-            else if(_registerPageModel.DoctDept == null)
+            else if(_registerPageModel.DoctDept == null && _registerPageModel.DoctDeptHint == null)
                 MessageBox.Show("挂号失败，请选择挂号科室");
             else
             {
@@ -331,9 +331,9 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                     patiOutVisit = patiOutVisitResult[0];
                     if (_registerPageModel.ValidDate != null)
                         patiOutVisit.VaildDate = (DateTime)_registerPageModel.ValidDate;
-                    if (string.IsNullOrEmpty(_registerPageModel.DoctDept))
+                    if (!string.IsNullOrEmpty(_registerPageModel.DoctDept))
                         patiOutVisit.DoctDept = _registerPageModel.DoctDept;
-                    if (string.IsNullOrEmpty(_registerPageModel.DoctName))
+                    if (!string.IsNullOrEmpty(_registerPageModel.DoctName))
                     {
                         DoctUserService doctUserService = new DoctUserService(new DoctUserRepository());
                         var doctResult =
@@ -436,8 +436,6 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                 }
             }
             
-                
-            
         }
         // 根据填写的医疗卡号 生成流水号信息
         public async void UpdateSerialNumber()
@@ -496,6 +494,11 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                     SerialNumbers.Add(newSerialNumber.ToString());
                     SerialNumbers.Add("返回选择");
                     SerialNumber = newSerialNumber.ToString();
+
+                    DoctDeptHint = null;
+                    VaildDateHint = null;
+                    DoctIDHint = null;
+                    
                 }
             }
             

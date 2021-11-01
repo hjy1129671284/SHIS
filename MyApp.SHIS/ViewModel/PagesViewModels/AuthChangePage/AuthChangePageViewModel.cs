@@ -407,7 +407,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                     }
                     else
                     {
-                        StaffUserIDHint = "新医生自动生成编码";
+                        StaffUserIDHint = "请填写医生编码";
                         _authChangePageModel.DoctIsExist = false;
                     }
                 }

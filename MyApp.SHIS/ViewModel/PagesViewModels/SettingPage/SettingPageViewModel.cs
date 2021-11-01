@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.CommandWpf;
+using MyApp.SHIS.Models;
 using MyApp.SHIS.Repository.Repository;
 using MyApp.SHIS.Services.Services;
 using MyApp.SHIS.ViewModel.Common;
@@ -10,6 +11,11 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.SettingPage
     public class SettingPageViewModel : NotificationObject
     {
         private readonly SettingPageModel _settingPageModel = new SettingPageModel();
+
+        public SettingPageViewModel(string userName)
+        {
+            UserName = userName;
+        }
 
         public ICommand _changePwd;
         
@@ -83,13 +89,15 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.SettingPage
         {
             UserService userService = new UserService(new UserRepository());
             var result = await userService.QueryAsync(it => it.UserName == _settingPageModel.UserName);
-
+                
             var user = result[0];
             string userPwd = user.UserPwd;
-
-            if (userPwd == _settingPageModel.OldPwd)
+            
+            if ((userPwd == _settingPageModel.OldPwd) || (string.IsNullOrEmpty(userPwd) && string.IsNullOrEmpty(_settingPageModel.OldPwd)))
             {
-                if (_settingPageModel.NewPwd1 == _settingPageModel.NewPwd2)
+                if (string.IsNullOrEmpty(_settingPageModel.NewPwd1))
+                    MessageBox.Show("新密码不能为空，请重新输入");
+                else if (_settingPageModel.NewPwd1 == _settingPageModel.NewPwd2)
                 {
                     user.UserPwd = NewPwd1;
                     bool isEdit = await userService.EditAsync(user);

@@ -229,7 +229,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.CheckUserPage
         public async void FindStaffUser()
         {
             StaffUsers.Clear();
-            UsersGridVisibility = Visibility.Visible;
+            UsersGridVisibility = Visibility.Collapsed;
             DoctUsersGridVisibility = Visibility.Collapsed;
             NormUsersGridVisibility = Visibility.Collapsed;
             PatiUsersGridVisibility = Visibility.Collapsed;

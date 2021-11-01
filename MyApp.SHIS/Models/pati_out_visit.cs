@@ -101,7 +101,7 @@ namespace MyApp.SHIS.Models
            public int RegtID {get;set;}
 
            /// <summary>
-           /// Desc:0 未就诊    	1 已就诊    	门诊状态
+           /// Desc:门诊状态    	0 未收费未就诊    	1 已收费未就诊    	2 已就诊	
            /// Default:0
            /// Nullable:False
            /// </summary>           

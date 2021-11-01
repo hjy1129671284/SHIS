@@ -52,23 +52,28 @@
                     Width="100" />
             </WrapPanel>
             <DataGrid
+                IsReadOnly="True"
                 ItemsSource="{Binding Users}"
                 Margin="50"
-                Name="DataGrid"
                 Visibility="{Binding UsersGridVisibility}" />
             <DataGrid
+                Height="250"
+                IsReadOnly="True"
                 ItemsSource="{Binding NormUsers}"
                 Margin="50"
                 Visibility="{Binding NormUsersGridVisibility}" />
             <DataGrid
+                IsReadOnly="True"
                 ItemsSource="{Binding PatiUsers}"
                 Margin="50"
                 Visibility="{Binding PatiUsersGridVisibility}" />
             <DataGrid
+                IsReadOnly="True"
                 ItemsSource="{Binding StaffUsers}"
                 Margin="50"
                 Visibility="{Binding StaffUsersGridVisibility}" />
             <DataGrid
+                IsReadOnly="True"
                 ItemsSource="{Binding DoctUsers}"
                 Margin="50"
                 Visibility="{Binding DoctUsersGridVisibility}" />

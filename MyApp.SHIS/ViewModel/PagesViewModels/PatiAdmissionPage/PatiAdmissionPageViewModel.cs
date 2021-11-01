@@ -88,7 +88,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiAdmissionPage
             var doctResult = await doctUserService.QueryAsync(it => it.UserName == _userName);
             string doctDept = doctResult[0].DoctDept;
             PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
-            var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.DoctDept == doctDept);
+            var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.DoctDept == doctDept && it.OutStatus == 1);
             foreach (var visit in patiOutVisitResult)
                 PatiOutVisits.Add(visit);
         }
@@ -100,7 +100,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiAdmissionPage
             var doctResult = await doctUserService.QueryAsync(it => it.UserName == _userName);
             int dcotID = doctResult[0].DoctID;
             PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
-            var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.DoctID == dcotID);
+            var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.DoctID == dcotID && it.OutStatus == 1);
             foreach (var visit in patiOutVisitResult)
                 PatiOutVisits.Add(visit);
         }

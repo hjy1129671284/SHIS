@@ -20,7 +20,7 @@ namespace MyApp.SHIS.Models
            /// Default:
            /// Nullable:False
            /// </summary>           
-           [SugarColumn(IsPrimaryKey=true)]
+           [SugarColumn(IsPrimaryKey=true,IsIdentity=true)]
            public int ExecID {get;set;}
 
            /// <summary>

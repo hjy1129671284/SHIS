@@ -124,7 +124,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.DiagnosisPage
             {
                 PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
                 var patiOutVisitResult =
-                    await patiOutVisitService.QueryAsync(it => it.SerialNumber == _diagnosisPageModel.SerialNumber);
+                    await patiOutVisitService.QueryAsync(it => it.SerialNumber == _diagnosisPageModel.SerialNumber && it.OutStatus == 1);
 
                 if (patiOutVisitResult != null && patiOutVisitResult.Count > 0)
                 {
@@ -165,20 +165,23 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.DiagnosisPage
                 PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
                 var patiOutVisitResult =
                     await patiOutVisitService.QueryAsync(it => it.SerialNumber == _diagnosisPageModel.SerialNumber);
+                pati_out_visit patiOutVisit = patiOutVisitResult[0]; 
 
                 diagnosis diag = new diagnosis
                 {
-                    SerialNumber = patiOutVisitResult[0].SerialNumber,
-                    PatiID = patiOutVisitResult[0].PatiID,
-                    DoctID = patiOutVisitResult[0].DoctID,
+                    SerialNumber = patiOutVisit.SerialNumber,
+                    PatiID = patiOutVisit.PatiID,
+                    DoctID = patiOutVisit.DoctID,
                     Diagnosis = _diagnosisPageModel.DoctDiagnosis,
                     Record = _diagnosisPageModel.MedRecord,
                     DiagTime = DateTime.Now
                 };
 
+                patiOutVisit.OutStatus = 2;
                 DiagnosisService diagnosisService = new DiagnosisService(new DiagnosisRepository());
-                bool isEdit = await diagnosisService.CreateAsync(diag);
-                MessageBox.Show(isEdit ? "添加成功" : "添加失败");
+                bool isCreate = await diagnosisService.CreateAsync(diag);
+                bool isEdit = await patiOutVisitService.EditAsync(patiOutVisit);
+                MessageBox.Show(isEdit && isCreate ? "添加成功" : "添加失败");
             }
         }
         

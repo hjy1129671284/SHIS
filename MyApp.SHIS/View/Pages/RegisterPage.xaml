@@ -165,54 +165,16 @@
                             Style="{StaticResource MaterialDesignFilledComboBox}"
                             Width="150"
                             materialDesign:HintAssist.Hint="{Binding DoctIDHint}" />
-                    </WrapPanel>
-                </StackPanel>
-            </GroupBox>
 
-            <GroupBox Background="White">
-                <GroupBox.Header>
-                    <WrapPanel VerticalAlignment="Center">
-                        <TextBlock FontSize="16" Text="支付信息" />
-                    </WrapPanel>
-                </GroupBox.Header>
-                <StackPanel>
-                    <WrapPanel VerticalAlignment="Center">
                         <TextBlock
                             Margin="10,0"
-                            Text="合计费用"
+                            Text="挂号费用"
                             VerticalAlignment="Center" />
                         <TextBox
                             Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding PayAmount}"
                             Width="120"
                             materialDesign:HintAssist.Hint="{Binding PayAmountHint}" />
-                        <Rectangle Width="10" />
-                        <TextBlock
-                            Margin="10,0"
-                            Text="支付方式"
-                            VerticalAlignment="Center" />
-                        <ComboBox
-                            ItemsSource="{Binding PayType}"
-                            Style="{StaticResource MaterialDesignFilledComboBox}"
-                            Width="100"
-                            materialDesign:HintAssist.Hint="{Binding PayTypeHint}">
-                            <ComboBoxItem Content="现金" />
-                            <ComboBoxItem Content="微信" />
-                            <ComboBoxItem Content="支付宝" />
-                            <ComboBoxItem Content="银联" />
-                        </ComboBox>
-                        <Rectangle Width="10" />
-                        <TextBlock
-                            Margin="10,0"
-                            Text="已付费用"
-                            VerticalAlignment="Center" />
-                        <TextBox
-                            Style="{StaticResource MaterialDesignFilledTextBox}"
-                            Text="{Binding PaidAmount}"
-                            Width="120"
-                            materialDesign:HintAssist.Hint="{Binding PaidAmountHint}" />
-                        <Rectangle Width="10" />
-
                     </WrapPanel>
                 </StackPanel>
             </GroupBox>

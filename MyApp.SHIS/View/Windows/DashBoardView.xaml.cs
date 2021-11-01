@@ -393,8 +393,8 @@ namespace MyApp.SHIS.View.Windows
             var item0 = new ItemMenu("主页", new IndexPage(), PackIconKind.ViewDashboard);
             var menuPhst = new List<SubItem>()
             {
-                new SubItem("医嘱列表", new OrderListPage()),
-                new SubItem("医嘱信息", new OrderInformationPage())
+                new SubItem("医嘱列表", new OrderListPage(this, _userName)),
+                new SubItem("医嘱执行", new OrderExecPage(this, _userName))
             };
             var item1 = new ItemMenu("用药管理", menuPhst, PackIconKind.Work);
             var item2 = new ItemMenu("反馈", new IndexPage(), PackIconKind.Medicine);
@@ -441,9 +441,16 @@ namespace MyApp.SHIS.View.Windows
         public void GenerateTollMenu()
         {
             var item0 = new ItemMenu("主页", new IndexPage(), PackIconKind.ViewDashboard);
+            var menuPhst = new List<SubItem>()
+            {
+                new SubItem("挂号收费", new PatiOutChargePage(_userName)),
+                new SubItem("医嘱收费", new OrderChargePage(_userName))
+            };
+            var item1 = new ItemMenu("收费管理", menuPhst, PackIconKind.Work);
             var item2 = new ItemMenu("反馈", new IndexPage(), PackIconKind.ShoppingBasket);
 
             Menu.Children.Add(new UserControlMenuItem(item0, this));
+            Menu.Children.Add(new UserControlMenuItem(item1, this));
             Menu.Children.Add(new UserControlMenuItem(item2, this));
         }
         #endregion

@@ -8,10 +8,10 @@ namespace MyApp.SHIS.Models
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("pati_out_visit_settle")]
-    public partial class pati_out_visit_settle
+    [SugarTable("order_settle")]
+    public partial class order_settle
     {
-           public pati_out_visit_settle(){
+           public order_settle(){
 
 
            }
@@ -66,11 +66,11 @@ namespace MyApp.SHIS.Models
            public int StaffID {get;set;}
 
            /// <summary>
-           /// Desc:FK，引用Pati_Out_Visit表的SerialNumber
+           /// Desc:FK，引用Order表的OrderID
            /// Default:
            /// Nullable:False
            /// </summary>           
-           public int SerialNumber {get;set;}
+           public int OrderID {get;set;}
 
     }
 }

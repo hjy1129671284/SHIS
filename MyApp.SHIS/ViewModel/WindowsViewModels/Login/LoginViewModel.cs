@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -157,7 +158,7 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
             {
                 if (users[0].UserPwd == _loginModel.PassWord)
                 {
-                    bool loginFlag = AuthAdjust(users, type);
+                    bool loginFlag = await AuthAdjust(users[0], type);
                     if (loginFlag)
                     {
                         switch (type)
@@ -176,7 +177,7 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
                         RemindPwd.UpdateSettingString("userName", userName);
                     }
                     else
-                        MessageBox.Show($"登录失败，您的账号并不是{userType}，请切换账号类型或者输入正确的帐号密码");
+                        MessageBox.Show($"登录失败，您的账号并不能登录{userType}，请切换账号类型或者输入正确的帐号密码");
                 }
                 else
                 {
@@ -193,29 +194,25 @@ namespace MyApp.SHIS.ViewModel.WindowsViewModels.Login
         
                 
         #region 根据选择的登陆帐号类型和数据库中的账号类型判断用户是否有权限登录
-        public bool AuthAdjust(List<user> users, int type)
+        public async Task<bool> AuthAdjust(user u, int type)
         {
-            int usertype = users[0].UserType;
-            bool flag = false;
+            int usertype = u.UserType;
+            bool allowLogin = false;
             if (type == 1)
-            {
-                flag = true;
-            }
+                allowLogin = true;
             else if (type == 2)
             {
-                if (usertype != 1)
-                {
-                    flag = true;
-                }
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var normResult = await normUserService.QueryAsync(it => it.UserName == u.UserName);
+                if (normResult[0].MedCardNum != null)
+                    allowLogin = true;
             }
             else
             {
                 if (type == usertype)
-                {
-                    flag = true;
-                }
+                    allowLogin = true;
             }
-            return flag;
+            return allowLogin;
         }
         #endregion
 
