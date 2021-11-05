@@ -55,27 +55,31 @@
                 IsReadOnly="True"
                 ItemsSource="{Binding Users}"
                 Margin="50"
+                MaxHeight="250"
                 Visibility="{Binding UsersGridVisibility}" />
             <DataGrid
-                Height="250"
                 IsReadOnly="True"
                 ItemsSource="{Binding NormUsers}"
                 Margin="50"
+                MaxHeight="250"
                 Visibility="{Binding NormUsersGridVisibility}" />
             <DataGrid
                 IsReadOnly="True"
                 ItemsSource="{Binding PatiUsers}"
                 Margin="50"
+                MaxHeight="250"
                 Visibility="{Binding PatiUsersGridVisibility}" />
             <DataGrid
                 IsReadOnly="True"
                 ItemsSource="{Binding StaffUsers}"
                 Margin="50"
+                MaxHeight="250"
                 Visibility="{Binding StaffUsersGridVisibility}" />
             <DataGrid
                 IsReadOnly="True"
                 ItemsSource="{Binding DoctUsers}"
                 Margin="50"
+                MaxHeight="250"
                 Visibility="{Binding DoctUsersGridVisibility}" />
 
         </StackPanel>

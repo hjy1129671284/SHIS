@@ -422,6 +422,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
         
         public async void ChangUserAuth()
         {
+            bool patiIsDelete = true;  // 标志病人表数据是否删除成功
             bool doctIsDelete = true;  // 标志医生表数据是否删除成功
             bool staffIsDelete = true;  // 标志原表数据是否删除成功
             bool userIsEdit = false;  // 标志用户表是否修改成功
@@ -461,6 +462,13 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
             // 修改用户权限之前、需要删除用户原来的记录
             #region 删除记录
             
+            // 若用户原来是病人，改变后不是病人，则应删除 pati表 中对应的信息
+            if (user[0].UserType == 2 && _authChangePageModel.NewUserType != 2)
+            {
+                PatiUserService patiUserService = new PatiUserService(new PatiUserRepository());
+                patiIsDelete = await patiUserService.DeleteAsync(it => it.UserName == UserName);
+            }
+            
             // 若用户原来是医生，改变后不是医生，则应删除 doct表 中对应的信息
             if (user[0].UserType == 3 && _authChangePageModel.NewUserType != 3)
             {
@@ -498,6 +506,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                 patiIsEdit = false;
                 // 根据选择的病历保密级别转换为级别ID
                 int grade = 0;
+                
                 switch (SecretGradeID.Content.ToString())
                 {
                     case "无": grade = 0; break;
@@ -518,10 +527,10 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                     else 
                     {
                         // 判断病人是否存在在 norm_user 表中
-                        if (_authChangePageModel.PatiIsExist) 
+                        var normResult = await normUserService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
+                        if (normResult != null && normResult.Count > 0) 
                         {
                             // 若 norm表 中有记录，则先修改 norm表 记录中的 医疗卡号字段
-                            var normResult = await normUserService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
 
                             // 修改 norm表
                             var normUser = normResult[0];
@@ -552,7 +561,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.AuthChangePage
                             normIsEdit = await normUserService.CreateAsync(normUser);
                             
                             // pati表 的 normID 和 UserName 从 norm表 获取
-                            var normResult = await normUserService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
+                            normResult = await normUserService.QueryAsync(it => it.UserName == _authChangePageModel.UserName);
                             pati_user patiUser = new pati_user
                             {
                                 NormID = normResult[0].NormID,

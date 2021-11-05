@@ -343,7 +343,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.OrderChargePage
                 OrderService orderService = new OrderService(new OrderRepository());
                 var order = await orderService.FindAsync(SelectedOrder.OrderID);
                 order.OrderType = 1;
-
+                
                 bool isEdit = await orderService.EditAsync(order);
 
                 OrderSettleService orderSettleService = new OrderSettleService(new OrderSettleRepository());
