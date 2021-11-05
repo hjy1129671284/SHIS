@@ -206,6 +206,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiOutChargePage
 
         public async void PatiInfo()
         {
+            PatiOutVisits.Clear();
+
             PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
             var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.OutStatus == 0);
             
@@ -213,6 +215,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiOutChargePage
         }
         public async void ClearInfo()
         {
+            PatiOutVisits.Clear();
+
             PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
             var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.OutStatus == 0);
             

@@ -1,5 +1,12 @@
 ﻿<Page
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
     Height="450"
+    TextElement.FontSize="13"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
     Title="OrderWritePage"
     Width="800"
     mc:Ignorable="d"
@@ -176,11 +183,7 @@
                                 IsEnabled="False"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Text="{Binding TotalPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                Width="100">
-                                <TextBox.InputBindings>
-                                    <KeyBinding Command="{Binding MedicineAdd}" Key="Enter" />
-                                </TextBox.InputBindings>
-                            </TextBox>
+                                Width="100" />
                         </WrapPanel>
                     </StackPanel>
                 </GroupBox>

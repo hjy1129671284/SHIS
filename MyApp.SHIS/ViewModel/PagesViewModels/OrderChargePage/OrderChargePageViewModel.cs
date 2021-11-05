@@ -205,6 +205,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.OrderChargePage
 
         public async void PatiInfo()
         {
+            Orders.Clear();
             OrderService orderService = new OrderService(new OrderRepository());
             var orderResult = await orderService.QueryAsync(it => it.OrderType == 0);
             
@@ -212,6 +213,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.OrderChargePage
         }
         public async void ClearInfo()
         {
+            Orders.Clear();
             OrderService orderService = new OrderService(new OrderRepository());
             var orderResult = await orderService.QueryAsync(it => it.OrderType == 0);
             

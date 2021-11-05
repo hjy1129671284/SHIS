@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -25,6 +26,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         #region 命令属性
 
+        private ICommand _changeAllCommand;
         private ICommand _ageCommand;
         private ICommand _genderCommand;
         private ICommand _idCardTypeCommand;
@@ -539,6 +541,11 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         #region 命令
 
+        public ICommand ChangeAllCommand
+        {
+            get => _changeAllCommand ?? (_changeAllCommand = new RelayCommand(ChangeAll));
+            set => _changeAllCommand = value;
+        }
         public ICommand AgeCommand
         {
             get => _ageCommand ?? (_ageCommand = new RelayCommand(EditAge));
@@ -681,27 +688,39 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         #region 命令方法
 
+        #region 修改全部
+
+        public void ChangeAll()
+        {
+
+        }
+
+        #endregion
+
         #region 修改年龄
 
+        public async Task<bool> ChangeAge(int age)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+            
+            DateTime now = DateTime.Now;
+            int birthYear = now.Year - age;
+            DateTime birthDate = new DateTime(birthYear, now.Month, now.Day);
+                    
+            user.BirthDate = birthDate;
+            BirthDate = birthDate;
+                    
+            return await normUserService.EditAsync(user);
+        }
         public async void EditAge()
         {
             if (_myAccountPageModel.Age == null)
                 MessageBox.Show("请填写年龄");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-                    
-                int age = (int)_myAccountPageModel.Age;
-                DateTime now = DateTime.Now;
-                int birthYear = now.Year - age;
-                DateTime birthDate = new DateTime(birthYear, now.Month, now.Day);
-                    
-                user.BirthDate = birthDate;
-                BirthDate = birthDate;
-                    
-                bool isEdit = await normUserService.EditAsync(user);
+                bool isEdit = await ChangeAge((int)_myAccountPageModel.Age);
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
             
@@ -711,21 +730,22 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         #region 修改性别
 
+        public async Task<bool> ChangeGender(string gender)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+            
+            return await normUserService.EditGenderAsync(user, gender);
+        }
         public async void EditGender()
         {
             if (_myAccountPageModel.Gender == null)
                 MessageBox.Show("请选择性别");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-
-                string genderName = _myAccountPageModel.Gender.Content.ToString();
-                bool isEdit = await normUserService.EditGenderAsync(user, genderName);
-
+                bool isEdit = await ChangeGender(_myAccountPageModel.Gender.Content.ToString());
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
-                
             }
         }
 
@@ -733,9 +753,18 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         #region 修改证件类型
 
+        public async Task<bool> ChangeIDCardType(string idCardType, string qtzjlx)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+            
+            return await normUserService.EditIDCardAsync(user, idCardType, qtzjlx);
+        }
+
         public async void EditIDCardType()
         {
-            if (_myAccountPageModel.IDCardType == null && string.IsNullOrEmpty(_myAccountPageModel.IDCardTypeText))
+            if (_myAccountPageModel.IDCardType == null)
                 MessageBox.Show("请选择证件类型");
             else
             {
@@ -743,7 +772,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
                 var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
                 var user = result[0];
             
-                bool isEdit = await normUserService.EditIDCardAsync(user, _myAccountPageModel.IDCardType.Content.ToString(),
+                bool isEdit = await ChangeIDCardType(_myAccountPageModel.IDCardType.Content.ToString(),
                     _myAccountPageModel.IDCardTypeText);
             
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
@@ -754,18 +783,66 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
 
         #region 修改证件号
 
+        private async Task<bool> ChangeIDCard(string idCard)
+        {
+            #region 身份证校验
+
+            string cid = _myAccountPageModel.IDCard;
+            string[] aCity = new string[]{null,null,null,null,null,null,null,null,null,null,null,"北京","天津","河北","山西","内蒙古",null,null,null,null,null,"辽宁","吉林","黑龙江",null,null,null,null,null,null,null,"上海","江苏","浙江","安微","福建","江西","山东",null,null,null,"河南","湖北","湖南","广东","广西","海南",null,null,null,"重庆","四川","贵州","云南","西藏",null,null,null,null,null,null,"陕西","甘肃","青海","宁夏","新疆",null,null,null,null,null,"台湾",null,null,null,null,null,null,null,null,null,"香港","澳门",null,null,null,null,null,null,null,null,"国外"}; 
+            double iSum=0;
+            System.Text.RegularExpressions.Regex rg = new System.Text.RegularExpressions.Regex(@"^\d{17}(\d|x)$");
+            System.Text.RegularExpressions.Match mc = rg.Match(cid);
+            if (!mc.Success)
+            {
+                MessageBox.Show("身份证号错误，请确认输入的是18位身份证");
+                return false;
+            }
+            cid = cid.ToLower();
+            cid = cid.Replace("x","a");
+            if (aCity[int.Parse(cid.Substring(0, 2))] == null)
+            {
+                MessageBox.Show("非法地区");
+                return false;
+            }
+            try
+            {
+                BirthDate = DateTime.Parse(cid.Substring(6,4)+"-"+cid.Substring(10,2)+"-"+cid.Substring(12,2));
+            }
+            catch
+            {
+                MessageBox.Show("非法生日");
+                return false;
+            }
+            for(int i=17;i>=0;i--)
+                iSum +=(Math.Pow(2,i)%11)*int.Parse(cid[17-i].ToString(),System.Globalization.NumberStyles.HexNumber);
+
+            if (Math.Abs(iSum % 11 - 1) > 0.001)
+            {
+                MessageBox.Show("非法证号");
+                return false;
+            }
+
+            #endregion
+
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+            
+            user.IDCard = idCard;
+            user.BirthDate = BirthDate;
+            user.SexID = int.Parse(cid.Substring(16, 1)) % 2 == 1 ? 1 : 2;
+            user.SexName = int.Parse(cid.Substring(16,1)) % 2 == 1 ? "男" : "女";
+            Age = DateTime.Now.Year - ((DateTime)BirthDate).Year;
+            return await normUserService.EditAsync(user);
+        }
+
         public async void EditIDCard()
         {
             if(string.IsNullOrEmpty(_myAccountPageModel.IDCard))
                 MessageBox.Show("请填写正确的证件号");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-
-                user.IDCard = _myAccountPageModel.IDCard;
-                bool isEdit = await normUserService.EditAsync(user);
+                bool isEdit = await ChangeIDCard(_myAccountPageModel.IDCard);
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
 
@@ -796,20 +873,24 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         
         #region 修改出生日期
 
+        private async Task<bool> ChangeBirthDate(DateTime birthDate)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+                
+            user.BirthDate = birthDate;
+            Age = DateTime.Now.Year - birthDate.Year;
+
+           return await normUserService.EditAsync(user);
+        }
         public async void EditBirthDate()
         {
             if (_myAccountPageModel.BirthDate == null)
                 MessageBox.Show("请选择您的出生日期");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-                
-                user.BirthDate = (DateTime)_myAccountPageModel.BirthDate;
-                Age = DateTime.Now.Year - ((DateTime)_myAccountPageModel.BirthDate).Year;
-
-                bool isEdit = await normUserService.EditAsync(user);
+                bool isEdit = await ChangeBirthDate((DateTime)_myAccountPageModel.BirthDate);
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
         }
@@ -818,42 +899,48 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         
         #region 修改手机号码
 
+        private async Task<bool> ChangeMobileNum(string mobileNum)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+
+            user.MobileNum = mobileNum;
+            
+            return await normUserService.EditAsync(user);
+        }
         public async void EditMobileNum()
         {
             if (string.IsNullOrEmpty(_myAccountPageModel.MobileNum))
                 MessageBox.Show("请填写您的手机号码");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-
-                user.MobileNum = _myAccountPageModel.MobileNum;
-            
-                bool isEdit = await normUserService.EditAsync(user);
+                bool isEdit = await ChangeMobileNum(_myAccountPageModel.MobileNum);
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
-            
-            
         }
 
         #endregion
         
         #region 修改电子邮箱
 
+        private async Task<bool> ChangeEmail(string email)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+
+            user.UserEmail = email;
+            
+            return await normUserService.EditAsync(user);
+        }
         public async void EditUserEmail()
         {
             if (string.IsNullOrEmpty(_myAccountPageModel.UserEmail))
                 MessageBox.Show("请填写您的电子邮箱");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-
-                user.UserEmail = _myAccountPageModel.UserEmail;
-            
-                bool isEdit = await normUserService.EditAsync(user);
+                bool isEdit = await ChangeEmail(_myAccountPageModel.UserEmail);
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
         }
@@ -862,25 +949,37 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         
         #region 修改职业
 
+        public async Task<bool> ChangeOccupation(string occupation)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+
+            return await normUserService.EditOccupation(user, occupation);
+        }
         public async void EditOccupation()
         {
             if (string.IsNullOrEmpty(_myAccountPageModel.OccupationName.Content.ToString()))
                 MessageBox.Show("请选择您的职业");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-
-                bool isEdit = await normUserService.EditOccupation(user, _myAccountPageModel.OccupationName.Content.ToString());
+                bool isEdit = await ChangeOccupation(_myAccountPageModel.OccupationName.Content.ToString());
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
-                
         }
 
         #endregion
         
         #region 修改户口地
+
+        private async Task<bool> ChangeRegLoc()
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+            
+            return await normUserService.EditAsync(user);
+        }
 
         public async void EditRegiLoc()
         {
@@ -888,11 +987,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
                 MessageBox.Show("请选择户口地");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-            
-                bool isEdit = await normUserService.EditAsync(user);
+                bool isEdit = await ChangeRegLoc();
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
             
@@ -902,13 +997,11 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         
         #region 修改婚姻状态
 
-        public async void EditMarried()
+        private async Task<bool> ChangeMarried(string marriedType)
         {
             NormUserService normUserService = new NormUserService(new NormUserRepository());
             var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
             var user = result[0];
-
-            string marriedType = _myAccountPageModel.Married.Content.ToString();
 
             switch (marriedType)
             {
@@ -921,35 +1014,62 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
                 case "离婚": user.MarriedID = 40; break;
                 default: user.MarriedID = 0; break;
             }
-            
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+
+            return await normUserService.EditAsync(user);
+        }
+        public async void EditMarried()
+        {
+            if (_myAccountPageModel.Married == null)
+                MessageBox.Show("请选择婚姻状态");
+            else
+            {
+                bool isEdit = await ChangeMarried(_myAccountPageModel.Married.Content.ToString());
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            }
         }
 
         #endregion
         
         #region 修改职退状态
 
-        public async void EditRetireType()
+        private async Task<bool> ChangeRetireType(string retireType)
         {
             NormUserService normUserService = new NormUserService(new NormUserRepository());
             var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
             var user = result[0];
 
-            switch (_myAccountPageModel.RetireType.Content.ToString())
+            switch (retireType)
             {
                 case "退休": user.RetireTypeID = 0; break;
                 case "在职": user.RetireTypeID = 1; break;
                 default: user.RetireTypeID = null; break;
             }
             
-            bool isEdit = await normUserService.EditAsync(user);
-            MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            return await normUserService.EditAsync(user);
+        }
+        public async void EditRetireType()
+        {
+            if (_myAccountPageModel.RetireType == null)
+                MessageBox.Show("请选择职退状态");
+            else
+            {
+                bool isEdit = await ChangeRetireType(_myAccountPageModel.RetireType.Content.ToString());
+                MessageBox.Show(isEdit ? "修改成功" : "修改失败");
+            }
         }
 
         #endregion
         
         #region 修改国籍
+
+        private async Task<bool> ChangeContry(string contry)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+
+            return await normUserService.EditCountryAsync(user, contry);
+        }
 
         public async void EditCountry()
         {
@@ -957,11 +1077,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
                 MessageBox.Show("请选择您的国籍");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-
-                bool isEdit = await normUserService.EditCountryAsync(user, _myAccountPageModel.Country);
+                bool isEdit = await ChangeContry(_myAccountPageModel.Country);
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
             
@@ -971,38 +1087,44 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         
         #region 修改民族
 
+        private async Task<bool> ChangeNationality(string nationality)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+
+            return await normUserService.EditNationalityAsync(user, nationality);
+        }
         public async void EditNationality()
         {
             if (string.IsNullOrEmpty(_myAccountPageModel.Nationality.Content.ToString()))
                 MessageBox.Show("请选择您的民族");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-
-                bool isEdit = await normUserService.EditNationalityAsync(user, _myAccountPageModel.Nationality.Content.ToString());
+                bool isEdit = await ChangeNationality(_myAccountPageModel.Nationality.Content.ToString());
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
-            
-            
         }
 
         #endregion
         
         #region 修改籍贯地
 
+        private async Task<bool> ChangeNativePlace(string nativePlace)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+
+            return await normUserService.EditNationalityAsync(user, nativePlace);
+        }
         public async void EditNativePlace()
         {
             if (string.IsNullOrEmpty(_myAccountPageModel.NativePlace))
                 MessageBox.Show("请选择您的籍贯地");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-
-                bool isEdit = await normUserService.EditNationalityAsync(user, _myAccountPageModel.NativePlace);
+                bool isEdit = await ChangeNativePlace(_myAccountPageModel.NativePlace);
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
             
@@ -1013,42 +1135,48 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
         
         #region 修改邮编
 
+        private async Task<bool> ChangeRegLocPostCode(string postcode)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+
+            user.RegiLocPostCode = postcode;
+            
+            return await normUserService.EditAsync(user);
+        }
         public async void EditRegiLocPostCode()
         {
             if (string.IsNullOrEmpty(_myAccountPageModel.RegiLocPostCode))
                 MessageBox.Show("请填写您的邮编");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-
-                user.RegiLocPostCode = _myAccountPageModel.RegiLocPostCode;
-            
-                bool isEdit = await normUserService.EditAsync(user);
+                bool isEdit = await ChangeRegLocPostCode(_myAccountPageModel.RegiLocPostCode);
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
-
-            
         }
 
         #endregion
         
         #region 修改血型
 
+        private async Task<bool> ChangeBloodType(string bloodType)
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
+            var user = result[0];
+
+            user.BloodType = bloodType;
+            
+            return await normUserService.EditAsync(user);
+        }
         public async void EditBloodType()
         {
             if (string.IsNullOrEmpty(_myAccountPageModel.BloodType.Content.ToString()))
                 MessageBox.Show("请选择你的血型");
             else
             {
-                NormUserService normUserService = new NormUserService(new NormUserRepository());
-                var result = await normUserService.QueryAsync(it => it.UserName == _myAccountPageModel.UserName);
-                var user = result[0];
-
-                user.BloodType = _myAccountPageModel.BloodType.Content.ToString();
-            
-                bool isEdit = await normUserService.EditAsync(user);
+                bool isEdit = await ChangeBloodType(_myAccountPageModel.BloodType.Content.ToString());
                 MessageBox.Show(isEdit ? "修改成功" : "修改失败");
             }
         }
@@ -1083,7 +1211,9 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
                     "身份证", "军人证", "护照", "户口本", "外国人永久居留证", "武警证", "公章", "工商营业执照",
                     "法人代码证", "学生证", "士兵证", "港澳居民来往内地通行证", "台湾居民来往大陆通行证"
                 };
-                if (!IDCardTypeList.Contains(user.IDCardTypeName))
+                if(string.IsNullOrEmpty(user.IDCardTypeName))
+                    _myAccountPageModel.IDCardTypeHint = "";
+                else if (!IDCardTypeList.Contains(user.IDCardTypeName))
                 {
                     _myAccountPageModel.IDCardTypeHint = "其他证件类型";
                     _myAccountPageModel.IDCardTypeTextHint = user.IDCardTypeName;
