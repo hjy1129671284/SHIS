@@ -15,6 +15,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.SettingPage
         public SettingPageViewModel(string userName)
         {
             UserName = userName;
+            GetBalance();
         }
 
         public ICommand _changePwd;
@@ -113,6 +114,13 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.SettingPage
         }
 
         #endregion
-        
+
+        public async void GetBalance()
+        {
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var normResult = await normUserService.QueryAsync(it => it.UserName == UserName);
+            var gold = normResult[0].Gold;
+            if (gold != null) Balance = (decimal) gold;
+        }
     }
 }

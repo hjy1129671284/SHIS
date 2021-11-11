@@ -509,9 +509,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Images\小水人.jpg" />
-    <Content Include="C# Simple_HIS test.assets\表数据.png" />
-    <Content Include="C# Simple_HIS test.assets\表结构.png" />
-    <Content Include="C# Simple_HIS test.md" />
     <Content Include="View\Windows\AppSetting.json" />
     <Resource Include="View\小水人.jpg" />
   </ItemGroup>

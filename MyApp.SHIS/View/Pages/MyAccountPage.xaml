@@ -145,7 +145,7 @@
                             <TextBox
                                 Margin="10,0"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
-                                Text="{Binding IDCard}"
+                                Text="{Binding IDCard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Width="140"
                                 materialDesign:HintAssist.Hint="{Binding IDCardHint}">
                                 <TextBox.InputBindings>
@@ -549,7 +549,10 @@
                                 Text="{Binding MedCardNum}"
                                 Width="140"
                                 materialDesign:HintAssist.Hint="{Binding MedCardNumHint}" />
-                            <Button Content="无法修改" Width="100" />
+                            <Button
+                                Content="无法修改"
+                                IsEnabled="False"
+                                Width="100" />
                         </WrapPanel>
                     </StackPanel>
 

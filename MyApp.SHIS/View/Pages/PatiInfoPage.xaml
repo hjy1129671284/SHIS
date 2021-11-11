@@ -89,14 +89,6 @@
                         Style="{StaticResource MaterialDesignFilledDatePicker}"
                         Width="120"
                         materialDesign:HintAssist.Hint="{Binding PatiBirthDateHint}" />
-                    <Rectangle Width="10" />
-                    <TextBlock Text="应付金额" VerticalAlignment="Center" />
-                    <TextBox
-                        Margin="10,0"
-                        Style="{StaticResource MaterialDesignFilledTextBox}"
-                        Text="{Binding PatiRegistryPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        Width="80"
-                        materialDesign:HintAssist.Hint="{Binding PatiRegistryPayHint}" />
 
                 </WrapPanel>
             </StackPanel>

@@ -792,13 +792,13 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
             double iSum=0;
             System.Text.RegularExpressions.Regex rg = new System.Text.RegularExpressions.Regex(@"^\d{17}(\d|x)$");
             System.Text.RegularExpressions.Match mc = rg.Match(cid);
+            cid = cid.ToLower();
+            cid = cid.Replace("x","a");
             if (!mc.Success)
             {
                 MessageBox.Show("身份证号错误，请确认输入的是18位身份证");
                 return false;
             }
-            cid = cid.ToLower();
-            cid = cid.Replace("x","a");
             if (aCity[int.Parse(cid.Substring(0, 2))] == null)
             {
                 MessageBox.Show("非法地区");
@@ -816,7 +816,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.MyAccountPage
             for(int i=17;i>=0;i--)
                 iSum +=(Math.Pow(2,i)%11)*int.Parse(cid[17-i].ToString(),System.Globalization.NumberStyles.HexNumber);
 
-            if (Math.Abs(iSum % 11 - 1) > 0.001)
+            if (Math.Abs(iSum % 11 - 1) > 0.1)
             {
                 MessageBox.Show("非法证号");
                 return false;

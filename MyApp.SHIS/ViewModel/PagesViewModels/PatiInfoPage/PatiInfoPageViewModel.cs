@@ -168,15 +168,6 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
                 OnPropertyChanged(nameof(PatiBirthDate));
             }
         }
-        public decimal PatiRegistryPay
-        { 
-            get => _patiInfoPageModel.PatiRegistryPay;
-            set
-            {
-                _patiInfoPageModel.PatiRegistryPay = value;
-                OnPropertyChanged(nameof(PatiRegistryPay));
-            }
-        }
 
         public Visibility IDCardComBoxVisibility
         {
@@ -307,16 +298,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.PatiInfoPage
                 OnPropertyChanged(nameof(PatiBirthDateHint));
             }
         }
-        public string PatiRegistryPayHint
-        { 
-            get => _patiInfoPageModel.PatiRegistryPayHint;
-            set
-            {
-                _patiInfoPageModel.PatiRegistryPayHint = value;
-                OnPropertyChanged(nameof(PatiRegistryPayHint));
-            }
-        }
-        
+
         public Brush IDCardTextColor
         {
             get => _patiInfoPageModel.IDCardTextColor;

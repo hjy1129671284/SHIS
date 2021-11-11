@@ -10,6 +10,7 @@
         public string MedicineName{ get; set; }
         public string MedicineSpec{ get; set; }
         public string MedicineUse{ get; set; }
+        public string DoctDiagnosis { get; set; }
         public string Note { get; set; }
         public decimal MedicinePrice{ get; set; }
         public decimal MedicineTotalPrice{ get; set; }

@@ -43,7 +43,6 @@
                     Command="{Binding FindUser}"
                     Margin="10"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    ToolTip="MaterialDesignRaisedLightButton with Round Corners"
                     materialDesign:ButtonAssist.CornerRadius="5">
                     <TextBlock Text="查找该用户" />
                 </Button>

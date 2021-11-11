@@ -404,6 +404,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
             PatiMedCardNumHint = _registerPageModel.PatiMedCardNum;
             SerialNumbers.Clear();
             DoctNames.Clear();
+            DoctDept = null;
             PatiMedCardNum = null;
             PatiAuthName = null;
             PatiGender = null;
@@ -465,8 +466,9 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                     RegDate = DateTime.Now;
                     var patiResult = await patiOutVisitService.QueryAsync(it => it.RegDate.Date == DateTime.Now.Date);
                     QueueNo = 0;
-                    foreach (var pati in patiResult)
-                        QueueNo = pati.QueueNo > QueueNo ? pati.QueueNo : QueueNo;
+                    if(patiResult != null && patiResult.Count > 0)
+                        foreach (var pati in patiResult)
+                            QueueNo = pati.QueueNo > QueueNo ? pati.QueueNo : QueueNo;
 
                     QueueNo += 1;
                 }
@@ -478,7 +480,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                     SerialNumbers.Clear();   
                     PatiUserService patiUserService = new PatiUserService(new PatiUserRepository());
                     var patiResult = await patiUserService.QueryAsync(it => it.MedCardNum == _registerPageModel.PatiMedCardNum);
-                    var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.PatiID == patiResult[0].PatiID);
+                    var patiOutVisitResult = 
+                        await patiOutVisitService.QueryAsync(it => it.PatiID == patiResult[0].PatiID && it.OutStatus == 0);
 
                     foreach (var patiOutVisit in patiOutVisitResult)
                         SerialNumbers.Add(patiOutVisit.SerialNumber.ToString());
@@ -490,7 +493,10 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.RegisterPage
                 {
                     SerialNumbers.Clear();
                     var patiOutVisits = await patiOutVisitService.QueryAsync();
-                    var newSerialNumber = patiOutVisits[patiOutVisits.Count - 1].SerialNumber + 1;
+                    int newSerialNumber = 0;
+                    if (patiOutVisits != null && patiOutVisits.Count > 0)
+                        newSerialNumber = patiOutVisits[patiOutVisits.Count - 1].SerialNumber;
+                    newSerialNumber += 1;
                     SerialNumbers.Add(newSerialNumber.ToString());
                     SerialNumbers.Add("返回选择");
                     SerialNumber = newSerialNumber.ToString();

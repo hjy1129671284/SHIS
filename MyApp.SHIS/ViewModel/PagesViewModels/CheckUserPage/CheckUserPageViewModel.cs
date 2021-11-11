@@ -309,7 +309,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.CheckUserPage
             StaffUsersGridVisibility = Visibility.Visible;
 
             StaffUserService staffUserService = new StaffUserService(new StaffUserRepository());
-            var result = await staffUserService.QueryAsync(it => it.StafType==8);
+            var result = await staffUserService.QueryAsync(it => it.StafType==6);
             result.ForEach(user => StaffUsers.Add(user));
         }
         

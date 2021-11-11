@@ -180,7 +180,7 @@
                         <TextBox
                             Style="{StaticResource MaterialDesignFilledTextBox}"
                             Text="{Binding PayAmount}"
-                            Width="120"
+                            Width="100"
                             materialDesign:HintAssist.Hint="{Binding PayAmountHint}" />
                     </WrapPanel>
                 </StackPanel>

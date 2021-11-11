@@ -206,11 +206,18 @@ namespace MyApp.SHIS.Models
            public string BloodType {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:医疗卡号
            /// Default:
            /// Nullable:True
            /// </summary>           
            public int? MedCardNum {get;set;}
+
+           /// <summary>
+           /// Desc:余额
+           /// Default:
+           /// Nullable:True
+           /// </summary>           
+           public decimal? Gold {get;set;}
 
     }
 }

@@ -137,7 +137,7 @@
                                 IsEnabled="False"
                                 Style="{StaticResource MaterialDesignFilledTextBox}"
                                 Text="{Binding MedicineUse}"
-                                Width="100" />
+                                Width="80" />
 
                             <TextBlock
                                 Margin="10,0"

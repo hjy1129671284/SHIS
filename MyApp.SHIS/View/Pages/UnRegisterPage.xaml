@@ -115,8 +115,62 @@
                         ItemsSource="{Binding RegisterInfo}"
                         SelectedItem="{Binding SelectedPatiOutVisit}"
                         SelectionMode="Extended"
-                        SelectionUnit="FullRow" />
+                        SelectionUnit="FullRow">
+                        <DataGrid.InputBindings>
+                            <MouseBinding Command="{Binding UpdatePayMessage}" MouseAction="LeftDoubleClick" />
+                        </DataGrid.InputBindings>
+                    </DataGrid>
                 </StackPanel>
+            </GroupBox>
+
+            <GroupBox>
+                <GroupBox.Header>
+                    <WrapPanel>
+                        <TextBlock FontSize="16" Text="退款信息" />
+                        <Button
+                            Background="LightGray"
+                            Command="{Binding Refund}"
+                            Content="退款"
+                            Margin="400,0,0,0"
+                            Width="100" />
+                        <Button
+                            Background="LightGray"
+                            Content="清空"
+                            Margin="10,0,0,0"
+                            Width="100" />
+                    </WrapPanel>
+                </GroupBox.Header>
+                <StackPanel>
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock
+                            Margin="10,0"
+                            Text="总金额"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            IsEnabled="False"
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding PayAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="120" />
+                        <Rectangle Width="200" />
+                        <TextBlock
+                            Margin="10,0"
+                            Text="退款金额"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            Margin="10,0"
+                            Style="{StaticResource MaterialDesignFilledTextBox}"
+                            Text="{Binding RefundPay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            Width="120">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="" Key="Enter" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+
+                    </WrapPanel>
+
+                </StackPanel>
+
             </GroupBox>
         </StackPanel>
     </Grid>

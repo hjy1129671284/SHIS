@@ -217,22 +217,44 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
         public async void Unregist()
         {
             PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
-            bool isEdit = await patiOutVisitService.DeleteAsync(SelectedPatiOutVisit.SerialNumber);
+            var patiOutVisitResult =
+                await patiOutVisitService.QueryAsync(it => it.SerialNumber == SelectedPatiOutVisit.SerialNumber);
+            var patiOutVisit = patiOutVisitResult[0];
+            
+            // 不先退款默认退款挂号金额
+            NormUserService normUserService = new NormUserService(new NormUserRepository());
+            var normResult =
+                await normUserService.QueryAsync(it => it.MedCardNum == SelectedPatiOutVisit.MedCardNum);
+            norm_user normUser = normResult[0];
+            normUser.Gold += patiOutVisit.PayAmount;
+            bool isEdit = await normUserService.EditAsync(normUser);
+            MessageBox.Show(isEdit ? "退款成功" : "退款失败");
+            
+            patiOutVisit.OutStatus = 4;
+            isEdit = await patiOutVisitService.EditAsync(patiOutVisit);
             InitionalizePatiOutVisitInfo();
-            MessageBox.Show(isEdit ? "成功" : "失败");
+            MessageBox.Show(isEdit ? "退号成功" : "退号失败");
+            
+            
         }
         // 退款
-        public void RefundPays()
+        public async void RefundPays()
         {
             if (_unRegisterPageModel.PayAmount == 0)
                 MessageBox.Show("请获取总金额信息");
             else if (_unRegisterPageModel.RefundPay == 0)
                 MessageBox.Show("请输入退款金额");
-            else if (_unRegisterPageModel.RefundPay > _unRegisterPageModel.PayAmount)
+            else if (_unRegisterPageModel.RefundPay < _unRegisterPageModel.PayAmount)
                 MessageBox.Show("请保证退款金额不超过总金额");
             else
             {
-                MessageBox.Show("退款成功");
+                NormUserService normUserService = new NormUserService(new NormUserRepository());
+                var normResult =
+                    await normUserService.QueryAsync(it => it.MedCardNum == SelectedPatiOutVisit.MedCardNum);
+                norm_user normUser = normResult[0];
+                normUser.Gold += _unRegisterPageModel.RefundPay;
+                bool isEdit = await normUserService.EditAsync(normUser);
+                MessageBox.Show(isEdit ? "退款成功" : "退款失败");
             }
         }
         // 根据流水号查询
@@ -241,7 +263,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
             if (SerialNumber != null)
             {
                 PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
-                var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.SerialNumber == SerialNumber);
+                var patiOutVisitResult = 
+                    await patiOutVisitService.QueryAsync(it => it.SerialNumber == SerialNumber && it.OutStatus != 4);
 
                 if (patiOutVisitResult != null && patiOutVisitResult.Count > 0)
                 {
@@ -251,7 +274,6 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
                 }
                 else
                     MessageBox.Show("查询结果为空，请确认流水号并重新输入");
-
             }
             else
                 MessageBox.Show("请输入流水号");
@@ -263,7 +285,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
             if (MedCardNum != null)
             {
                 PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
-                var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.MedCardNum == MedCardNum);
+                var patiOutVisitResult = 
+                    await patiOutVisitService.QueryAsync(it => it.MedCardNum == MedCardNum && it.OutStatus != 4);
 
                 if (patiOutVisitResult != null && patiOutVisitResult.Count > 0)
                 {
@@ -283,7 +306,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
             if (SerialNumber != null)
             {
                 PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
-                var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.PatiName == PatiAuthName);
+                var patiOutVisitResult = 
+                    await patiOutVisitService.QueryAsync(it => it.PatiName == PatiAuthName && it.OutStatus != 4);
 
                 if (patiOutVisitResult != null && patiOutVisitResult.Count > 0)
                 {
@@ -308,7 +332,8 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
                 if (doctUserResult != null && doctUserResult.Count > 0)
                 {
                     PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
-                    var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.DoctID == doctUserResult[0].DoctID);
+                    var patiOutVisitResult = 
+                        await patiOutVisitService.QueryAsync(it => it.DoctID == doctUserResult[0].DoctID && it.OutStatus != 4);
 
                     if (patiOutVisitResult != null && patiOutVisitResult.Count > 0)
                     {
@@ -329,7 +354,6 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
         public void UpdatePay()
         {
             PayAmount = SelectedPatiOutVisit.PayAmount ?? 0;
-            RefundTypeHint = SelectedPatiOutVisit.PayType;
         }
         
         #endregion
@@ -339,7 +363,7 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.UnRegisterPage
         {
             RegisterInfo.Clear();
             PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
-            var patiOutVisitResult = await patiOutVisitService.QueryAsync();
+            var patiOutVisitResult = await patiOutVisitService.QueryAsync(it => it.OutStatus != 4);
 
             foreach (var patiOutVisit in patiOutVisitResult)
                 RegisterInfo.Add(patiOutVisit);

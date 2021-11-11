@@ -138,6 +138,16 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.DiagnosisPage
                     var normResult = await normUserService.QueryAsync(it => it.UserName == patiResult.UserName);
                     if (normResult[0].BirthDate != null)
                         PatiAge = DateTime.Now.Year - ((DateTime) normResult[0].BirthDate).Year;
+
+                    DiagnosisService diagnosisService = new DiagnosisService(new DiagnosisRepository());
+                    var diagResult =
+                        await diagnosisService.QueryAsync(it => it.SerialNumber == _diagnosisPageModel.SerialNumber);
+                    if (diagResult != null && diagResult.Count > 0)
+                    {
+                        MedRecord = diagResult[0].Record;
+                        DoctDiagnosis = diagResult[0].Diagnosis;
+                    }
+
                     SerialNumberIsEnable = false;
                 }
                 else
@@ -165,31 +175,60 @@ namespace MyApp.SHIS.ViewModel.PagesViewModels.DiagnosisPage
                 PatiOutVisitService patiOutVisitService = new PatiOutVisitService(new PatiOutVisitRepository());
                 var patiOutVisitResult =
                     await patiOutVisitService.QueryAsync(it => it.SerialNumber == _diagnosisPageModel.SerialNumber);
-                pati_out_visit patiOutVisit = patiOutVisitResult[0]; 
+                pati_out_visit patiOutVisit = patiOutVisitResult[0];
 
-                diagnosis diag = new diagnosis
-                {
-                    SerialNumber = patiOutVisit.SerialNumber,
-                    PatiID = patiOutVisit.PatiID,
-                    DoctID = patiOutVisit.DoctID,
-                    Diagnosis = _diagnosisPageModel.DoctDiagnosis,
-                    Record = _diagnosisPageModel.MedRecord,
-                    DiagTime = DateTime.Now
-                };
-
-                patiOutVisit.OutStatus = 2;
                 DiagnosisService diagnosisService = new DiagnosisService(new DiagnosisRepository());
-                bool isCreate = await diagnosisService.CreateAsync(diag);
+                var diagResult = await diagnosisService.QueryAsync(it => it.SerialNumber == patiOutVisit.SerialNumber);
+                
+                diagnosis diag;
+                bool isDiag;
+                if (diagResult != null && diagResult.Count > 0)
+                {
+                    diag = diagResult[0];
+
+                    diag.Diagnosis = _diagnosisPageModel.DoctDiagnosis;
+                    diag.Record = _diagnosisPageModel.MedRecord;
+                    diag.DiagTime = DateTime.Now;
+
+                    isDiag = await diagnosisService.EditAsync(diag);
+                }
+                else
+                {
+                    diag = new diagnosis
+                    {
+                        SerialNumber = patiOutVisit.SerialNumber,
+                        PatiID = patiOutVisit.PatiID,
+                        DoctID = patiOutVisit.DoctID,
+                        Diagnosis = _diagnosisPageModel.DoctDiagnosis,
+                        Record = _diagnosisPageModel.MedRecord,
+                        DiagTime = DateTime.Now
+                    };
+                    isDiag = await diagnosisService.CreateAsync(diag);
+                }
+                
+                patiOutVisit.OutStatus = 2;
+                patiOutVisit.VisitDate = DateTime.Now;
+                
                 bool isEdit = await patiOutVisitService.EditAsync(patiOutVisit);
-                MessageBox.Show(isEdit && isCreate ? "添加成功" : "添加失败");
+                MessageBox.Show(isEdit && isDiag ? "添加成功" : "添加失败");
             }
         }
         
         // 切换到医嘱书写
-        public void Switch2Order()
+        public async void Switch2Order()
         {
+            
             if (_diagnosisPageModel.SerialNumber != null)
-                Messenger.Default.Send((int) _diagnosisPageModel.SerialNumber, "diagnosis2OrderWrite");
+            {
+                DiagnosisService diagnosisService = new DiagnosisService(new DiagnosisRepository());
+                var diagResult =
+                    await diagnosisService.QueryAsync(it => it.SerialNumber == _diagnosisPageModel.SerialNumber);
+                if (diagResult != null && diagResult.Count > 0)
+                    Messenger.Default.Send((int) _diagnosisPageModel.SerialNumber, "diagnosis2OrderWrite");
+                else
+                    MessageBox.Show("还未提交病历，请提交病历再书写医嘱");
+
+            }
         }
 
         #endregion
